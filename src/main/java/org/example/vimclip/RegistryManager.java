@@ -26,6 +26,10 @@ public class RegistryManager {
         return clipboardRegistries.get(registry);
     }
 
+    public HashMap<Character, String> getClipboardRegistries() {
+        return clipboardRegistries;
+    }
+
     public void loopy()
     {
         for (Character i : clipboardRegistries.keySet()) {

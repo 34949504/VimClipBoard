@@ -57,7 +57,12 @@
             <artifactId>jnativehook</artifactId>
             <version>2.2.2</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20250107</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,7 +85,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.example.vimclip/org.example.vimclip.HelloApplication</mainClass>
+                            <mainClass>org.example.vimclip/org.example.vimclip.JavaFx.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

@@ -1,0 +1,33 @@
+{
+  "ctrl": {
+    "ctrl": {
+
+      "i": {
+
+        "a": "command@copy_to_register_append",
+        "s": "command@copy_to_register_append",
+        "d": "command@copy_to_register_append",
+        "f": "command@copy_to_register_append"
+      },
+      "r": {
+        "a": "command@copy_to_register",
+        "s": "command@copy_to_register",
+        "d": "command@copy_to_register",
+        "f": "command@copy_to_register"
+      },
+      "g":{
+
+        "a": "command@pass_to_ctrlv",
+        "s": "command@pass_to_ctrlv",
+        "d": "command@pass_to_ctrlv",
+        "q": "command@pass_to_ctrlv_all_contents"
+      },
+
+
+      "special": "necessary@copyText"
+    }
+  },
+  "shift": {
+    "a" : "script@C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\myscript.bat"
+  }
+}
