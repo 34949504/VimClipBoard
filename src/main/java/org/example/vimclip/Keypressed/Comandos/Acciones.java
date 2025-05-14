@@ -1,10 +1,10 @@
 package org.example.vimclip.Keypressed.Comandos;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.vimclip.Keypressed.ClipboardUtils;
 import org.example.vimclip.RegistryManager;
+import org.example.vimclip.Utils;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -17,18 +17,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Acciones {
 
     private RegistryManager registryManager;
-    private HashMap<String, doing_command> hashMap = new HashMap<>();
+    private HashMap<String, doing_action> hashMap = new HashMap<>();
     private String copied_contents = null;
     private Robot robot;
+    private boolean DEBUGG = true;
 
     public Acciones(RegistryManager registryManager) {
         this.registryManager = registryManager;
 
-        hashMap.put("copy_to_register", new guardar_registro());
-        hashMap.put("copyText", new exec_copy());
+        hashMap.put("copy_to_register_replace", new copy_to_register_replace());
+        hashMap.put("copytext", new copyText());
         hashMap.put("pass_to_ctrlv", new pass_to_ctrlv());
-        hashMap.put("copy_to_register_append", new guardar_registro_append());
-        hashMap.put("pass_to_ctrlv_all_contents",new pass_all_to_ctrlv());
+        hashMap.put("copy_to_register_append", new copy_to_register_append());
+        hashMap.put("pass_to_ctrlv_all_contents",new pass_to_ctrlv_all_contents());
+        hashMap.put("script", new do_script());
 
         try {
             robot = new Robot();
@@ -45,13 +47,19 @@ public class Acciones {
         hashMap.get(command).do_command2(listenkeys);
     }
 
+    public  void doscript(String script_path,String command){
+
+        hashMap.get(command).do_script(script_path);
+
+    }
+
 
     /// ////////////////////////////////////////
     /// ////////////COMANDOS/////////////////////
     /// ////////////////////////////////////////
 
 
-    class guardar_registro implements doing_command {
+    class copy_to_register_replace implements doing_action {
 
         @Override
         public void do_command(Character reg) {
@@ -60,7 +68,7 @@ public class Acciones {
         }
     }
 
-    class guardar_registro_append implements doing_command {
+    class copy_to_register_append implements doing_action {
 
         @Override
         public void do_command(Character reg) {
@@ -68,18 +76,22 @@ public class Acciones {
             StringBuilder contents;
             if (registryManager.getValue(reg) != null) {
                 contents = new StringBuilder(registryManager.getValue(reg));
+                Utils.imprimir_DEGUGG(String.format("El valor de registro no es nulo\n%s",contents),DEBUGG);
+
+
             }else{
+                Utils.imprimir_DEGUGG("El valor de registro es nulo",DEBUGG);
                 contents = new StringBuilder("");
             }
 
             contents.append("\n\n");
             contents.append(copied_contents);
+            Utils.imprimir_DEGUGG(String.format("Appending to contents %s",copied_contents),DEBUGG);
             registryManager.setValue(reg,contents.toString());
-            System.out.println("whatu p");
         }
     }
 
-    class exec_copy implements doing_command {
+    class copyText implements doing_action {
 
         @Override
         public void do_command2(AtomicBoolean listenKeys) {
@@ -111,7 +123,7 @@ public class Acciones {
     }
 
 
-    class pass_to_ctrlv implements doing_command {
+    class pass_to_ctrlv implements doing_action {
 
         @Override
         public void do_command(Character reg) {
@@ -127,7 +139,7 @@ public class Acciones {
     }
 
 
-    class pass_all_to_ctrlv implements doing_command {
+    class pass_to_ctrlv_all_contents implements doing_action {
 
         @Override
         public void do_command(Character reg) {
@@ -146,6 +158,14 @@ public class Acciones {
             }
 
             ClipboardUtils.setClipboardContents(allcontents.toString());
+        }
+    }
+
+    class do_script implements doing_action{
+
+        @Override
+        public void do_script(String script_path) {
+
         }
     }
 }

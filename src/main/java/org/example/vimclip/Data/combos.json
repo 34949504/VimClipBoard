@@ -1,33 +1,83 @@
 {
   "ctrl": {
     "ctrl": {
-
       "i": {
-
-        "a": "command@copy_to_register_append",
-        "s": "command@copy_to_register_append",
-        "d": "command@copy_to_register_append",
-        "f": "command@copy_to_register_append"
+        "group1": {
+          "keys": [
+            "a", "s", "d", "f"
+          ],
+          "actions": [
+            "command@copy_to_register_append"
+          ],
+          "names": {
+            "a":"Registro a",
+            "s":"Registro s",
+            "d": "Registro d",
+            "f": "Registro f"
+          }
+        },
+        "group_size": 1
       },
       "r": {
-        "a": "command@copy_to_register",
-        "s": "command@copy_to_register",
-        "d": "command@copy_to_register",
-        "f": "command@copy_to_register"
+        "group1": {
+          "keys": ["a", "s", "d", "f"],
+          "actions": [
+            "command@copy_to_register_replace"
+          ],
+
+          "names": {
+            "a":"Registro a",
+            "s":"Registro s",
+            "d": "Registro d",
+            "f": "Registro f"
+          }
+        },
+        "group_size": 1
       },
-      "g":{
+      "g": {
+        "group1": {
+          "keys": ["a", "s", "d", "f"],
+          "actions": [
+            "command@pass_to_ctrlv"
+          ],
 
-        "a": "command@pass_to_ctrlv",
-        "s": "command@pass_to_ctrlv",
-        "d": "command@pass_to_ctrlv",
-        "q": "command@pass_to_ctrlv_all_contents"
+          "names": {
+            "a":"Registro a",
+            "s":"Registro s",
+            "d": "Registro d",
+            "f": "Registro f"
+          }
+        },
+        "group2": {
+          "keys": ["q"],
+          "actions": [
+            "command@pass_to_ctrlv_all_contents"
+          ],
+          "names": {
+            "q" : "Pasar todos los contenidos de los registros al clipboard"
+          }
+        },
+        "group_size": 2
       },
-
-
-      "special": "necessary@copyText"
+      "m": {
+        "group1": {
+          "keys": ["a"],
+          "actions": [
+            "command@copy_to_register_replace",
+            "command@pass_to_ctrlv"
+          ]
+        }
+      },
+      "names": {
+        "i": "Insert",
+        "r": "Replace",
+        "g": "Get",
+        "m": "macro"
+      },
+      "special": ["necessary@copytext"]
     }
   },
   "shift": {
-    "a" : "script@C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\myscript.bat"
+    "a": "script@c:\\users\\gerar\\ideaprojects\\vimclip\\src\\main\\java\\org\\example\\vimclip\\myscript.bat"
   }
 }
