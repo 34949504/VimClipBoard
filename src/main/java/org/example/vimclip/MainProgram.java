@@ -17,7 +17,9 @@ public class MainProgram {
 
     public static void main(String[] args) {
 
-        JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos.json");
+        JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos_v3.json");
+        JSONObject RDI = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\registro_de_instrucciones.json");
+//        Utils.check_json_health(combos,RDI);
         RegistryManager registryManager = new RegistryManager();
         KeyPressed keyPressed = new KeyPressed(registryManager,combos);
 
@@ -46,9 +48,6 @@ public class MainProgram {
 //            // Linux-specific logic
 //        }
 //
-
-
-
 
     }
 

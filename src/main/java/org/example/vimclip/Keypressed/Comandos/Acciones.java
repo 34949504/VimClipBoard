@@ -20,7 +20,7 @@ public class Acciones {
     private HashMap<String, doing_action> hashMap = new HashMap<>();
     private String copied_contents = null;
     private Robot robot;
-    private boolean DEBUGG = true;
+    private boolean DEBUGG = false;
 
     public Acciones(RegistryManager registryManager) {
         this.registryManager = registryManager;
@@ -40,6 +40,8 @@ public class Acciones {
     }
 
     public void doCommand(Character reg, String command) {
+        System.out.printf("Llamando do command?");
+        System.out.println(command);
         hashMap.get(command).do_command(reg);
     }
 
@@ -72,6 +74,7 @@ public class Acciones {
 
         @Override
         public void do_command(Character reg) {
+
 
             StringBuilder contents;
             if (registryManager.getValue(reg) != null) {

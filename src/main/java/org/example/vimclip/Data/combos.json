@@ -8,56 +8,52 @@
           ],
           "actions": [
             "command@copy_to_register_append"
-          ],
-          "names": {
-            "a":"Registro a",
-            "s":"Registro s",
-            "d": "Registro d",
-            "f": "Registro f"
-          }
+          ]
         },
-        "group_size": 1
+        "group_size": 1,
+        "names": {
+          "a":"Registro a",
+          "s":"Registro s",
+          "d": "Registro d",
+          "f": "Registro f"
+        }
       },
       "r": {
         "group1": {
           "keys": ["a", "s", "d", "f"],
           "actions": [
             "command@copy_to_register_replace"
-          ],
-
-          "names": {
-            "a":"Registro a",
-            "s":"Registro s",
-            "d": "Registro d",
-            "f": "Registro f"
-          }
+          ]
         },
-        "group_size": 1
+        "group_size": 1,
+        "names": {
+          "a":"Registro a",
+          "s":"Registro s",
+          "d": "Registro d",
+          "f": "Registro f"
+        }
       },
       "g": {
         "group1": {
           "keys": ["a", "s", "d", "f"],
           "actions": [
             "command@pass_to_ctrlv"
-          ],
-
-          "names": {
-            "a":"Registro a",
-            "s":"Registro s",
-            "d": "Registro d",
-            "f": "Registro f"
-          }
+          ]
         },
         "group2": {
           "keys": ["q"],
           "actions": [
             "command@pass_to_ctrlv_all_contents"
-          ],
-          "names": {
-            "q" : "Pasar todos los contenidos de los registros al clipboard"
-          }
+          ]
         },
-        "group_size": 2
+        "group_size": 2,
+        "names": {
+          "a":"Registro a",
+          "s":"Registro s",
+          "d": "Registro d",
+          "f": "Registro f",
+          "q": "Pasar todos los contenidos de los registros al clipboard"
+        }
       },
       "m": {
         "group1": {
@@ -65,7 +61,10 @@
           "actions": [
             "command@copy_to_register_replace",
             "command@pass_to_ctrlv"
-          ]
+          ],
+          "names":{
+            "a": "Copiar a A y pasar a clipboard"
+          }
         }
       },
       "names": {
@@ -75,6 +74,10 @@
         "m": "macro"
       },
       "special": ["necessary@copytext"]
+
+      },
+    "names":{
+      "ctrl": "copiar"
     }
   },
   "shift": {
