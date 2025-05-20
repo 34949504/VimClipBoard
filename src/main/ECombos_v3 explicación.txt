@@ -1,0 +1,20 @@
+Inicia con ctrl y shift,
+Cuando se encuentra con un desc_traversing,
+notifica a javafx a mostrar una pantallita que muestre
+las teclas posibles
+
+Desc_traversing : Aqui pones las teclas que puedes traversar con su key y descripción
+En el mismo nivel de esta aquí pones las keys con su json
+
+
+registers: Aqui pongo los registers dispnibles para realizar acciones
+
+on_time_actions: Es una accion que se realiza pero falta por realizar mas acciones
+
+actions: Es una arrar donde se ponen las acciones que terminaran con el combo, las acciones son las que tengo en el
+clase Acciones. No creo que sea necesario la palabra command porque en el jsonstatus puede poner si es accion de registro o script
+
+"same_script": Lo utilizo para guardar un script que se puede utilizar varios parametros
+
+en desc_traversing, para los script puse @@COOLSCRIPTSEPARATOR@@ para poner a lado el parametro del script, por el momento
+solo permite un parametro

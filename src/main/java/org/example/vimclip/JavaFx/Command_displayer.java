@@ -37,9 +37,9 @@ public class Command_displayer extends Application implements Observar {
 
         this.main_stage = stage;
         stage.initStyle(StageStyle.UNDECORATED);
-        vBox.getChildren().add(new Label("whatyp"));
         position_stage();
         stage.setAlwaysOnTop(true);
+        stage.setOpacity(0);
 
         if (MainProgram.keyPressed != null) {
             MainProgram.keyPressed.addObserver(this);

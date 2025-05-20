@@ -44,16 +44,22 @@
       "shift": {
         "same_script": "C:\\Users\\gerar\\GerardoMoreShit\\shortcuts\\houseRisingSun.bat",
         "desc_traversing": {
-          "l": "Open youtube channel languages videos ",
-          "o": "Open shit"
+          "1": "Open youtube shit ",
+          "2": "Open shit"
         },
-        "l": {
+        "1": {
+
           "desc_traversing": {
-            "1": "Easy French@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyFrench/videos\"",
-            "2": "Easy German@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyGerman/videos\""
+            "1": "Languages videos "
+          },
+          "1": {
+            "desc_traversing": {
+              "1": "Easy French@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyFrench/videos\"",
+              "2": "Easy German@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyGerman/videos\""
+            }
           }
         },
-        "o": {
+        "2": {
           "desc_traversing": {
             "1": "Libro de java fx"
           },
