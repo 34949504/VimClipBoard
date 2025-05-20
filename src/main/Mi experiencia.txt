@@ -1,0 +1,61 @@
+
+Durante este proyecto, he tenido ideas para lo que fuera mi appp, al inico, solamente pensaba
+guardar en un hasmap registros de la a-z y que solo pudieras guardar un texto ahí, pero
+luego se me ocurrio que para que quieres muchos registros que solamente te sirven para guardar
+1 cosa. Ha si que decidí encogerlo a 4 registros, la a s d f, pero entonces tení que hacer
+script que trabajar con hasmaps y realizara cosas, lo intente, pero me di cuenta que eso no
+iba a llegar muy lejos porque la lógica era una revoltura. Despues de pensar, me llego a la mente un Json
+y que cada json dentro del json, acutue como key presionada, entonces yo podía definitr por ejemplo:
+ctrl ctrl i (insert) a  (Insertar lo copiado al registro a ), y pues eso hice para los 4 registros,
+implementando los comandos insertar remplazar get, y una macro, pero luego quise agregar otro comando, y
+me di cuenta que había mucha redundancia, básicamente 4 comandos para 4 registros  eran como 150 lineas de codigo
+de puro codigo repetido, ha si que decidí mejorar el json, y eso fue lo que hice ayer y hoy (15/05/2025).
+Hice progreso, pero no del que me gusta, el progreso desordenado que es dificil de construir arrinba de el.
+Ha si que decidí borrar lo que había hecho y escribir esta nota para distraerme. Pienso estructurar el json mejor
+para que se facil de implementalla traversación del json y no haya redundancia en el json.
+
+
+json v3
+
+Que quiero, que pueda traversar sin un problema, va a seguir stackeys por lo qye si se equivoca entonces
+se resetea.
+
+quiero cuando se traverda, que busque keys en especifco, y si existen esas que se ejucuten su lógica
+
+ctrl ctrl
+
+accionces, aqui
+i: Insertar@command@dosomething
+
+los registros que esten has arriba, y son los que estan disponibles para todas las accciones que este
+hasta abajo y tambien pueda haber registros hacia abajo, pero solamente dispible para las keys  de
+abajo
+
+Importante: El traverso se va a hacer como antes.:
+
+Si se hace mal el comando, se resetea stack keys y todo lo que haya sido guardado
+Entonces cada vez que traverson un json tengo que checar de nuevo por las keywords
+
+Llegar a la accion significa que ya ha dejado de traversar y si la lista de los registros no es vacia, entonces
+se le pregunta a que registro.
+
+Solamente checo las keys para la ultima key, porque no voy a imprimir lo que se imprimio en el paso 2 o 1 si voy en el 3
+
+
+
+keywords:
+
+one_time_action: Se ejecuta solamente una vez, se puede volver a ejecutar cuando las keystacks han sido limpiadas
+desc_traversing: Va a guardar un diccionario con los posibles paths que puede traversar con su descripcion
+talvez, que ahi mismo se guarda la descripcion
+registers: Va a guardar los registros disponibles en una lista
+actions: this where actions for each key is stored, whenever it finds this keyword , and then types again itll check if the
+type one is store in the registers list, if not, then reset the shit up
+script_path: Aquí se va a  poner el path del script, si se encuatra, entonces jsontraverse script no va a ser null
+parameters: Opcionales, pero si no esta vacios puedes formar el comando con los parametros  (jsonarray)
+same_script: used if it is seen, then it would make a variable be true and stored  to avoid redundancy
+
+
+
+
+

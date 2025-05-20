@@ -20,6 +20,10 @@ public class MainProgram {
 
     public static void main(String[] args) {
 
+//        String str = "Easy French@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyFrench/videos\"";
+//        String sep = "@@COOLSCRIPTSEPARATOR@@";
+//
+
         JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos_v3.json");
         RegistryManager registryManager = new RegistryManager();
         keyPressed = new KeyPressed(registryManager,combos);

@@ -78,19 +78,17 @@ public class KeyPressed implements NativeKeyListener, Observar {
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
             return;
 
-        if (esc_pressed(e)) {
-            for (Observar observador: observadores_list){
-                observador.command_restarted();
-            }
-            return; //CLEARING KEYS
+        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+
+            System.out.println("Clearing keys ");
+            keyStack.clear();
         }
+
         String key = NativeKeyEvent.getKeyText(e.getKeyCode()).toLowerCase();
 
-        if (keyStack.size() == 0 && !strings_detonantes.contains(key))
-        {
-            return;
+        if (e.getKeyCode() != NativeKeyEvent.VC_ESCAPE) {
+            keyStack.add(key);
         }
-        keyStack.add(key);
 
         JsonTraverser_statusv2 js = jsonTraverser.traverseV3(keyStack);
         JSONArray acciones_array = js.getAccion_arrays();
@@ -119,9 +117,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
             }
             return;
         }
-        else{
-            System.out.printf("pinchit nulo");
-        }
+
 
 
 
@@ -165,6 +161,13 @@ public class KeyPressed implements NativeKeyListener, Observar {
                     keyStack.clear();
                 skip_cleaning = false;
             }
+            if (js.isComando_terminado())
+            {
+
+                for (Observar observador: observadores_list){
+                    observador.command_restarted();
+                }
+            }
 
 //
 
@@ -184,6 +187,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
 
         if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+
+            System.out.println("Clearing keys ");
             keyStack.clear();
             return true;
         }

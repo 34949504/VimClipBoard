@@ -1,0 +1,68 @@
+{
+  "ctrl": {
+    "shift": {
+      "desc_traversing": {
+        "ctrl": "Copiar texto seleccionado",
+        "p": "Mas funcionalidades",
+        "shift": "Visitar scripts"
+      },
+      "ctrl": {
+        "registers": ["a", "s", "d", "f"],
+        "one_time_actions": ["necessary@copytext"],
+        "desc_traversing": {
+          "i": "Insertar",
+          "r": "Remplazar",
+          "g": "Obtener"
+        },
+        "i": {
+          "actions": [
+            "command@copy_to_register_append"
+          ]
+        },
+        "r": {
+          "actions": [
+            "command@copy_to_register_replace"
+          ]
+        },
+        "g": {
+          "actions": [
+            "command@pass_to_ctrlv"
+          ]
+        }
+      },
+      "p": {
+        "registers": ["a", "s", "d", "f"],
+        "desc_traversing": {
+          "p": "Pasar del clipboard a registro"
+        },
+        "p": {
+          "actions": [
+            "command@pass_from_clipboard_to_register"
+          ]
+        }
+      },
+      "shift": {
+        "same_script": "C:\\Users\\gerar\\GerardoMoreShit\\shortcuts\\houseRisingSun.bat",
+        "desc_traversing": {
+          "l": "Open youtube channel languages videos ",
+          "o": "Open shit"
+        },
+        "l": {
+          "desc_traversing": {
+            "1": "Easy French@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyFrench/videos\"",
+            "2": "Easy German@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyGerman/videos\""
+          }
+        },
+        "o": {
+          "desc_traversing": {
+            "1": "Libro de java fx"
+          },
+          "1": {
+            "parameters": ["\"https://archive.org/details/javafxbeginnersg0000dima/page/n7/mode/2up?view=theater\""]
+          }
+        }
+      }
+    }
+  }
+}
+

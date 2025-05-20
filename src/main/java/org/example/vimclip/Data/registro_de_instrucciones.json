@@ -1,0 +1,14 @@
+{
+  "instrucciones_disponibles": [
+
+    "copy_to_register_replace",
+    "copytext",
+    "pass_to_ctrlv",
+    "copy_to_register_append",
+    "pass_to_ctrlv_all_contents",
+    "script",
+    "pass_from_clipboard_to_register",
+    "pass_from_clipboard_to_register"
+
+  ]
+}
