@@ -1,6 +1,7 @@
 
 package org.example.vimclip;
 
+import org.example.vimclip.JavaFx.Command_displayer;
 import org.example.vimclip.Keypressed.JsonTraverser;
 import org.example.vimclip.Keypressed.KeyPressed;
 import org.json.JSONObject;
@@ -14,40 +15,21 @@ import java.util.Scanner; // Import the Scanner class to read text files
 
 public class MainProgram {
 
+    public static KeyPressed keyPressed;
+
 
     public static void main(String[] args) {
 
         JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos_v3.json");
-        JSONObject RDI = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\registro_de_instrucciones.json");
-//        Utils.check_json_health(combos,RDI);
         RegistryManager registryManager = new RegistryManager();
-        KeyPressed keyPressed = new KeyPressed(registryManager,combos);
+        keyPressed = new KeyPressed(registryManager,combos);
 
-//        ProcessBuilder pb = new ProcessBuilder("java", "-version");
-//
-////        pb.directory(new File("C:\\Users\\gerar\\Downloads"));
-//        try {
-//            Process p = pb.start();
-//        }catch (IOException e)
-//        {
-//            System.out.println("bruhv");
-//        }
-//
-//        List<String> l = pb.command();
-//
-//        for (String i :l){
-//            System.out.println(i);
-//        }
-//        System.out.println(pb.directory());
-//
-//
-//        String os = System.getProperty("os.name").toLowerCase();
-//        if (os.contains("win")) {
-//            System.out.println("its windows");
-//        } else if (os.contains("nix") || os.contains("nux")) {
-//            // Linux-specific logic
-//        }
-//
+        Command_displayer commandDisplayer = new Command_displayer();
+        Command_displayer.launch(commandDisplayer.getClass());
+
+        //Everything after launch will not be executed after closed
+
+
 
     }
 

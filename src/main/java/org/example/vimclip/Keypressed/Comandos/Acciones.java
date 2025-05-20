@@ -5,10 +5,13 @@ import lombok.Setter;
 import org.example.vimclip.Keypressed.ClipboardUtils;
 import org.example.vimclip.RegistryManager;
 import org.example.vimclip.Utils;
+import org.json.JSONArray;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,6 +33,7 @@ public class Acciones {
         hashMap.put("pass_to_ctrlv", new pass_to_ctrlv());
         hashMap.put("copy_to_register_append", new copy_to_register_append());
         hashMap.put("pass_to_ctrlv_all_contents",new pass_to_ctrlv_all_contents());
+        hashMap.put("pass_from_clipboard_to_register",new pasar_del_clipboard_a_registro());
         hashMap.put("script", new do_script());
 
         try {
@@ -49,9 +53,9 @@ public class Acciones {
         hashMap.get(command).do_command2(listenkeys);
     }
 
-    public  void doscript(String script_path,String command){
+    public  void doscript(String script_path, JSONArray arguments){
 
-        hashMap.get(command).do_script(script_path);
+        hashMap.get("script").do_script(script_path,arguments);
 
     }
 
@@ -164,10 +168,40 @@ public class Acciones {
         }
     }
 
+    class pasar_del_clipboard_a_registro implements  doing_action {
+
+        @Override
+        public void do_command(Character reg) {
+            System.out.printf("Pasandole al reg %c contenidos del clipboard",reg);
+        }
+    }
+
     class do_script implements doing_action{
 
         @Override
-        public void do_script(String script_path) {
+        public void do_script(String script_path,JSONArray arguments) {
+
+            System.out.printf("Doing script");
+            ArrayList<String> script = new ArrayList<>();
+            script.add(script_path);
+
+           if (arguments != null)
+           {
+               for (int i = 0; i < arguments.length(); i++) {
+
+                   String arg = arguments.getString(i);
+                   script.add(arg);
+               }
+
+           }
+            String[] command = script.toArray(new String[0]);
+            ProcessBuilder pb = new ProcessBuilder(command);
+            try{
+                pb.start();
+            } catch (IOException e) {
+                System.out.printf("Soehting went rong");
+            }
+
 
         }
     }

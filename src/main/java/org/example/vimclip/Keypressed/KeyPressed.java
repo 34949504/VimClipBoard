@@ -3,28 +3,24 @@ package org.example.vimclip.Keypressed;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.dispatcher.SwingDispatchService;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
-import lombok.Getter;
-import lombok.Setter;
-import org.example.vimclip.Constants;
+import javafx.application.Platform;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
-import org.example.vimclip.Keypressed.Comandos.JsonTraverser_statusv2;
+import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
 import org.example.vimclip.Utils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
 import java.util.ArrayList;
 
-import java.awt.event.KeyEvent;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class KeyPressed implements NativeKeyListener {
+public class KeyPressed implements NativeKeyListener, Observar {
 
     private static String CTRL = "ctrl";
     private static String QUOTE = "quote";
@@ -43,6 +39,12 @@ public class KeyPressed implements NativeKeyListener {
     Acciones acciones;
     JsonTraverser jsonTraverser;
 
+    private JSONObject combos;
+
+    private ArrayList<String> strings_detonantes = new ArrayList<>();
+
+    private ArrayList<Observar> observadores_list = new ArrayList<>();
+
 
 
 
@@ -50,9 +52,14 @@ public class KeyPressed implements NativeKeyListener {
     public KeyPressed(RegistryManager registryManager, JSONObject combos) {
 
         this.registryManager = registryManager;
-        this.jsonTraverser = new JsonTraverser(combos);
+        this.jsonTraverser = new JsonTraverser(combos,observadores_list);
         this.acciones = new Acciones(registryManager);
+        this.combos = combos;
 
+
+        getTriggerKeys();
+
+        GlobalScreen.setEventDispatcher(new SwingDispatchService());
 
         try {
             GlobalScreen.registerNativeHook();
@@ -68,14 +75,21 @@ public class KeyPressed implements NativeKeyListener {
 
     public void nativeKeyPressed(NativeKeyEvent e) {
 
-        if (!listenKeys.get())
+        if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
             return;
 
-        if (esc_pressed(e)) return; //CLEARING KEYS
-
-
-
+        if (esc_pressed(e)) {
+            for (Observar observador: observadores_list){
+                observador.command_restarted();
+            }
+            return; //CLEARING KEYS
+        }
         String key = NativeKeyEvent.getKeyText(e.getKeyCode()).toLowerCase();
+
+        if (keyStack.size() == 0 && !strings_detonantes.contains(key))
+        {
+            return;
+        }
         keyStack.add(key);
 
         JsonTraverser_statusv2 js = jsonTraverser.traverseV3(keyStack);
@@ -85,76 +99,33 @@ public class KeyPressed implements NativeKeyListener {
         int status = js.getStatus();
 
 
-        if (status == JsonTraverser_statusv2.STATUS_INMMEDIATE_ACTION)
+        if (status == JsonTraverser_statusv2.STATUS_WRONG)
         {
-            System.out.println("Doing inmmediate actions ");
-        }
-        else if (status == JsonTraverser_statusv2.STATUS_WRONG)
-        {
-            System.out.println("Was wrong");
+            for (Observar observador: observadores_list){
+                observador.command_restarted();
+            }
             keyStack.clear();
             return;
         }
-        else if (status == JsonTraverser_statusv2.STATUS_CORRECT)
-        {
 
+        if (js.script_path != null)
+        {
+            System.out.println("Found script lol xd");;
+            keyStack.clear();
+            acciones.doscript(js.getScript_path(),js.getScript_parameters());
+
+            for (Observar observador: observadores_list){
+                observador.command_restarted();
+            }
+            return;
+        }
+        else{
+            System.out.printf("pinchit nulo");
         }
 
 
 
 
-//
-//        if (jsonTraverserStatus.getStatus() ==  JsonTraverser_status.STATUS_NO_ACCION)
-//            return;
-//
-//
-//         JSONArray acciones_array = jsonTraverserStatus.getAccion_arrays();
-//
-//
-//
-////        String key = NativeKeyEvent.getKeyText(e.getKeyCode()).toLowerCase();
-////        keyStack.add(key);
-////
-////        JsonTraverser_status jsonTraverserStatus = jsonTraverser.traverse(keyStack);
-////        JSONArray acciones_array = null;
-////
-////
-////        if (jsonTraverserStatus.getStatus()== JsonTraverser_status.STATUS_FOUND_SINGLE_KEY)
-////        {
-////            return; // dont do nothing
-////        }
-////        else if (jsonTraverserStatus.getStatus() == JsonTraverser_status.STATUS_INCORRECT_COMMAND)
-////        {
-////            System.out.println("Cleaning stack because command was incorrect");
-////            keyStack.clear();
-////            return;
-////        }
-////        else if (jsonTraverserStatus.getStatus() == JsonTraverser_status.STATUS_FOUND_SPECIAL_KEY)
-////        {
-////            acciones_array = jsonTraverserStatus.getAccion_arrays();
-////
-////        }
-////        else if (jsonTraverserStatus.getStatus() == JsonTraverser_status.STATUS_CORRECT_COMMAND)
-////        {
-////            acciones_array = jsonTraverserStatus.getAccion_arrays();
-////        }
-////
-////        if (acciones == null)
-////        {
-////            System.out.println("Acciones es null");
-////            return;
-////        }
-////        if (acciones_array instanceof JSONArray){}else
-////        {
-////            System.out.println("No es json array y se neceista checar porque ");
-////            return;
-////        }
-
-
-
-//
-//            System.out.println("ES un jsonarray");
-//
             for (int i =0; i < acciones_array.length();++i)
             {
                 System.out.println(acciones_array.get(i));
@@ -194,6 +165,7 @@ public class KeyPressed implements NativeKeyListener {
                     keyStack.clear();
                 skip_cleaning = false;
             }
+
 //
 
     }
@@ -218,23 +190,24 @@ public class KeyPressed implements NativeKeyListener {
         return false;
     }
 
+    public void getTriggerKeys()
+    {
+        Iterator<String> keys = combos.keys();
+
+        while (keys.hasNext())
+        {
+            String detonante = keys.next();
+            strings_detonantes.add(detonante);
+        }
+    }
+
+    public void addObserver(Observar observador)
+    {
+        observadores_list.add(observador);
+
+
+    }
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
