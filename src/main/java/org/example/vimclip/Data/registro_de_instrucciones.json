@@ -8,7 +8,13 @@
     "pass_to_ctrlv_all_contents",
     "script",
     "pass_from_clipboard_to_register",
-    "pass_from_clipboard_to_register"
+    "pass_from_clipboard_to_register",
+    "clipboard_listener",
+    "get_last_value",
+    "get_first_value",
+    "get_all_values",
+    "remove_all_values",
+    "remove_last_value"
 
   ]
 }

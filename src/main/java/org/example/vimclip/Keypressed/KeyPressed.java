@@ -45,6 +45,13 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
 
+    boolean isTimerOn = false;
+    boolean listen_for_numbers = false;
+    private StringBuilder number = new StringBuilder();
+    private Character previousChar = null;
+    private String previousCommand = null;
+    private String current_action_param = null;
+
 
 
 
@@ -55,6 +62,12 @@ public class KeyPressed implements NativeKeyListener, Observar {
         this.jsonTraverser = new JsonTraverser(combos,observadores_list);
         this.acciones = new Acciones(registryManager);
         this.combos = combos;
+
+        addObserver(acciones.getListenToClipboard());
+        acciones.getListenToClipboard().add_observer(this);
+
+        addObserver(acciones.getListenForNumbers());
+        acciones.getListenForNumbers().add_observer(this);
 
 
         getTriggerKeys();
@@ -78,13 +91,84 @@ public class KeyPressed implements NativeKeyListener, Observar {
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
             return;
 
-        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+        int keycode = e.getKeyCode();
+        String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
 
+
+        if (listen_for_numbers == true)
+        {
+            System.out.println("Inside if statemtn listen for numbers ");
+            boolean errors = false;
+            int num = -1;
+
+            if (keycode == NativeKeyEvent.VC_ESCAPE) //Didnt want to continue
+            {
+                errors = true;
+            }
+            if (keycode == NativeKeyEvent.VC_ENTER) { //Sumbits number
+                if (number.length() <= 0)
+                {
+                    errors = true;
+                }
+                else {
+                    int n = Integer.parseInt(number.toString()) - 1;
+                    String command;
+                    if (current_action_param.compareTo("get") == 0)
+                    {
+                       command ="get_value_by_number";
+                    }
+                    else if (current_action_param.compareTo("remove") == 0)
+                    {
+                        command = "remove_value_by_number";
+                    }
+                    else command = "fuck sake ";
+
+                    acciones.doCommand3(previousChar,n,command);
+
+                    listen_for_numbers = false;
+                    previousChar = null;
+                    current_action_param = null;
+                    number.setLength(0);
+                    return;
+                }
+            }
+
+
+            try {
+                num = Integer.parseInt(key);
+            } catch (NumberFormatException ex) {
+                    errors = true;
+            }
+
+            if (errors)
+           {
+               listen_for_numbers = false;
+               previousChar = null;
+               number.setLength(0);
+               return;
+           }
+
+            number.append(key);
+            //If its esc, then its cancel, if it enter then done, everytime check if number is correct, only allow real numbers
+
+        }
+
+
+        if (keycode == NativeKeyEvent.VC_ESCAPE) {
+            for (Observar observer:observadores_list)
+            {
+                observer.esc_was_pressed();
+            }
             System.out.println("Clearing keys ");
             keyStack.clear();
         }
+        if (isTimerOn)
+        {
+            System.out.println("Timer is on thats why returned");
+            return;
+        }
 
-        String key = NativeKeyEvent.getKeyText(e.getKeyCode()).toLowerCase();
+
 
         if (e.getKeyCode() != NativeKeyEvent.VC_ESCAPE) {
             keyStack.add(key);
@@ -93,6 +177,15 @@ public class KeyPressed implements NativeKeyListener, Observar {
         JsonTraverser_statusv2 js = jsonTraverser.traverseV3(keyStack);
         JSONArray acciones_array = js.getAccion_arrays();
 
+
+        if (js.getRegistro_seleccionado() != null)
+        {
+            previousChar = js.getRegistro_seleccionado().charAt(0);
+        }
+        if (js.actions_params != null) {
+            current_action_param = js.getActions_params();
+        }
+        System.out.println("Actions params here is "+current_action_param);
 
         int status = js.getStatus();
 
@@ -117,10 +210,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
             }
             return;
         }
-
-
-
-
 
             for (int i =0; i < acciones_array.length();++i)
             {
@@ -155,7 +244,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
                     acciones.doCommand2(listenKeys, instruction);
                     skip_cleaning = true;
-                } else {
+                }
+                else {
                 }
                 if (!skip_cleaning)
                     keyStack.clear();
@@ -211,6 +301,18 @@ public class KeyPressed implements NativeKeyListener, Observar {
         observadores_list.add(observador);
 
 
+    }
+
+    @Override
+    public void isTimerOn(boolean flag) {
+        System.out.println("This was called "+flag);
+       isTimerOn = flag;
+    }
+    @Override
+    public void listenForNumbers()
+    {
+        System.out.println("Listen for numbers is now true");
+        listen_for_numbers = true;
     }
 
 

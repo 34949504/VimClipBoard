@@ -18,3 +18,6 @@ clase Acciones. No creo que sea necesario la palabra command porque en el jsonst
 
 en desc_traversing, para los script puse @@COOLSCRIPTSEPARATOR@@ para poner a lado el parametro del script, por el momento
 solo permite un parametro
+
+script_path: aqui puedes poner el nombre del script
+parameters: es un json array donde pones de izquierda a derecha los parametros de tu script

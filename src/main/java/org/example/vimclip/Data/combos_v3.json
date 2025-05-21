@@ -4,7 +4,8 @@
       "desc_traversing": {
         "ctrl": "Copiar texto seleccionado",
         "p": "Mas funcionalidades",
-        "shift": "Visitar scripts"
+        "shift": "Visitar scripts",
+        "c": "Clipboard listener"
       },
       "ctrl": {
         "registers": ["a", "s", "d", "f"],
@@ -41,30 +42,118 @@
           ]
         }
       },
-      "shift": {
-        "same_script": "C:\\Users\\gerar\\GerardoMoreShit\\shortcuts\\houseRisingSun.bat",
+      "c": {
+
+        "registers": ["a", "s", "d", "f"],
         "desc_traversing": {
-          "1": "Open youtube shit ",
-          "2": "Open shit"
+          "s": "Start clipboard",
+          "g": "Get",
+          "r": "Remove"
+        },
+        "s": {
+
+          "actions": [
+            "command@clipboard_listener"
+          ]
+        },
+        "g":
+        {
+          "desc_traversing": {
+            "1": "Get by number",
+            "2": "Get fisrt",
+            "3": "Get Last",
+            "4": "Get all"
+          },
+
+          "1": {
+            "actions": [
+              "command@listen_for_numbers"
+            ],
+            "actions_param": "get"
+          },
+
+          "2": {
+            "actions": [
+              "command@get_first_value"
+            ]
+          },
+          "3": {
+            "actions": [
+              "command@get_last_value"
+            ]
+          },
+          "4": {
+            "actions": [
+              "command@get_all_values"
+            ]
+          }
+
+        },
+        "r": {
+          "desc_traversing": {
+            "1": "Remove by number",
+            "2": "Remove last",
+            "3": "Remove all"
+          },
+
+          "1": {
+            "actions": [
+              "command@listen_for_numbers"
+            ],
+            "actions_param": "remove"
+          },
+          "2": {
+            "actions": [
+              "command@remove_last_value"
+            ]
+          },
+          "3":{
+            "actions": [
+              "command@remove_all_values"
+            ]
+          }
+        }
+
+      },
+      "shift": {
+        "desc_traversing": {
+          "1": "Open Google "
         },
         "1": {
-
+          "same_script": "C:\\Users\\gerar\\GerardoMoreShit\\shortcuts\\houseRisingSun.bat",
           "desc_traversing": {
-            "1": "Languages videos "
+            "1": "Languages channels ",
+            "2": "Programming Channels",
+            "3": "Common websites",
+            "4": "Música"
           },
           "1": {
             "desc_traversing": {
-              "1": "Easy French@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyFrench/videos\"",
-              "2": "Easy German@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyGerman/videos\""
+              "1": "Easy French@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@EasyFrench/videos",
+              "2": "Easy German@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@EasyGerman/videos"
             }
-          }
-        },
-        "2": {
-          "desc_traversing": {
-            "1": "Libro de java fx"
           },
-          "1": {
-            "parameters": ["\"https://archive.org/details/javafxbeginnersg0000dima/page/n7/mode/2up?view=theater\""]
+
+          "2": {
+            "desc_traversing":{
+              "1": "The PrimeGen@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@ThePrimeTimeagen/videos",
+              "2": "Fireship@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@Fireship/videos",
+              "3": "JohnHammond@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@_JohnHammond/videos",
+              "4": "LowLevel@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@LowLevelTV/videos"
+            }
+          },
+          "3": {
+            "desc_traversing": {
+              "1": "Whatsapp web@@COOLSCRIPTSEPARATOR@@https://web.whatsapp.com",
+              "2": "Github@@COOLSCRIPTSEPARATOR@@https://github.com/dashboard",
+              "3": "ChatGpt@@COOLSCRIPTSEPARATOR@@https://chatgpt.com",
+              "4": "Tecmilenio@@COOLSCRIPTSEPARATOR@@https://cursos.tecmilenio.mx/"
+            }
+          },
+          "4": {
+            "desc_traversing":{
+  "1": "Marty Music@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@MartyMusic/videos"
+}
           }
         }
       }

@@ -32,6 +32,7 @@ public class JsonTraverser implements Observar {
     private String script_path = null;
     private JSONArray script_parameters = null;
     private ArrayList<Observar> observadores_list;
+    private String action_param = null;
 
 
     JSONObject reduce_reduncdancy = null;
@@ -52,7 +53,14 @@ public class JsonTraverser implements Observar {
         jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_NEUTRAL);
 
         JSONObject pointer = combos;
-
+        if (keystack.size() <= 0)
+        {
+            System.out.println("Keystack bien pequeno");
+            cleaning_everything_after();
+            jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
+            return jsonTraverserStatusv2;
+        }
+        
         if (reduce_reduncdancy != null)
         {
             System.out.println("Se llego a este punto?");
@@ -96,13 +104,7 @@ public class JsonTraverser implements Observar {
         }
 
 
-        if (keystack.size() <= 0)
-        {
-            System.out.println("Keystack bien pequeno");
-            cleaning_everything_after();
-            jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
-            return jsonTraverserStatusv2;
-        }
+        //My realization, it only receives the action after the register has been selected xd
         if (found_actions)
         {
             String registro_seleccionado = keystack.getLast();
@@ -112,6 +114,8 @@ public class JsonTraverser implements Observar {
                 jsonTraverserStatusv2.setAccion_arrays(actions);
                 jsonTraverserStatusv2.setRegistro_seleccionado(registro_seleccionado);
                 jsonTraverserStatusv2.setComando_terminado(true);
+                jsonTraverserStatusv2.setActions_params(action_param);
+                System.out.println("Here in this dumbasss statemtn action param is "+action_param);
 
                 cleaning_everything_after();
                 return  jsonTraverserStatusv2;
@@ -168,7 +172,7 @@ public class JsonTraverser implements Observar {
             {
                 String key = keys.next();
                 String desc = desc_traversing.getString(key);
-                System.out.println("Key aqui es "+key);
+//                System.out.println("Key aqui es "+key);
 
                 String[] split =desc.split(script_separator);
                 if (split.length == 2)
@@ -223,6 +227,7 @@ public class JsonTraverser implements Observar {
             JSONArray act =pointer.getJSONArray("actions");
             actions = act;
             found_actions = true;
+            find_actions_param(pointer);
 
             next_keys.clear();
             next_keys_desc.clear();
@@ -257,6 +262,7 @@ public class JsonTraverser implements Observar {
         script_parameters = null;
         found_same_script = false;
         reduce_reduncdancy = null;
+        action_param = null;
 
     }
 
@@ -285,7 +291,7 @@ public class JsonTraverser implements Observar {
 
                 for (Observar observador: observadores_list)
                 {
-                    System.out.println("Supposed to be called?");
+//                    System.out.println("Supposed to be called?");
                     observador.recibir_next_keys(next_keys,next_keys_desc);
                 }
     }
@@ -323,6 +329,19 @@ public class JsonTraverser implements Observar {
         } catch (JSONException e) {
 
         }
+    }
+    private void find_actions_param(JSONObject pointer)
+    {
+       try {
+           String ap = pointer.getString("actions_param");
+           action_param = ap;
+           System.out.println("Actions params was found "+action_param);
+
+       } catch (JSONException e) {
+
+           System.out.println("Actions params was not found ");
+
+       }
     }
 
 }

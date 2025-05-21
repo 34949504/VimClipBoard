@@ -99,10 +99,10 @@ public class Command_displayer extends Application implements Observar {
     @Override
     public void recibir_next_keys(ArrayList<String> nextKeys, ArrayList<String> desc) {
 
-        System.out.println("This getting called?");
+//        System.out.println("This getting called?");
         Platform.runLater(() -> {
             vBox.getChildren().clear();
-            System.out.println("Key -> Description:");
+//            System.out.println("Key -> Description:");
             for (int i = 0; i < nextKeys.size(); i++) {
                 String key = nextKeys.get(i);
                 String description = desc.get(i);
@@ -112,7 +112,7 @@ public class Command_displayer extends Application implements Observar {
                 Label label = new Label(completo);
                 vBox.getChildren().add(label);
             }
-            System.out.println("Allegedly showings");
+//            System.out.println("Allegedly showings");
             main_stage.setOpacity(1);
         });
 
