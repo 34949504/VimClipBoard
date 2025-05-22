@@ -1,7 +1,6 @@
 package org.example.vimclip.Keypressed;
 
 
-import javafx.application.Platform;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.vimclip.Observar;
@@ -15,29 +14,11 @@ import java.util.Iterator;
 
 public class JsonTraverser implements Observar {
 
-
+    private JsonTraversalState traversalState = new JsonTraversalState();
     private JSONObject combos;
-
-    private ArrayList<String> next_keys = new ArrayList<>();
-    private ArrayList<String> next_keys_desc = new ArrayList<>();
-    private JSONArray registers = null;
-    private JSONArray actions = null;
-
-
-    private boolean found_actions = false;
-    private boolean found_script = false;
-    private boolean found_same_script = false; // to avoid redundacy in json
-
-
-    private String script_path = null;
-    private JSONArray script_parameters = null;
     private ArrayList<Observar> observadores_list;
-    private String action_param = null;
+    JsonTraverser_statusv2 jsonTraverserStatusv2 = null;
 
-
-    JSONObject reduce_reduncdancy = null;
-
-   String script_separator = "@@COOLSCRIPTSEPARATOR@@";
 
     public JsonTraverser(JSONObject combos,ArrayList<Observar> observadores_list) {
         this.combos = combos;
@@ -47,80 +28,22 @@ public class JsonTraverser implements Observar {
 
     public JsonTraverser_statusv2 traverseV3(ArrayList<String> keystack)
     {
-
-
-        JsonTraverser_statusv2 jsonTraverserStatusv2 = new JsonTraverser_statusv2();
+        traversalState.setKeystack(keystack);
+        jsonTraverserStatusv2 = new JsonTraverser_statusv2();
         jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_NEUTRAL);
-
         JSONObject pointer = combos;
-        if (keystack.size() <= 0)
-        {
-            System.out.println("Keystack bien pequeno");
-            cleaning_everything_after();
-            jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
+
+        if (!validKeystack())
             return jsonTraverserStatusv2;
-        }
-        
-        if (reduce_reduncdancy != null)
-        {
-            System.out.println("Se llego a este punto?");
-            String last_key = keystack.getLast();
 
-            Iterator<String> reduce_redunndacy_keys = reduce_reduncdancy.keys();
-            ArrayList<String> reduce_redundancy_array = new ArrayList<>();
+        if (if_norbit())
+            return jsonTraverserStatusv2;
 
-            while (reduce_redunndacy_keys.hasNext())
-            {
-               String key = reduce_redunndacy_keys.next();
-               reduce_redundancy_array.add(key);
-            }
+        if (if_foundActions()) //My realization, it only receives the action after the register has been selected xd
+            return jsonTraverserStatusv2;
 
 
 
-
-            //Neither one contains it hence must be wrong
-            if (!next_keys.contains(last_key) && !reduce_redundancy_array.contains(last_key))
-            {
-                cleaning_everything_after();
-                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
-                return jsonTraverserStatusv2;
-            }
-            else if (next_keys.contains(last_key) && reduce_redundancy_array.contains(last_key)) {
-
-                String script_param = reduce_reduncdancy.getString(last_key);
-                JSONArray params = new JSONArray();
-                params.put(script_param);
-
-                System.out.println("para m herei nthis shit is " + script_param);
-
-                jsonTraverserStatusv2.setScript_parameters(params);
-                jsonTraverserStatusv2.setScript_path(script_path);
-                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_CORRECT);
-                cleaning_everything_after();
-
-                return jsonTraverserStatusv2;
-            }
-
-        }
-
-
-        //My realization, it only receives the action after the register has been selected xd
-        if (found_actions)
-        {
-            String registro_seleccionado = keystack.getLast();
-            if (contains_it(registers,registro_seleccionado))
-            {
-                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_CORRECT);
-                jsonTraverserStatusv2.setAccion_arrays(actions);
-                jsonTraverserStatusv2.setRegistro_seleccionado(registro_seleccionado);
-                jsonTraverserStatusv2.setComando_terminado(true);
-                jsonTraverserStatusv2.setActions_params(action_param);
-                System.out.println("Here in this dumbasss statemtn action param is "+action_param);
-
-                cleaning_everything_after();
-                return  jsonTraverserStatusv2;
-            }
-        }
 
 
         System.out.println();
@@ -128,18 +51,12 @@ public class JsonTraverser implements Observar {
             try {
                 pointer = pointer.getJSONObject(keystack.get(i));
             } catch (JSONException e) {
-
-
-
-                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
-                next_keys.clear();
-                next_keys_desc.clear();
+                status_wrong();
                 return jsonTraverserStatusv2;
             }
         }
         System.out.println();
         get_desc_traversing(pointer);
-        get_one_time_action(pointer,jsonTraverserStatusv2);
         get_registers(pointer,jsonTraverserStatusv2);
         find_actions(pointer);
         imprimir_nextKeys();
@@ -147,10 +64,12 @@ public class JsonTraverser implements Observar {
         find_script_parameters(pointer,jsonTraverserStatusv2);
         find_same_script(pointer);
 
-        if (found_script || (found_same_script && script_parameters != null))
+        System.out.println(traversalState.isFoundScript() + "" +traversalState.isFoundSameScript() );
+        if (traversalState.isFoundScript()  || (traversalState.isFoundSameScript() && traversalState.getScriptParameters() != null))
         {
-            jsonTraverserStatusv2.setScript_parameters(script_parameters);
-            jsonTraverserStatusv2.setScript_path(script_path);
+            System.out.println("Found script?");
+            jsonTraverserStatusv2.setScript_parameters(traversalState.getScriptParameters());
+            jsonTraverserStatusv2.setScript_path(traversalState.getScriptPath());
             jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_CORRECT);
             cleaning_everything_after();
 
@@ -163,60 +82,54 @@ public class JsonTraverser implements Observar {
     private void get_desc_traversing(JSONObject pointer)
     {
         try {
-            JSONObject desc_traversing = pointer.getJSONObject("desc_traversing");
-            next_keys.clear();
-            next_keys_desc.clear();
+            JSONObject desc_traversing = pointer.getJSONObject(AK.desc_traversing);
+            traversalState.getNextKeys().clear();
+            traversalState.getNextKeysDesc().clear();
             Iterator<String> keys = desc_traversing.keys();
 
             while ( keys.hasNext())
             {
                 String key = keys.next();
                 String desc = desc_traversing.getString(key);
-//                System.out.println("Key aqui es "+key);
 
-                String[] split =desc.split(script_separator);
-                if (split.length == 2)
-                {
-                    if (reduce_reduncdancy == null) {reduce_reduncdancy = new JSONObject();
-                        System.out.println("Reduce redundancy no es null");}
+                String s = find_norbit_structure(desc,key);
+                if (s != null)
+                    desc = s;
 
-                    desc = split[0];
-                    String script_path = split[1];
-                    reduce_reduncdancy.put(key,script_path);
-                    System.out.println("Se encontro esa wea");
 
-                }
-
-                next_keys.add(key);
-                next_keys_desc.add(desc);
+                traversalState.getNextKeys().add(key);
+                traversalState.getNextKeysDesc().add(desc);
             }
 
         } catch (JSONException e) {
 
-            System.out.println("Wasnt able to find edsc_traversing");
-
-
-
         }
     }
-
-    private void get_one_time_action(JSONObject pointer,JsonTraverser_statusv2 jsonTraverserStatusv2)
+    private String find_norbit_structure(String desc,String key)
     {
-        try{
-            JSONArray one_time_actions = pointer.getJSONArray("one_time_actions");
 
-            jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_INMMEDIATE_ACTION);
-            jsonTraverserStatusv2.setAccion_arrays(one_time_actions);
+        String[] split =desc.split(AK.script_separator);
+        if (split.length == 2)
+        {
+            if (traversalState.getNorbit() == null) {
+                traversalState.setNorbit(new JSONObject());
+                System.out.println("Reduce redundancy no es null");}
 
-        } catch (Exception e) {
+            desc = split[0];
+            String script_path = split[1];
+            traversalState.getNorbit().put(key,script_path);
+            System.out.println("Se encontro esa wea");
 
+            return desc;
         }
+        return null;
     }
+
     private void get_registers(JSONObject pointer,JsonTraverser_statusv2 jsonTraverserStatusv2)
     {
         try {
             JSONArray reg = pointer.getJSONArray("registers");
-            registers = reg;
+            traversalState.setRegisters(reg);
         } catch (JSONException e) {
 
         }
@@ -225,26 +138,23 @@ public class JsonTraverser implements Observar {
     {
         try{
             JSONArray act =pointer.getJSONArray("actions");
-            actions = act;
-            found_actions = true;
+            traversalState.setActions(act);
+            traversalState.setFoundActions(true);
             find_actions_param(pointer);
 
-            next_keys.clear();
-            next_keys_desc.clear();
+            traversalState.getNextKeys().clear();
+            traversalState.getNextKeysDesc().clear();
 
-            for (int i = 0; i < registers.length(); i++) {
+            for (int i = 0; i < traversalState.getRegisters().length(); i++) {
 
-                String key = registers.getString(i);
+                String key = traversalState.getRegisters().getString(i);
                 String desc = String.format("Registro %s",key);
-                next_keys.add(key);
-                next_keys_desc.add(desc);
-
-
+                traversalState.getNextKeys().add(key);
+                traversalState.getNextKeysDesc().add(desc);
 
             }
         } catch (JSONException e) {
 
-//            System.out.println("Didnt find actions my bad");
 
         }
 
@@ -252,18 +162,7 @@ public class JsonTraverser implements Observar {
 
     private void cleaning_everything_after()
     {
-        registers = null;
-        next_keys.clear();
-        next_keys_desc.clear();
-        found_actions = false;
-        found_script = false;
-        actions = null;
-        script_path = null;
-        script_parameters = null;
-        found_same_script = false;
-        reduce_reduncdancy = null;
-        action_param = null;
-
+        traversalState = new JsonTraversalState();
     }
 
     private boolean contains_it(JSONArray jsonArray,String suspect)
@@ -279,20 +178,16 @@ public class JsonTraverser implements Observar {
 
     public void imprimir_nextKeys()
     {
-        if (next_keys.size() <= 0)return;
+        if (traversalState.getNextKeys().size() <= 0)return;
 
-        for (int i = 0; i < next_keys.size(); i++) {
+        for (int i = 0; i < traversalState.getNextKeys().size(); i++) {
 
-            String key = next_keys.get(i);
-            String desc = next_keys_desc.get(i);
-//            System.out.printf("%s:%s\n",key,desc);
+            String key = traversalState.getNextKeys().get(i);
+            String desc = traversalState.getNextKeysDesc().get(i);
         }
-
-
                 for (Observar observador: observadores_list)
                 {
-//                    System.out.println("Supposed to be called?");
-                    observador.recibir_next_keys(next_keys,next_keys_desc);
+                    observador.recibir_next_keys(traversalState.getNextKeys(),traversalState.getNextKeysDesc());
                 }
     }
 
@@ -301,8 +196,8 @@ public class JsonTraverser implements Observar {
     private void find_scriptPath(JSONObject pointer,JsonTraverser_statusv2 jsonTraverserStatusv2)
     {
        try {
-           script_path = pointer.getString("script_path");
-           found_script = true;
+           traversalState.setScriptPath(pointer.getString("script_path"));
+           traversalState.setFoundScript(true);
            System.out.printf("Founds script");
 
        } catch (JSONException e) {
@@ -312,7 +207,7 @@ public class JsonTraverser implements Observar {
     private void find_script_parameters(JSONObject pointer,JsonTraverser_statusv2 jsonTraverserStatusv2)
     {
         try {
-            script_parameters= pointer.getJSONArray("parameters");
+            traversalState.setScriptParameters(pointer.getJSONArray("parameters"));
         } catch (JSONException e) {
 
         }
@@ -323,8 +218,8 @@ public class JsonTraverser implements Observar {
 
         try {
             String same_script = pointer.getString("same_script");
-            script_path = same_script;
-            found_same_script = true;
+            traversalState.setScriptPath(same_script);
+            traversalState.setFoundSameScript( true);
 
         } catch (JSONException e) {
 
@@ -334,8 +229,8 @@ public class JsonTraverser implements Observar {
     {
        try {
            String ap = pointer.getString("actions_param");
-           action_param = ap;
-           System.out.println("Actions params was found "+action_param);
+           traversalState.setActionParam( ap);
+           System.out.println("Actions params was found "+traversalState.getActionParam());
 
        } catch (JSONException e) {
 
@@ -344,4 +239,130 @@ public class JsonTraverser implements Observar {
        }
     }
 
+    private boolean validKeystack() {
+
+        if (traversalState.getKeystack().size() <= 0) {
+            System.out.println("Keystack bien pequeno");
+            cleaning_everything_after();
+            jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
+            return false;
+        }
+        return  true;
+    }
+
+    private void status_wrong()
+    {
+        jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
+        traversalState.getNextKeys().clear();
+        traversalState.getNextKeysDesc().clear();
+    }
+
+    /**
+     * Available keywords
+     */
+    public static class AK
+    {
+        public static String desc_traversing = "desc_traversing";
+        public static String registers = "registers";
+        public static String actions = "actions";
+        public static String actions_param = "actions_param";
+        public static String script_separator = "@@COOLSCRIPTSEPARATOR@@";
+        public static String  same_script = "same_script";
+
+    }
+
+
+    private boolean if_norbit()
+    {
+
+        if (traversalState.getNorbit() != null)
+        {
+            String last_key = traversalState.getKeystack().getLast();
+
+            Iterator<String> reduce_redunndacy_keys = traversalState.getNorbit().keys();
+            ArrayList<String> reduce_redundancy_array = new ArrayList<>();
+
+            while (reduce_redunndacy_keys.hasNext())
+            {
+                String key = reduce_redunndacy_keys.next();
+                reduce_redundancy_array.add(key);
+            }
+
+
+
+
+            //Neither one contains it hence must be wrong
+            if (!traversalState.getNextKeys().contains(last_key) && !reduce_redundancy_array.contains(last_key))
+            {
+                status_wrong();
+                cleaning_everything_after();
+                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_WRONG);
+                return true;
+            }
+            else if (traversalState.nextKeys.contains(last_key) && reduce_redundancy_array.contains(last_key)) {
+
+                String script_param = traversalState.getNorbit().getString(last_key);
+                JSONArray params = new JSONArray();
+                params.put(script_param);
+
+                System.out.println("para m herei nthis shit is " + script_param);
+
+                jsonTraverserStatusv2.setScript_parameters(params);
+                jsonTraverserStatusv2.setScript_path(traversalState.getScriptPath());
+                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_CORRECT);
+                cleaning_everything_after();
+                return true;
+            }
+
+        }
+        return  false;
+    }
+    private boolean if_foundActions()
+    {
+        if (traversalState.isFoundActions())
+        {
+            String registro_seleccionado = traversalState.getKeystack().getLast();
+            if (contains_it(traversalState.getRegisters(),registro_seleccionado))
+            {
+                jsonTraverserStatusv2.setStatus(JsonTraverser_statusv2.STATUS_CORRECT);
+                jsonTraverserStatusv2.setAccion_arrays(traversalState.getActions());
+                jsonTraverserStatusv2.setRegistro_seleccionado(registro_seleccionado);
+                jsonTraverserStatusv2.setComando_terminado(true);
+                jsonTraverserStatusv2.setActions_params(traversalState.getActionParam());
+                System.out.println("Here in this dumbasss statemtn action param is "+traversalState.getActionParam());
+
+                cleaning_everything_after();
+                return  true;
+            }
+        }
+        return false;
+    }
+
+
+    @Getter
+    @Setter
+    public class JsonTraversalState {
+
+        public ArrayList<String> nextKeys = new ArrayList<>();
+        public ArrayList<String> nextKeysDesc = new ArrayList<>();
+        public JSONArray registers = null;
+        public JSONArray actions = null;
+        public boolean foundActions = false;
+        public boolean foundScript = false;
+        public boolean foundSameScript = false;
+
+        public String scriptPath = null;
+        public JSONArray scriptParameters = null;
+        public ArrayList<Observar> observadoresList = new ArrayList<>();
+        public String actionParam = null;
+
+        public JSONObject norbit = null;
+        public ArrayList<String> keystack = null;
+
+        public JsonTraverser_statusv2 jsonTraverserStatus = null;
+    }
 }
+
+//Explaining
+
+//Norbit : Its a JsonObject that stores key pair, and is used when it finds something like this "Easy French@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@EasyFrench/videos"

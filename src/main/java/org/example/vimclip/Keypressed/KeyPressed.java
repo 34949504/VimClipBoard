@@ -22,19 +22,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KeyPressed implements NativeKeyListener, Observar {
 
-    private static String CTRL = "ctrl";
-    private static String QUOTE = "quote";
-    private static String SHIFT = "shift";
+
 
     public ArrayList<String> keyStack = new ArrayList<>();
     RegistryManager registryManager;
     private AtomicBoolean listenKeys = new AtomicBoolean(true);
 
     private boolean DEBUGG = true;
-
-    Character extraSymbolTyped = null;
-    boolean modifier_was_relased = false;
-
 
     Acciones acciones;
     JsonTraverser jsonTraverser;
@@ -47,6 +41,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
     boolean isTimerOn = false;
     boolean listen_for_numbers = false;
+
+
     private StringBuilder number = new StringBuilder();
     private Character previousChar = null;
     private String previousCommand = null;
@@ -68,7 +64,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
         addObserver(acciones.getListenForNumbers());
         acciones.getListenForNumbers().add_observer(this);
-
 
         getTriggerKeys();
 
@@ -94,64 +89,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
         int keycode = e.getKeyCode();
         String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
 
-
-        if (listen_for_numbers == true)
-        {
-            System.out.println("Inside if statemtn listen for numbers ");
-            boolean errors = false;
-            int num = -1;
-
-            if (keycode == NativeKeyEvent.VC_ESCAPE) //Didnt want to continue
-            {
-                errors = true;
-            }
-            if (keycode == NativeKeyEvent.VC_ENTER) { //Sumbits number
-                if (number.length() <= 0)
-                {
-                    errors = true;
-                }
-                else {
-                    int n = Integer.parseInt(number.toString()) - 1;
-                    String command;
-                    if (current_action_param.compareTo("get") == 0)
-                    {
-                       command ="get_value_by_number";
-                    }
-                    else if (current_action_param.compareTo("remove") == 0)
-                    {
-                        command = "remove_value_by_number";
-                    }
-                    else command = "fuck sake ";
-
-                    acciones.doCommand3(previousChar,n,command);
-
-                    listen_for_numbers = false;
-                    previousChar = null;
-                    current_action_param = null;
-                    number.setLength(0);
-                    return;
-                }
-            }
-
-
-            try {
-                num = Integer.parseInt(key);
-            } catch (NumberFormatException ex) {
-                    errors = true;
-            }
-
-            if (errors)
-           {
-               listen_for_numbers = false;
-               previousChar = null;
-               number.setLength(0);
-               return;
-           }
-
-            number.append(key);
-            //If its esc, then its cancel, if it enter then done, everytime check if number is correct, only allow real numbers
-
-        }
+        if (if_listen_for_number(keycode,key))
+            return;
 
 
         if (keycode == NativeKeyEvent.VC_ESCAPE) {
@@ -222,11 +161,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
                 String instruction = split[1];
                 boolean skip_cleaning = false;
 
-                if (Utils.check_that_instruction_exist(instruction) == false)
-                {
-
-
-                }
                 Utils.imprimir_DEGUGG(String.format("Type:%s\nInstruction:%s\n",type,instruction),DEBUGG);
 
 
@@ -238,9 +172,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
                     System.out.println("Esto se esta llamando ");
                     acciones.doCommand(reg, instruction);
 
-                } else if (type.compareTo("script") == 0) {
-
-                } else if (type.compareTo("necessary") == 0) {
+                }
+                 else if (type.compareTo("necessary") == 0) {
 
                     acciones.doCommand2(listenKeys, instruction);
                     skip_cleaning = true;
@@ -251,6 +184,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
                     keyStack.clear();
                 skip_cleaning = false;
             }
+
+
             if (js.isComando_terminado())
             {
 
@@ -313,6 +248,74 @@ public class KeyPressed implements NativeKeyListener, Observar {
     {
         System.out.println("Listen for numbers is now true");
         listen_for_numbers = true;
+    }
+
+    private boolean if_listen_for_number(int keycode,String key)
+    {
+
+
+        if (listen_for_numbers == true)
+        {
+            System.out.println("Inside if statemtn listen for numbers ");
+            boolean errors = false;
+            int num = -1;
+
+            if (keycode == NativeKeyEvent.VC_ESCAPE) //Didnt want to continue
+            {
+                errors = true;
+            }
+            if (keycode == NativeKeyEvent.VC_ENTER) { //Sumbits number
+                if (number.length() <= 0)
+                {
+                    errors = true;
+                }
+                else {
+                    int n = Integer.parseInt(number.toString()) - 1;
+                    String command;
+                    if (current_action_param.compareTo("get") == 0)
+                    {
+                        command ="get_value_by_number";
+                    }
+                    else if (current_action_param.compareTo("remove") == 0)
+                    {
+                        command = "remove_value_by_number";
+                    }
+                    else command = "fuck sake ";
+
+                    acciones.doCommand3(previousChar,n,command);
+
+                    listen_for_numbers = false;
+                    previousChar = null;
+                    current_action_param = null;
+                    number.setLength(0);
+                    return true;
+                }
+            }
+
+
+            try {
+                num = Integer.parseInt(key);
+            } catch (NumberFormatException ex) {
+                errors = true;
+            }
+
+            if (errors)
+            {
+                listen_for_numbers = false;
+                previousChar = null;
+                number.setLength(0);
+                return true;
+            }
+
+            number.append(key);
+            //If its esc, then its cancel, if it enter then done, everytime check if number is correct, only allow real numbers
+
+        }
+
+
+
+        return false;
+
     }
 
 

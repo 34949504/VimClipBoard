@@ -2,34 +2,9 @@
   "ctrl": {
     "shift": {
       "desc_traversing": {
-        "ctrl": "Copiar texto seleccionado",
         "p": "Mas funcionalidades",
         "shift": "Visitar scripts",
         "c": "Clipboard listener"
-      },
-      "ctrl": {
-        "registers": ["a", "s", "d", "f"],
-        "one_time_actions": ["necessary@copytext"],
-        "desc_traversing": {
-          "i": "Insertar",
-          "r": "Remplazar",
-          "g": "Obtener"
-        },
-        "i": {
-          "actions": [
-            "command@copy_to_register_append"
-          ]
-        },
-        "r": {
-          "actions": [
-            "command@copy_to_register_replace"
-          ]
-        },
-        "g": {
-          "actions": [
-            "command@pass_to_ctrlv"
-          ]
-        }
       },
       "p": {
         "registers": ["a", "s", "d", "f"],
