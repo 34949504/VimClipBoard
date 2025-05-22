@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @Getter
-public class ClipBoardListener {
+public class ClipBoardListener implements Observar {
 
     private  ArrayList<String> copied_strings = new ArrayList<>();
     private String previous_clipboard_content = null;
@@ -19,6 +19,8 @@ public class ClipBoardListener {
     private Timer timer = new Timer();
     private boolean timer_running = false;
     private boolean skipped_first_time = false;
+
+    private ArrayList<Observar> observers_list = null;
 
 
 
@@ -44,6 +46,11 @@ public class ClipBoardListener {
                     contents = c;
                     copied_strings.add(contents);
 
+                    for (Observar observador:observers_list)
+                    {
+                        observador.something_was_copied(contents);
+                    }
+
                 }
             }
         },0,100);
@@ -60,6 +67,10 @@ public class ClipBoardListener {
         timer = new Timer();
         ClipboardUtils.setClipboardContents(previous_clipboard_content);
 
+    }
+    public void setObservers_list(ArrayList<Observar> observers_list)
+    {
+       this.observers_list = observers_list;
     }
 
     public boolean isTimer_running() {

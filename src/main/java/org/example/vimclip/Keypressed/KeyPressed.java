@@ -65,6 +65,8 @@ public class KeyPressed implements NativeKeyListener, Observar {
         addObserver(acciones.getListenForNumbers());
         acciones.getListenForNumbers().add_observer(this);
 
+        acciones.getClipBoardListener().setObservers_list(observadores_list);
+
         getTriggerKeys();
 
         GlobalScreen.setEventDispatcher(new SwingDispatchService());

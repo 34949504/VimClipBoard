@@ -11,4 +11,6 @@ public interface Observar {
     default public void esc_was_pressed(){}
     default public void isTimerOn(boolean flag){}
     default public void listenForNumbers(){}
+    default public void something_was_copied(String copiedString){}
+
 }

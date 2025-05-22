@@ -1,0 +1,11 @@
+{
+  "command_displayer_config":
+  {
+    "font_size": 16,
+    "font_color": "#000000",
+    "font_name": "arial",
+    "default_background": "#FFFFFF",
+    "show_background_cues": false
+  }
+
+}

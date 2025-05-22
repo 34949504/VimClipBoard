@@ -25,12 +25,13 @@ public class MainProgram {
 //
 
         JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos_v3.json");
+        JSONObject config = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\config.json");
         RegistryManager registryManager = new RegistryManager();
         keyPressed = new KeyPressed(registryManager,combos);
 
         Command_displayer commandDisplayer = new Command_displayer();
+        Command_displayer.setConfig(config);
         Command_displayer.launch(commandDisplayer.getClass());
-
         //Everything after launch will not be executed after closed
 
 
