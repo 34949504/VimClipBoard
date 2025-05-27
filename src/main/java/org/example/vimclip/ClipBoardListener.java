@@ -9,9 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @Getter
+@Setter
 public class ClipBoardListener implements Observar {
 
-    private  ArrayList<String> copied_strings = new ArrayList<>();
     private String previous_clipboard_content = null;
 
     @Getter(AccessLevel.NONE)
@@ -21,6 +21,10 @@ public class ClipBoardListener implements Observar {
     private boolean skipped_first_time = false;
 
     private ArrayList<Observar> observers_list = null;
+    private RegistryManager registryManager;
+
+    private Character reg_selected = null;
+
 
 
 
@@ -36,6 +40,7 @@ public class ClipBoardListener implements Observar {
                     previous_clipboard_content = ClipboardUtils.getClipboardContents();
                     ClipboardUtils.setClipboardContents("");
                     skipped_first_time = true;
+                    System.out.println("Here skipped");
                     return;
                 }
 
@@ -43,8 +48,10 @@ public class ClipBoardListener implements Observar {
 
                 if (c != null && c.compareTo(contents) != 0)
                 {
+                    System.out.printf("C is %s\n",c);
+                    System.out.printf("Content  is %s\n",contents);
                     contents = c;
-                    copied_strings.add(contents);
+                    registryManager.addValue(reg_selected,contents);
 
                     for (Observar observador:observers_list)
                     {
@@ -55,10 +62,6 @@ public class ClipBoardListener implements Observar {
             }
         },0,100);
     }
-    public void clear_copied_strings()
-    {
-        copied_strings.clear();
-    }
     public void stop_timer()
     {
         timer.cancel();
@@ -66,6 +69,7 @@ public class ClipBoardListener implements Observar {
         skipped_first_time = false;
         timer = new Timer();
         ClipboardUtils.setClipboardContents(previous_clipboard_content);
+        contents = "";
 
     }
     public void setObservers_list(ArrayList<Observar> observers_list)
@@ -76,4 +80,12 @@ public class ClipBoardListener implements Observar {
     public boolean isTimer_running() {
         return timer_running;
     }
+
+    public void addObserver(Observar observer)
+    {
+        observers_list.add(observer);
+    }
+
+    //WARNING THIs code might be deep to fail in the future for using setobserverlist and addobserver omicuouslysne
+
 }

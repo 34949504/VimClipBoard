@@ -5,7 +5,10 @@
     "font_color": "#000000",
     "font_name": "arial",
     "default_background": "#FFFFFF",
-    "show_background_cues": false
+    "show_background_cues": true
+  },
+  "register_viewer_config": {
+
   }
 
 }

@@ -32,6 +32,7 @@ public class Acciones {
 
     public Acciones(RegistryManager registryManager) {
         this.registryManager = registryManager;
+        clipBoardListener.setRegistryManager(registryManager);
 
         hashMap.put("script", new do_script());
         hashMap.put("get_last_value",new get_lat_value());
@@ -118,6 +119,8 @@ public class Acciones {
 
             if (clipBoardListener.isTimer_running() == false) {
                 clipBoardListener.start_listener();
+                System.out.println("Reg here is "+cur_reg);
+                clipBoardListener.setReg_selected(cur_reg);
                 System.out.println("Timer has started");
 
                 for (Observar observer : observers_list)
@@ -136,13 +139,7 @@ public class Acciones {
             if (clipBoardListener.isTimer_running()) {
                 clipBoardListener.stop_timer();
                 System.out.println("Timer has stopped ");
-                ArrayList<String> contents = clipBoardListener.getCopied_strings();
 
-
-                for (String copied : contents) {
-                    System.out.println(copied);
-                    registryManager.addValue(cur_reg,copied);
-                }
                 for (Observar observer : observers_list)
                 {
                     observer.isTimerOn(false);

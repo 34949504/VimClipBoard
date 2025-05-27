@@ -1,22 +1,15 @@
 
 package org.example.vimclip;
 
-import org.example.vimclip.JavaFx.Command_displayer;
-import org.example.vimclip.Keypressed.JsonTraverser;
+import org.example.vimclip.JavaFx.MyApp;
+import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Keypressed.KeyPressed;
 import org.json.JSONObject;
 
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner; // Import the Scanner class to read text files
 
 public class MainProgram {
 
     public static KeyPressed keyPressed;
-
 
     public static void main(String[] args) {
 
@@ -26,14 +19,18 @@ public class MainProgram {
 
         JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos_v3.json");
         JSONObject config = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\config.json");
+
         RegistryManager registryManager = new RegistryManager();
-        keyPressed = new KeyPressed(registryManager,combos);
+        Acciones acciones = new Acciones(registryManager);
+        keyPressed = new KeyPressed(registryManager,combos,acciones);
 
-        Command_displayer commandDisplayer = new Command_displayer();
-        Command_displayer.setConfig(config);
-        Command_displayer.launch(commandDisplayer.getClass());
-        //Everything after launch will not be executed after closed
+        AppContext.keyPressed = keyPressed;
+        AppContext.registryManager = registryManager;
+        AppContext.config = config;
+        AppContext.acciones = acciones;
 
+        MyApp myApp = new MyApp();
+        MyApp.launch(myApp.getClass());
 
 
     }

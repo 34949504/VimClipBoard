@@ -52,11 +52,11 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
 
 
-    public KeyPressed(RegistryManager registryManager, JSONObject combos) {
+    public KeyPressed(RegistryManager registryManager, JSONObject combos,Acciones acciones) {
 
         this.registryManager = registryManager;
         this.jsonTraverser = new JsonTraverser(combos,observadores_list);
-        this.acciones = new Acciones(registryManager);
+        this.acciones = acciones;
         this.combos = combos;
 
         addObserver(acciones.getListenToClipboard());
@@ -85,11 +85,14 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
     public void nativeKeyPressed(NativeKeyEvent e) {
 
+        int keycode = e.getKeyCode();
+        String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
+
+        System.out.println("Key pressed here is "+key);
+
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
             return;
 
-        int keycode = e.getKeyCode();
-        String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
 
         if (if_listen_for_number(keycode,key))
             return;
@@ -102,6 +105,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
             }
             System.out.println("Clearing keys ");
             keyStack.clear();
+            return;
         }
         if (isTimerOn)
         {
