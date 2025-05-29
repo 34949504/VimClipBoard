@@ -6,6 +6,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -117,6 +120,18 @@ public class Utils {
             System.out.printf("%s,",stackKeys.get(i));
         }
         System.out.printf("]\n");
+    }
+
+
+    public static JSONObject readJsonFromResource(String resourcePath) {
+        try (InputStream is = Utils.class.getResourceAsStream(resourcePath)) {
+            if (is == null) throw new FileNotFoundException("Resource not found: " + resourcePath);
+            String text = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            return new JSONObject(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

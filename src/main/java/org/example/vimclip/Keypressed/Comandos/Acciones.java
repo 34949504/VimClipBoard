@@ -14,6 +14,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -42,6 +44,8 @@ public class Acciones {
         hashMap.put("remove_last_value",new remove_last_value());
         hashMap.put("get_value_by_number",new getValue());
         hashMap.put("remove_value_by_number",new removeValue());
+        hashMap.put("get_values", new get_values());
+        hashMap.put("remove_values",new remove_values());
 
         listenToClipboard = new Listen_to_clipboard();
         hashMap.put("clipboard_listener",listenToClipboard);
@@ -70,6 +74,10 @@ public class Acciones {
     {
         System.out.println("Do command was caled ");
         hashMap.get(command).do_command3(reg,index);
+    }
+    public int doCommand4(Character reg, ArrayList<Integer> index_list,String command)
+    {
+        return hashMap.get(command).do_command4(reg,index_list);
     }
     public  void doscript(String script_path, JSONArray arguments){
 
@@ -132,13 +140,10 @@ public class Acciones {
 
         @Override
         public void esc_was_pressed() {
-            System.out.println("Esc was pressed ");
 
-            System.out.println("The cur reg is "+cur_reg);
 
             if (clipBoardListener.isTimer_running()) {
                 clipBoardListener.stop_timer();
-                System.out.println("Timer has stopped ");
 
                 for (Observar observer : observers_list)
                 {
@@ -263,6 +268,50 @@ public class Acciones {
 
             System.out.println("Removing value value here in getVALUE");
             registryManager.removeValue(reg,index);
+        }
+    }
+
+    public class get_values implements  doing_action
+    {
+        @Override
+        public int do_command4(Character reg, ArrayList<Integer> index_array) {
+
+            if (index_array.size() > 0)
+            {
+                StringBuilder contents = new StringBuilder();
+                for (int i = 0; i < index_array.size(); i++) {
+
+                    int index = index_array.get(i);
+                    String reg_cont = registryManager.getValue(reg,i);
+                    contents.append(String.format("%s\n",reg_cont));
+                }
+                ClipboardUtils.setClipboardContents(contents.toString());
+                return 0;
+            }
+
+            System.out.println("No se pudo pasar a clipboard porque no hay index_array es  es menor o igual a 0");
+            return -1;
+        }
+    }
+
+    public class remove_values implements  doing_action
+    {
+        @Override
+        public int do_command4(Character reg, ArrayList<Integer> index_array) {
+
+            if (index_array.size() <=0)
+                return -1;
+
+            Collections.sort(index_array, Collections.reverseOrder());
+
+            for (int i = 0; i < index_array.size(); i++) {
+
+                int index = index_array.get(i);
+                System.out.println("Index here removing is "+index);
+                registryManager.removeValue(reg,index);
+            }
+            return 0;
+
         }
     }
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.vimclip.JavaFx.Controllers.ClipBoardViewer"
+            prefHeight="200"
+            fx:id="mainPane">
+
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
+    <top>
+        <TabPane fx:id="registryTabPane" >
+            <tabs>
+                <Tab text="Registro a" fx:id="a"></Tab>
+                <Tab text="Registro s" fx:id="s"></Tab>
+                <Tab text="Registro d" fx:id="d"></Tab>
+                <Tab text="Registro f" fx:id="f"></Tab>
+            </tabs>
+        </TabPane>
+
+    </top>
+
+    <center>
+
+        <ScrollPane fx:id="scroll">
+        <content>
+            <VBox fx:id="contentPane">
+<!--                <TextArea fx:id="tunca" styleClass="no-scroll-textarea"  editable="false" scrollTop="0" scrollLeft="0" text="Hola me ll aawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuwViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiu" wrapText="true" prefHeight="50"></TextArea> &lt;!&ndash; Your dynamic content goes here &ndash;&gt;-->
+            </VBox>
+        </content>
+    </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox>
+
+            <HBox alignment="BASELINE_RIGHT">
+
+
+                <Button fx:id="expand" >
+                </Button>
+                <Button fx:id="trashButton" >
+                </Button>
+                <Button fx:id="copyButton" >
+                </Button>
+                <Button fx:id="selectAll" >
+                </Button>
+                <Button fx:id="startRecordingButton" >
+                </Button>
+            </HBox>
+
+            <HBox alignment="BASELINE_RIGHT">
+
+                <Button fx:id="gearButton" >
+                </Button>
+            </HBox>
+
+        </VBox>
+    </bottom>
+
+</BorderPane>

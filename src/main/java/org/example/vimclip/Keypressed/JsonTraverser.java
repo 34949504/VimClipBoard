@@ -329,7 +329,6 @@ public class JsonTraverser implements Observar {
                 jsonTraverserStatusv2.setRegistro_seleccionado(registro_seleccionado);
                 jsonTraverserStatusv2.setComando_terminado(true);
                 jsonTraverserStatusv2.setActions_params(traversalState.getActionParam());
-                System.out.println("Here in this dumbasss statemtn action param is "+traversalState.getActionParam());
 
                 cleaning_everything_after();
                 return  true;

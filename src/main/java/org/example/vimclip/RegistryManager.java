@@ -56,6 +56,7 @@ public class RegistryManager implements Observar {
             return;
 
 
+        System.out.println("Removing from registry");
         arrray.remove(index);
     }
     public void removeLastValue(Character registry,int index)

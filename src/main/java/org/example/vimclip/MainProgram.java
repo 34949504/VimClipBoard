@@ -6,6 +6,9 @@ import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Keypressed.KeyPressed;
 import org.json.JSONObject;
 
+import java.awt.*;
+import java.io.InputStream;
+
 
 public class MainProgram {
 
@@ -13,12 +16,16 @@ public class MainProgram {
 
     public static void main(String[] args) {
 
-//        String str = "Easy French@@COOLSCRIPTSEPARATOR@@\"https://www.youtube.com/@EasyFrench/videos\"";
-//        String sep = "@@COOLSCRIPTSEPARATOR@@";
-//
 
-        JSONObject combos = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\combos_v3.json");
-        JSONObject config = Utils.readJson("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\Data\\config.json");
+        JSONObject combos =  Utils.readJsonFromResource("/Data/combos_v3.json");
+        JSONObject config =  Utils.readJsonFromResource("/Data/config.json");
+
+        java.util.List<String> fonts = javafx.scene.text.Font.getFontNames();
+
+        for (String f:fonts)
+        {
+            System.out.println(f);
+        }
 
         RegistryManager registryManager = new RegistryManager();
         Acciones acciones = new Acciones(registryManager);

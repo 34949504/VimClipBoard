@@ -5,3 +5,8 @@ red recorder button to start copying to tab
 
 or maybe the trashcan works, by selection idk xd
 but to keep it simple another one to delete selected text or label
+
+copy all (toggle)
+clear
+button to make screen bigger maybe full vertical heigh
+

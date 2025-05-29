@@ -37,7 +37,8 @@ public class MyApp extends Application {
 
     private void initialize_clipboardViewer() throws IOException {
 
-        File fxmlFile = new File("C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\java\\org\\example\\vimclip\\FXML\\ClipBoardViewer.fxml");
+
+        File fxmlFile = new File("C:/Users/gerar/IdeaProjects/VimClip/src/main/resources/FXML/ClipBoardViewer.fxml");
         FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL()); // convert to URL
         Parent root = loader.load();
 
@@ -47,9 +48,17 @@ public class MyApp extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
+        stage.setResizable(false);
+        stage.setAlwaysOnTop(true);
         controller.setScene(scene);
         controller.setStage(stage);
         controller.setRegistryManager(AppContext.registryManager);
+        controller.setAcciones(AppContext.acciones);
+
+        //comunicacion
+        controller.addObserver(AppContext.acciones.getListenToClipboard());
+        controller.addObserver(commandDisplayer);
+
         AppContext.acciones.getClipBoardListener().addObserver(controller);
         controller.initialize_shit();
         stage.show();

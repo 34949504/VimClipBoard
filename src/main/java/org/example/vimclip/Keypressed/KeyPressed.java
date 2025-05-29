@@ -105,11 +105,10 @@ public class KeyPressed implements NativeKeyListener, Observar {
             }
             System.out.println("Clearing keys ");
             keyStack.clear();
-            return;
+//            return;
         }
         if (isTimerOn)
         {
-            System.out.println("Timer is on thats why returned");
             return;
         }
 
@@ -130,7 +129,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
         if (js.actions_params != null) {
             current_action_param = js.getActions_params();
         }
-        System.out.println("Actions params here is "+current_action_param);
 
         int status = js.getStatus();
 

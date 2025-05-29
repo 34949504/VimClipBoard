@@ -1,0 +1,11 @@
+.no-scroll-textarea .scroll-pane {
+    -fx-vbar-policy: never;
+    -fx-hbar-policy: never;
+}
+.separator {
+    -fx-background-color: black;
+    -fx-padding: 0;      /* remove extra space */
+    -fx-pref-height: 1;  /* make the line 1 pixel tall */
+    -fx-max-height: 1;   /* prevent it from growing */
+}
+

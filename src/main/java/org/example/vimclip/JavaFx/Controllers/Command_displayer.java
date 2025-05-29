@@ -102,7 +102,7 @@ public class Command_displayer implements Observar {
         Platform.runLater(() -> {
 
             vBox.setStyle("-fx-background-color: white;");
-
+            System.out.println("recibiendo?");
             vBox.getChildren().clear();
 //            System.out.println("Key -> Description:");
             for (int i = 0; i < nextKeys.size(); i++) {
@@ -128,7 +128,6 @@ public class Command_displayer implements Observar {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Se ha reiniciado putas");
 
                 if (!copying_strings.get()){
                 vBox.getChildren().clear();
@@ -163,11 +162,9 @@ public class Command_displayer implements Observar {
             @Override
             public void run() {
 
-                System.out.println("This was ran");
                 if (copying_strings.get())
                 {
                     if (CDP.show_background_cues) {
-                            System.out.println("wamabanana");
                             main_stage.setOpacity(1);
                             vBox.setStyle("-fx-background-color: blue;");
                         System.out.println("suppose to change to blue");
@@ -179,6 +176,7 @@ public class Command_displayer implements Observar {
                 }
                 else {
 
+                    System.out.println("cleared?");
                     vBox.getChildren().clear();
                     main_stage.setOpacity(0);
                     vBox.setStyle("-fx-background-color: white;");
