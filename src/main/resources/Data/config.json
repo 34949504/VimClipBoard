@@ -7,7 +7,11 @@
     "default_background": "#FFFFFF",
     "show_background_cues": true
   },
-  "register_viewer_config": {
+  "clipboardViewer_config": {
+    "mainPane_height_percent": 30,
+    "mainPane_width_percent": 30,
+    "label_max_height": 100,
+    "stage_edge_postition": "topRight_edge"
 
   }
 

@@ -13,4 +13,7 @@ public interface Observar {
     default public void listenForNumbers(){}
     default public void something_was_copied(String copiedString){}
 
+    default public void stage_was_moved(){}
+    default public void text_in_visualize_mode_modified(String newText){}
+
 }

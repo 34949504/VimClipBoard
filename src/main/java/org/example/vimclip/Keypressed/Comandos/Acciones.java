@@ -282,7 +282,7 @@ public class Acciones {
                 for (int i = 0; i < index_array.size(); i++) {
 
                     int index = index_array.get(i);
-                    String reg_cont = registryManager.getValue(reg,i);
+                    String reg_cont = registryManager.getValue(reg,index);
                     contents.append(String.format("%s\n",reg_cont));
                 }
                 ClipboardUtils.setClipboardContents(contents.toString());

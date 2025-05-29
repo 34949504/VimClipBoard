@@ -20,6 +20,12 @@ public class RegistryManager implements Observar {
 
     }
 
+    public void changeValue(Character registry,int index,String newText)
+    {
+
+        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        arrray.set(index,newText);
+    }
     public String getValue(Character registry,int index)
     {
         ArrayList<String> arrray = clipboardRegistries.get(registry);

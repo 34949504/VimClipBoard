@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.vimclip.AppContext;
-import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.ClipBoardViewer;
 import org.example.vimclip.JavaFx.Controllers.Command_displayer;
 
 import java.io.File;
@@ -54,6 +54,8 @@ public class MyApp extends Application {
         controller.setStage(stage);
         controller.setRegistryManager(AppContext.registryManager);
         controller.setAcciones(AppContext.acciones);
+        controller.setConfig(AppContext.config);
+
 
         //comunicacion
         controller.addObserver(AppContext.acciones.getListenToClipboard());
