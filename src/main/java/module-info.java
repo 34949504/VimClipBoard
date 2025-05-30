@@ -6,6 +6,7 @@ module org.example.vimclip {
     requires org.controlsfx.controls;
     requires static lombok;
     requires org.json;
+    requires java.sql;
 
     opens org.example.vimclip to javafx.fxml;
     exports org.example.vimclip;
