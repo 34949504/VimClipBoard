@@ -21,7 +21,7 @@ public class MyDialog extends Dialog implements Observar {
     DialogPane dialogPane = this.getDialogPane();
     BorderPane borderPane = new BorderPane();
     Window window = this.getDialogPane().getScene().getWindow();
-    ClipBoardViewer.BlocText currentBlocktext;
+    BlocText currentBlocktext;
 
     boolean dialog_showing = false;
 
@@ -170,7 +170,7 @@ public class MyDialog extends Dialog implements Observar {
             show_dialog();
     }
 
-    public void setCurrentBlocktext(ClipBoardViewer.BlocText currentBlocktext) {
+    public void setCurrentBlocktext(BlocText currentBlocktext) {
         this.currentBlocktext = currentBlocktext;
 
     }

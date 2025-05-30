@@ -241,7 +241,7 @@ public class ButtonShit implements Observar {
             }
             boolean value = allSelected ? false : true;
             for (int i = 0; i < sharedInfo.getBlocTextArrayList().size(); i++) {
-                ClipBoardViewer.BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
+                BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
                 if (blocText.selected == !value) {
                     blocText.set_selected(value);
                 }
@@ -300,7 +300,7 @@ public class ButtonShit implements Observar {
             ArrayList<Integer> index_arrray = new ArrayList<>();
             for (int i = 0; i < sharedInfo.getBlocTextArrayList().size(); i++) {
 
-                ClipBoardViewer.BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
+                BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
 
                 if (blocText.isSelected()) {
                     index_arrray.add(i);
@@ -315,7 +315,7 @@ public class ButtonShit implements Observar {
             for (int i = 0; i < array_list.size(); i++) {
 
                 int index = array_list.get(i);
-                ClipBoardViewer.BlocText blocText = sharedInfo.getBlocTextArrayList().get(index);
+                BlocText blocText = sharedInfo.getBlocTextArrayList().get(index);
 
                 System.out.println("index is " + i);
                 blocText.set_selected(false);
@@ -352,5 +352,9 @@ public class ButtonShit implements Observar {
     }
     public void addObserver(Observar observer) {
         observadores_list.add(observer);
+    }
+
+    public void setObservadores_list(ArrayList<Observar> observadores_list) {
+        this.observadores_list = observadores_list;
     }
 }

@@ -36,7 +36,6 @@
         <ScrollPane fx:id="scroll">
         <content>
             <VBox fx:id="contentPane">
-<!--                <TextArea fx:id="tunca" styleClass="no-scroll-textarea"  editable="false" scrollTop="0" scrollLeft="0" text="Hola me ll aawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuawViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiuwViouefhuwefiu weiufh iuwefiu weifhewiufhwiufhwiu weiufhw iuihweiuewhfuwefhwiufhfewiuhfeuiwfehiufewfiu" wrapText="true" prefHeight="50"></TextArea> &lt;!&ndash; Your dynamic content goes here &ndash;&gt;-->
             </VBox>
         </content>
     </ScrollPane>

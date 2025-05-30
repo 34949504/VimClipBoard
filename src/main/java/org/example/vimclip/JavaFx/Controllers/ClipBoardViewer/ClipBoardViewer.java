@@ -37,19 +37,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Setter
 public class ClipBoardViewer implements Observar {
 
-
+    Stage stage;
+    Acciones acciones;
     private SharedInfo sharedInfo = new SharedInfo();
-    private Scene scene;
     private RegistryManager registryManager;
 
     private ButtonShit buttonShit;
     private ConfigLoader configLoader;
     private MyDialog myDialog;
     private ArrayList<Observar> observadores_list = new ArrayList<>();
-
-
-
-
     private JSONObject config;
 
 
@@ -61,8 +57,6 @@ public class ClipBoardViewer implements Observar {
     private ScrollPane scroll;
     @FXML
     private VBox contentPane;
-    @FXML
-    private TextArea tunca;
 
     @FXML
     private Button gearButton;
@@ -133,7 +127,7 @@ public class ClipBoardViewer implements Observar {
 
     private void create_and_add_blocText_to_vbox(String text) {
 
-        BlocText blocText = new BlocText(text);
+        BlocText blocText = new BlocText(text, configLoader, myDialog);
         Separator separator = new Separator();
         separator.setOrientation(Orientation.HORIZONTAL);
         sharedInfo.getBlocTextArrayList().add(blocText);
@@ -147,13 +141,15 @@ public class ClipBoardViewer implements Observar {
     public void initialize_shit() {
         settingUp_sharedInfo();
         sharedInfo.getStage().setResizable(false);
-        configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"),sharedInfo);
+        configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"), sharedInfo);
         sharedInfo.setConfigLoader(configLoader);
-
         myDialog = new MyDialog(sharedInfo);
-        buttonShit = new ButtonShit(buttons,sharedInfo);
+        sharedInfo.setMyDialog(myDialog);
+        buttonShit = new ButtonShit(buttons, sharedInfo);
+        buttonShit.setObservadores_list(observadores_list);
         changeListener_stagePosition();
 
+        sharedInfo.initialize_available_blockText(configLoader,myDialog);
 
 
         addObserver(myDialog);
@@ -161,11 +157,12 @@ public class ClipBoardViewer implements Observar {
         myDialog.addObserver(this);
     }
 
-    public void settingUp_sharedInfo()
-    {
+    public void settingUp_sharedInfo() {
         sharedInfo.setContentPane(contentPane);
         sharedInfo.setConfigLoader(configLoader);
         sharedInfo.setMainPane(mainPane);
+        sharedInfo.setStage(stage);
+        sharedInfo.setAcciones(acciones);
     }
 
     @Override
@@ -175,14 +172,13 @@ public class ClipBoardViewer implements Observar {
         for (; i < sharedInfo.getBlocTextArrayList().size(); i++) {
             BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
 
-            if (blocText.isSelected_tovisualize())
-            {
+            if (blocText.isSelected_tovisualize()) {
                 blocText.getLabel().setText(newTex);
                 blocText.setSelected_tovisualize(false);
                 break;
             }
         }
-        registryManager.changeValue(sharedInfo.getCurrent_register(),i,newTex);
+        registryManager.changeValue(sharedInfo.getCurrent_register(), i, newTex);
 
     }
 
@@ -199,8 +195,7 @@ public class ClipBoardViewer implements Observar {
                 } else if (t1.doubleValue() < 0) {
                     sharedInfo.getStage().setX(0);
                 }
-                for (Observar observador:observadores_list)
-                {
+                for (Observar observador : observadores_list) {
                     observador.stage_was_moved();
                 }
                 System.out.println("Numbers " + number + " " + t1);
@@ -219,8 +214,7 @@ public class ClipBoardViewer implements Observar {
                 } else if (t1.doubleValue() < 0) {
                     sharedInfo.getStage().setY(0);
                 }
-                for (Observar observador:observadores_list)
-                {
+                for (Observar observador : observadores_list) {
                     observador.stage_was_moved();
                 }
             }
@@ -241,6 +235,24 @@ public class ClipBoardViewer implements Observar {
             }
         });
     }
+    public void doing_array_surgery(String copiedString)
+    {
+
+
+
+        BlocText blocText = new BlocText(text, configLoader, myDialog);
+        Separator separator = new Separator();
+        separator.setOrientation(Orientation.HORIZONTAL);
+        sharedInfo.getBlocTextArrayList().add(blocText);
+
+        VBox hBox = new VBox();
+        hBox.getChildren().addAll(blocText.getLabel(), separator);
+
+        contentPane.getChildren().add(hBox);
+
+    }
+
+
 
     @Override
     public void esc_was_pressed() {
@@ -249,78 +261,12 @@ public class ClipBoardViewer implements Observar {
             public void run() {
 
                 if (sharedInfo.getCopyingStrings().get()) {
-//                    startRecordingButton.setGraphic(myImages.getImageView(3, 0));
                     sharedInfo.getCopyingStrings().set(false);
 
                 }
             }
         });
     }
-
-
-    @Setter
-    @Getter
-    public class BlocText {
-
-        Label label = new Label();
-        boolean selected = false;
-        boolean selected_tovisualize = false;
-        String style = null;
-        BlocText blocText = this;
-
-        String selected_style = "-fx-padding: 8; -fx-background-color: #fff8cc; -fx-border-color: #ffd208; -fx-background-radius: 5;";
-        String not_selected_style = "-fx-padding: 8; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-background-radius: 5;";
-
-
-        public BlocText(String text) {
-            label.setText(text);
-            label.setWrapText(true);
-            label.setMaxWidth(configLoader.mainPane_defaultWidth);
-            label.setPrefWidth(configLoader.mainPane_defaultWidth);
-            label.setMaxHeight(configLoader.getLabel_maxHeight());
-            label.setStyle(not_selected_style);
-
-//            label.setEffect(dropShadow);
-            label.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-
-
-                    MouseButton mouseButton = mouseEvent.getButton();
-
-                    if (mouseButton == MouseButton.PRIMARY) {
-
-                        if (!selected) {
-                            label.setStyle(selected_style);
-                            selected = !selected;
-                        } else {
-
-                            label.setStyle(not_selected_style);
-                            selected = !selected;
-                        }
-                    } else if (mouseButton == MouseButton.SECONDARY) {
-                        selected_tovisualize = true;
-                        myDialog.setCurrentBlocktext(blocText);
-                        myDialog.setDialog_showing(true);
-                    }
-                }
-            });
-        }
-
-        public void set_selected(boolean selected) {
-            if (selected) {
-                label.setStyle(selected_style);
-            } else {
-                label.setStyle(not_selected_style);
-                System.out.println("Deselecting");
-            }
-            this.selected = selected;
-
-        }
-
-
-    }
-
 
 
     public class MyTooltip extends Tooltip {
@@ -342,21 +288,18 @@ public class ClipBoardViewer implements Observar {
             switchEdge.setTooltip(new MyTooltip("Switches edge"));
         }
     }
-    public void addObserver(Observar observador)
-    {
+
+    public void addObserver(Observar observador) {
         observadores_list.add(observador);
     }
-    public void setStage(Stage stage)
-    {
-        sharedInfo.setStage(stage);
-    }
-    public void setAcciones(Acciones acciones)
-    {
-        sharedInfo.setAcciones(acciones);
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-
-
+    public void setAcciones(Acciones acciones) {
+        this.acciones = acciones;
+    }
 
 
 }

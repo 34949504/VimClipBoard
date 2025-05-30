@@ -50,7 +50,6 @@ public class MyApp extends Application {
 
         stage.setResizable(false);
         stage.setAlwaysOnTop(true);
-        controller.setScene(scene);
         controller.setStage(stage);
         controller.setRegistryManager(AppContext.registryManager);
         controller.setAcciones(AppContext.acciones);
