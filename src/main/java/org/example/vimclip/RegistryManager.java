@@ -17,7 +17,10 @@ public class RegistryManager implements Observar {
         for (char c = 'a'; c <= 'z'; c++) {
             clipboardRegistries.put(c, new ArrayList<>());
         }
-
+    }
+    public ArrayList<String> getArray(Character reg)
+    {
+        return clipboardRegistries.get(reg);
     }
 
     public void changeValue(Character registry,int index,String newText)

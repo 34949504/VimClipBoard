@@ -1,38 +1,26 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.geometry.Orientation;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.*;
-import javafx.util.Duration;
-import lombok.Getter;
 import lombok.Setter;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Setter
 public class ClipBoardViewer implements Observar {
@@ -45,6 +33,8 @@ public class ClipBoardViewer implements Observar {
     private ButtonShit buttonShit;
     private ConfigLoader configLoader;
     private MyDialog myDialog;
+    private Instance_manager instanceManager;
+
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
 
@@ -88,6 +78,12 @@ public class ClipBoardViewer implements Observar {
 
     @FXML
     public void initialize() throws IOException {
+        scroll.setFitToWidth(true);
+        contentPane.setFillWidth(true); // Ensures children can use full width
+
+//        contentPane.setMaxWidth(Double.MAX_VALUE);
+//        contentPane.setMaxHeight(Double.MAX_VALUE);
+
         buttons = new ArrayList<>(Arrays.asList(
                 gearButton,
                 trashButton,
@@ -117,30 +113,24 @@ public class ClipBoardViewer implements Observar {
 
                 System.out.println("has changed");
                 Character reg = t1.getId().charAt(0);
-                String values = registryManager.get_all_values(reg);
                 sharedInfo.setCurrent_register(reg);
+
+                for(Observar observer:observadores_list)
+                {
+                    observer.tab_changed(reg);
+                }
+
+
+
 
             }
         });
     }
 
 
-    private void create_and_add_blocText_to_vbox(String text) {
-
-        BlocText blocText = new BlocText(text, configLoader, myDialog);
-        Separator separator = new Separator();
-        separator.setOrientation(Orientation.HORIZONTAL);
-        sharedInfo.getBlocTextArrayList().add(blocText);
-
-        VBox hBox = new VBox();
-        hBox.getChildren().addAll(blocText.getLabel(), separator);
-
-        contentPane.getChildren().add(hBox);
-    }
-
     public void initialize_shit() {
         settingUp_sharedInfo();
-        sharedInfo.getStage().setResizable(false);
+//        sharedInfo.getStage().setResizable(false);
         configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"), sharedInfo);
         sharedInfo.setConfigLoader(configLoader);
         myDialog = new MyDialog(sharedInfo);
@@ -149,11 +139,14 @@ public class ClipBoardViewer implements Observar {
         buttonShit.setObservadores_list(observadores_list);
         changeListener_stagePosition();
 
-        sharedInfo.initialize_available_blockText(configLoader,myDialog);
+        sharedInfo.initialize_available_instances(configLoader, myDialog);
 
+        instanceManager = new Instance_manager(sharedInfo);
 
         addObserver(myDialog);
         addObserver(configLoader);
+        addObserver(instanceManager);
+        addObserver(acciones.getClipBoardListener());
         myDialog.addObserver(this);
     }
 
@@ -163,14 +156,18 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.setMainPane(mainPane);
         sharedInfo.setStage(stage);
         sharedInfo.setAcciones(acciones);
+        sharedInfo.setRegistryManager(registryManager);
     }
 
     @Override
     public void text_in_visualize_mode_modified(String newTex) {
 
         int i = 0;
-        for (; i < sharedInfo.getBlocTextArrayList().size(); i++) {
-            BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
+        for (; i < sharedInfo.getCurrentWholePackageArray().size(); i++) {
+
+            SharedInfo.WholePackage wholePackage = sharedInfo.getCurrentWholePackageArray().get(i);
+            BlocText blocText = wholePackage.getBlocText();
+
 
             if (blocText.isSelected_tovisualize()) {
                 blocText.getLabel().setText(newTex);
@@ -223,35 +220,41 @@ public class ClipBoardViewer implements Observar {
 
 
     @Override
-    public void something_was_copied(String copiedString) {
+    public void something_was_copied(Object object) {
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
 
-                System.out.println("Copied thing is here in thang " + copiedString);
-                create_and_add_blocText_to_vbox(copiedString);
-                sharedInfo.getCopyingStrings().set(true);
+                if (object instanceof String copiedString) {
+                    System.out.println("Copied thing is here in thang " + copiedString);
+                    doing_array_surgery(copiedString);
+                    sharedInfo.getCopyingStrings().set(true);
+                }
+                else if (object instanceof Image image)
+                {
+
+                }
             }
         });
     }
-    public void doing_array_surgery(String copiedString)
-    {
 
+    public void doing_array_surgery(String copiedString) {
+        SharedInfo.WholePackage wholePackage = sharedInfo.getInstance_from_available_wholePackage();
 
+        BlocText blocText = wholePackage.getBlocText();
+        Separator separator = wholePackage.getSeparator();
+        VBox hBox = wholePackage.getVBox();
 
-        BlocText blocText = new BlocText(text, configLoader, myDialog);
-        Separator separator = new Separator();
+        blocText.getLabel().setText(copiedString);
         separator.setOrientation(Orientation.HORIZONTAL);
-        sharedInfo.getBlocTextArrayList().add(blocText);
+//        hBox.getChildren().addAll(blocText.getLabel(), separator);
 
-        VBox hBox = new VBox();
-        hBox.getChildren().addAll(blocText.getLabel(), separator);
+        sharedInfo.getCurrentWholePackageArray().add(wholePackage);
 
         contentPane.getChildren().add(hBox);
 
     }
-
 
 
     @Override

@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.vimclip.Keypressed.ClipboardUtils;
 
+import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,6 +16,7 @@ import java.util.TimerTask;
 public class ClipBoardListener implements Observar {
 
     private String previous_clipboard_content = null;
+    private Image previous_image = null;
 
     @Getter(AccessLevel.NONE)
     private String contents = "";
@@ -25,7 +29,10 @@ public class ClipBoardListener implements Observar {
 
     private Character reg_selected = null;
 
+    private boolean hand_was_pressed_flag = false;
 
+
+    String real_previous = "";
 
 
     public void start_listener()
@@ -35,30 +42,56 @@ public class ClipBoardListener implements Observar {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+
+
+                Object object_contetnt = ClipboardUtils.getClipboardContents();
                 if (!skipped_first_time)
                 {
-                    previous_clipboard_content = ClipboardUtils.getClipboardContents();
+                    if (object_contetnt instanceof String string)
+                    {
+                        previous_clipboard_content = string;
+                    }
+                    else if (object_contetnt instanceof Image image)
+                    {
+                        previous_image = image;
+                    }
+//                    check_if_clipboard_image(object_contetnt);
+
+
+
                     ClipboardUtils.setClipboardContents("");
                     skipped_first_time = true;
                     System.out.println("Here skipped");
                     return;
                 }
 
-                String c = ClipboardUtils.getClipboardContents();
-
-                if (c != null && c.compareTo(contents) != 0)
+                String c = null;
+                if (object_contetnt instanceof String string)
                 {
-                    System.out.printf("C is %s\n",c);
-                    System.out.printf("Content  is %s\n",contents);
-                    contents = c;
-                    registryManager.addValue(reg_selected,contents);
-
-                    for (Observar observador:observers_list)
+                    c = string;
+                    if (c != null && !c.isEmpty())
                     {
-                        observador.something_was_copied(contents);
+
+                        contents = c;
+
+                        registryManager.addValue(reg_selected,contents);
+
+                        for (Observar observador:observers_list)
+                        {
+                            observador.something_was_copied(contents);
+                        }
+                        ClipboardUtils.setClipboardContents("");
+
                     }
+                }
+                else if (object_contetnt instanceof  Image image)
+                {
+                    System.out.println("image was detetected");
+                    ClipboardUtils.setClipboardContents("");
 
                 }
+                check_if_clipboard_image(object_contetnt);
+
             }
         },0,100);
     }
@@ -71,6 +104,15 @@ public class ClipBoardListener implements Observar {
         ClipboardUtils.setClipboardContents(previous_clipboard_content);
         contents = "";
 
+    }
+
+    private boolean comparing(String oldClip,String newClip)
+    {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        String formattedNow = now.format(formatter);
+        System.out.println("Current Timestamp:" + formattedNow);
+        return  false;
     }
     public void setObservers_list(ArrayList<Observar> observers_list)
     {
@@ -85,6 +127,22 @@ public class ClipBoardListener implements Observar {
     {
         observers_list.add(observer);
     }
+
+    @Override
+    public void tab_changed(Character reg) {
+
+        reg_selected = reg;
+    }
+
+    private void check_if_clipboard_image(Object o)
+    {
+
+        if (o instanceof Image image)
+        {
+//            System.out.println("Its an image ");
+        }
+    }
+
 
     //WARNING THIs code might be deep to fail in the future for using setobserverlist and addobserver omicuouslysne
 

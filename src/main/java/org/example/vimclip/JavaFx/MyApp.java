@@ -48,7 +48,7 @@ public class MyApp extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
-        stage.setResizable(false);
+//        stage.setResizable(true);
         stage.setAlwaysOnTop(true);
         controller.setStage(stage);
         controller.setRegistryManager(AppContext.registryManager);

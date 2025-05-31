@@ -9,14 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 import javafx.util.Duration;
-import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Observar;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 
 //What i have to do. Assign to the buttons their corresponding actions and images
@@ -38,6 +34,7 @@ public class ButtonShit implements Observar {
                       SharedInfo sharedInfo) {
 
         this.sharedInfo = sharedInfo;
+        addObserver(sharedInfo.getAcciones().getClipBoardListener());
         creatingButtonInfo();
         inicializando_botones(buttons_array);
 
@@ -101,6 +98,7 @@ public class ButtonShit implements Observar {
         ImageView first_image = imageViews[0];
         ImageView second_image = imageViews[1];
         Timeline timeline = new Timeline();
+        buttonInfo.button = button;
 
         timeline.setCycleCount(1);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), actionEvent -> {
@@ -193,14 +191,22 @@ public class ButtonShit implements Observar {
         public void trashCan() {
             ArrayList<Integer> selected_labels = get_selected_labels();
             int status = sharedInfo.getAcciones().doCommand4(sharedInfo.getCurrent_register(), selected_labels, "remove_values");
+
+            //SIDE EFFECTA, it sorts the selected labels to 6 5 4 3 2 etc
             System.out.println("Trashcan");
-            if (status == 0) //upadte
+            if (status == 0) //upadte, ite means that values have been deleted from the register
             {
-                for (int i = 0; i < selected_labels.size(); i++) {
-                    int index = selected_labels.get(i);
-                    sharedInfo.getContentPane().getChildren().remove(index);
-                    sharedInfo.getBlocTextArrayList().remove(index);
+
+                for (Observar observador:observadores_list)
+                {
+                    observador.blocs_were_deleted(selected_labels);
                 }
+
+//                for (int i = 0; i < selected_labels.size(); i++) {
+//                    int index = selected_labels.get(i);
+//                    sharedInfo.getContentPane().getChildren().remove(index);
+//                    sharedInfo.getCurrentWholePackageArray().remove(index);
+//                }
             }
         }
 
@@ -210,13 +216,31 @@ public class ButtonShit implements Observar {
         }
 
         public void copyHand() {
+
+
             ArrayList<Integer> selected_labels = get_selected_labels();
+
             int status = sharedInfo.getAcciones().doCommand4(sharedInfo.getCurrent_register(), selected_labels, "get_values");
             System.out.println("Copyhand ");
 
+
+
             if (status == 0) {
                 deselect_labels(selected_labels);
+                allSelected = false;
             }
+        }
+
+        /**
+         * Disable le button quand l'autre boutton est active, the one
+         * that actividates copying
+         * @param flag
+         */
+        private void prohecing_disable_hand(boolean flag)
+        {
+            ButtonInfo buttonInfo = buttons.get("copyButton");
+            Button button = buttonInfo.button;
+            button.setDisable(flag);
         }
 
         public void startCopying() {
@@ -227,22 +251,27 @@ public class ButtonShit implements Observar {
                     observador.esc_was_pressed();
                 }
                 sharedInfo.getCopyingStrings().set(false);
+                prohecing_disable_hand(false);
             } else {
 
                 sharedInfo.getAcciones().doCommand(sharedInfo.getCurrent_register(), "clipboard_listener");
                 sharedInfo.getCopyingStrings().set(true);
+                prohecing_disable_hand(true);
             }
         }
 
         public void selectAll() {
-            if (sharedInfo.getBlocTextArrayList().size() <= 0) {
+            if (sharedInfo.getCurrentWholePackageArray().size() <= 0) {
                 System.out.println("No se puede seleccionar porque no hay nada");
                 return;
             }
-            boolean value = allSelected ? false : true;
-            for (int i = 0; i < sharedInfo.getBlocTextArrayList().size(); i++) {
-                BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
-                if (blocText.selected == !value) {
+            boolean value = !allSelected;
+            for (int i = 0; i < sharedInfo.getCurrentWholePackageArray().size(); i++) {
+
+                System.out.println("value es "+value);
+                SharedInfo.WholePackage wholePackage = sharedInfo.getCurrentWholePackageArray().get(i);
+                BlocText blocText = wholePackage.getBlocText();
+                if (blocText.selected == allSelected) {
                     blocText.set_selected(value);
                 }
             }
@@ -298,9 +327,10 @@ public class ButtonShit implements Observar {
 
         public ArrayList<Integer> get_selected_labels() {
             ArrayList<Integer> index_arrray = new ArrayList<>();
-            for (int i = 0; i < sharedInfo.getBlocTextArrayList().size(); i++) {
+            for (int i = 0; i < sharedInfo.getCurrentWholePackageArray().size(); i++) {
 
-                BlocText blocText = sharedInfo.getBlocTextArrayList().get(i);
+                SharedInfo.WholePackage wholePackage = sharedInfo.getCurrentWholePackageArray().get(i);
+                BlocText blocText = wholePackage.getBlocText();
 
                 if (blocText.isSelected()) {
                     index_arrray.add(i);
@@ -315,7 +345,9 @@ public class ButtonShit implements Observar {
             for (int i = 0; i < array_list.size(); i++) {
 
                 int index = array_list.get(i);
-                BlocText blocText = sharedInfo.getBlocTextArrayList().get(index);
+
+                SharedInfo.WholePackage wholePackage = sharedInfo.getCurrentWholePackageArray().get(index);
+                BlocText blocText = wholePackage.getBlocText();
 
                 System.out.println("index is " + i);
                 blocText.set_selected(false);
@@ -330,6 +362,7 @@ public class ButtonShit implements Observar {
         public Runnable func;
         public boolean quickanimation = true;
         public int toogle_image = 0;
+        public Button button;
 
 
         public  ButtonInfo(ImageView[] imageViews,Runnable func,boolean quickanimation)

@@ -11,9 +11,12 @@ public interface Observar {
     default public void esc_was_pressed(){}
     default public void isTimerOn(boolean flag){}
     default public void listenForNumbers(){}
-    default public void something_was_copied(String copiedString){}
+    default public void something_was_copied(Object copiedString){}
 
     default public void stage_was_moved(){}
     default public void text_in_visualize_mode_modified(String newText){}
+    default public void tab_changed(Character reg){}
+    default public void blocs_were_deleted(ArrayList<Integer> selectedLabels){};
+
 
 }

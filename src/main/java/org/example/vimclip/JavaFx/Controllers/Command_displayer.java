@@ -140,18 +140,19 @@ public class Command_displayer implements Observar {
     }
 
     @Override
-    public void something_was_copied(String copiedString) {
+    public void something_was_copied(Object object) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
 
+                if (object instanceof String){
                 if (CDP.show_background_cues) {
                     vBox.setStyle("-fx-background-color: green;");
                     main_stage.setOpacity(1);
                     colorAfter = null;
                     timeline.play();
                     copying_strings.set(true);
-                }
+                }}
             }
         });
     }

@@ -24,8 +24,7 @@ public class BlocText {
     public BlocText(String text, ConfigLoader configLoader, MyDialog myDialog) {
         label.setText(text);
         label.setWrapText(true);
-        label.setMaxWidth(configLoader.mainPane_defaultWidth);
-        label.setPrefWidth(configLoader.mainPane_defaultWidth);
+        label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(configLoader.getLabel_maxHeight());
         label.setStyle(not_selected_style);
 
@@ -64,6 +63,16 @@ public class BlocText {
             System.out.println("Deselecting");
         }
         this.selected = selected;
+
+    }
+
+    public void purify_instance()
+    {
+        label.setText("");
+        selected = false;
+        selected_tovisualize = false;
+        style = null;
+        label.setStyle(not_selected_style);
 
     }
 

@@ -96,6 +96,7 @@ public class MyDialog extends Dialog implements Observar {
 
         int available_space_below = screenHeight - (int) (sharedInfo.getStage().getY() + sharedInfo.getStage().getHeight());
         int available_space_above = (int)sharedInfo.getStage().getY();
+//        int available_space_left =
 
         System.out.println("Available space " + available_space_below);
         System.out.println("dialog height is " + getHeight());
