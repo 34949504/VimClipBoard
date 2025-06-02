@@ -134,7 +134,6 @@ public class ClipBoardViewer implements Observar {
 
     public void initialize_shit() {
         settingUp_sharedInfo();
-//        sharedInfo.getStage().setResizable(false);
         configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"), sharedInfo);
         sharedInfo.setConfigLoader(configLoader);
         myDialog = new MyDialog(sharedInfo);
@@ -204,7 +203,7 @@ public class ClipBoardViewer implements Observar {
                 System.out.println("Numbers " + number + " " + t1);
             }
         });
-        System.out.println("wtfaoee" + myDialog.getHeight() + "lefromgaae height is ");
+//        System.out.println("wtfaoee" + myDialog.getHeight() + "lefromgaae height is ");
 
 
         sharedInfo.getStage().yProperty().addListener(new ChangeListener<Number>() {

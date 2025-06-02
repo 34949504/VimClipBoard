@@ -70,14 +70,14 @@ public class MyApp extends Application {
         stage.setWidth(300);
         stage.setHeight(300);
 
-        int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
-        int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
-
-        double widthPercent = (300.0 / screenWidth) * 100;
-        double heightPercent = (300.0 / screenHeight) * 100;
-
-        System.out.printf("Width: %.2f%% of screen%n", widthPercent);
-        System.out.printf("Height: %.2f%% of screen%n", heightPercent);
+//        int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
+//        int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
+//
+//        double widthPercent = (300.0 / screenWidth) * 100;
+//        double heightPercent = (300.0 / screenHeight) * 100;
+//
+//        System.out.printf("Width: %.2f%% of screen%n", widthPercent);
+//        System.out.printf("Height: %.2f%% of screen%n", heightPercent);
 
 
         stage.show();
