@@ -323,7 +323,7 @@ public class ButtonShit implements Observar {
             if (expanded) // its big so now shrink
             {
                 sharedInfo.getStage().setY(stage_previousY);
-                sharedInfo.getStage().setHeight(sharedInfo.getConfigLoader().mainPane_defaultHeight);
+                sharedInfo.getStage().setHeight(sharedInfo.getConfigLoader().stage_defaultHeight);
 
             } else {
                 stage_previousX = (int) sharedInfo.getStage().getX();

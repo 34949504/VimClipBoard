@@ -9,8 +9,8 @@ import org.json.JSONObject;
 @Getter
 public class ConfigLoader implements Observar {
     JSONObject config;
-    int mainPane_defaultHeight;
-    int mainPane_defaultWidth;
+    int stage_defaultHeight;
+    int stage_defaultWidth;
     int label_maxHeight;
 
     int stage_currentWidth;
@@ -48,8 +48,8 @@ public class ConfigLoader implements Observar {
         int height_percent = config.getInt("mainPane_height_percent");
         int width_percent = config.getInt("mainPane_width_percent");
 
-        mainPane_defaultHeight = height * height_percent / 100;
-        mainPane_defaultWidth = width * width_percent / 100;
+        stage_defaultHeight = height * height_percent / 100;
+        stage_defaultWidth = width * width_percent / 100;
 
 //        sharedInfo.getMainPane().setPrefHeight(mainPane_defaultHeight);
 //        sharedInfo.getMainPane().setPrefWidth(mainPane_defaultWidth);
@@ -83,21 +83,21 @@ public class ConfigLoader implements Observar {
     {
 
         if (edge.equals("topRight_edge")) {
-            stage_defaultX = screenWidth - mainPane_defaultWidth;
+            stage_defaultX = screenWidth - stage_defaultWidth;
             stage_defaultY = 0;
         } else if (edge.equals("topLeft_edge")) {
             stage_defaultX = 0;
             stage_defaultY = 0;
         } else if (edge.equals("bottomRight_edge")) {
-            stage_defaultX = screenWidth - mainPane_defaultWidth;
-            stage_defaultY = screenHeight - mainPane_defaultHeight;
+            stage_defaultX = screenWidth - stage_defaultWidth;
+            stage_defaultY = screenHeight - stage_defaultHeight;
         } else if (edge.equals("bottomLeft_edge")) {
             stage_defaultX = 0;
-            stage_defaultY = screenHeight - mainPane_defaultHeight;
+            stage_defaultY = screenHeight - stage_defaultHeight;
         } else {
             // Fallback (optional)
-            stage_defaultX = (screenWidth - mainPane_defaultWidth) / 2;
-            stage_defaultY = (screenHeight - mainPane_defaultHeight) / 2;
+            stage_defaultX = (screenWidth - stage_defaultWidth) / 2;
+            stage_defaultY = (screenHeight - stage_defaultHeight) / 2;
         }
     }
 

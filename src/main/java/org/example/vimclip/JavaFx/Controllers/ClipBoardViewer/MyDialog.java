@@ -81,11 +81,11 @@ public class MyDialog extends Dialog implements Observar {
     }
 
     private void settingDims() {
-        dialogPane.setPrefWidth(sharedInfo.getConfigLoader().mainPane_defaultWidth);
-        dialogPane.setPrefHeight(sharedInfo.getConfigLoader().mainPane_defaultHeight);
+        dialogPane.setPrefWidth(sharedInfo.getConfigLoader().stage_defaultWidth);
+        dialogPane.setPrefHeight(sharedInfo.getConfigLoader().stage_defaultHeight);
         setResizable(true);
 
-        currentHeight = sharedInfo.getConfigLoader().mainPane_defaultHeight;
+        currentHeight = sharedInfo.getConfigLoader().stage_defaultHeight;
         currentWidth = sharedInfo.getConfigLoader().stage_currentWidth;
     }
 
@@ -204,5 +204,11 @@ public class MyDialog extends Dialog implements Observar {
     public void addObserver(Observar observer)
     {
         observers_list.add(observer);
+    }
+
+    @Override
+    public void tab_changed(Character reg) {
+
+        setDialog_showing(false);
     }
 }

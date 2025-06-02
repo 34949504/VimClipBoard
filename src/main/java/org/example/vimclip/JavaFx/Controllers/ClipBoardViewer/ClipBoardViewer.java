@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.*;
 import lombok.Setter;
+import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
@@ -39,6 +40,8 @@ public class ClipBoardViewer implements Observar {
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
+    private ConfigMaster configMaster;
+    private ConfigMaster.ClipboardViewer_config clipboardViewer_config;
 
 
     @FXML
@@ -133,6 +136,10 @@ public class ClipBoardViewer implements Observar {
 
 
     public void initialize_shit() {
+
+        clipboardViewer_config = configMaster.getClipboardViewer_config();
+
+
         settingUp_sharedInfo();
         configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"), sharedInfo);
         sharedInfo.setConfigLoader(configLoader);
@@ -153,6 +160,11 @@ public class ClipBoardViewer implements Observar {
         myDialog.addObserver(this);
 
         stage_window_listener();
+
+
+        stage.setWidth(clipboardViewer_config.getStage_width());
+        stage.setHeight(clipboardViewer_config.getStage_height());
+
     }
 
     public void settingUp_sharedInfo() {

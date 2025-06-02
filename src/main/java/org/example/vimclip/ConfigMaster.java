@@ -1,5 +1,7 @@
 package org.example.vimclip;
 
+import javafx.application.Platform;
+import javafx.stage.Screen;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -11,20 +13,23 @@ public class ConfigMaster {
     private String separator_when_getting_all_text;
     public JSONObject config;
 
+    double screen_width;
+    double screen_height;
+
+
+
     private ClipboardViewer_config clipboardViewer_config;
     private Command_displayer_config command_displayer_config;
 
     public ConfigMaster(JSONObject config){
         this.config = config;
-
-        init();
+    }
+    public void init()
+    {
+       separator_when_getting_all_text = config.getString("separator_when_getting_all_text");
         clipboardViewer_config = new ClipboardViewer_config().init();
         command_displayer_config = new Command_displayer_config().init();
 
-    }
-    private void init()
-    {
-       separator_when_getting_all_text = config.getString("separator_when_getting_all_text");
     }
 
 
@@ -33,25 +38,35 @@ public class ConfigMaster {
     @Getter
     @Setter
     public class ClipboardViewer_config {
-        private double mainPane_height_percent;
-        private double mainPane_width_percent;
+        private double stage_height_percent;
+        private double stage_width_percent;
         private int label_max_height;
         private String stage_edge_postition;
 
+        private double stage_width;
+        private double stage_height;
 
         public ClipboardViewer_config init() {
 
 
 
             JSONObject c = config.getJSONObject("clipboardViewer_config");
-            mainPane_height_percent = c.getDouble("mainPane_height_percent");
-            mainPane_width_percent = c.getDouble("mainPane_width_percent");
+            stage_height_percent = c.getDouble("mainPane_height_percent");
+            stage_width_percent = c.getDouble("mainPane_width_percent");
             label_max_height = c.getInt("label_max_height");
             stage_edge_postition =  c.getString("stage_edge_postition");
 
+            calculate_stageDims();
+
             return this;
         }
+
+        private void calculate_stageDims()
+        {
+            stage_width = screen_width* stage_width_percent / 100;
+            stage_height = screen_height * stage_height_percent / 100;
         }
+    }
 
     @Getter
     @Setter

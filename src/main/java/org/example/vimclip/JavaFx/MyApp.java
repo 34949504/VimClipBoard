@@ -39,6 +39,9 @@ public class MyApp extends Application {
     }
 
     private void initialize_clipboardViewer() throws IOException {
+        double screenWidth =  Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight =  Screen.getPrimary().getVisualBounds().getHeight();
+
 
 
 //        File fxmlFile = new File(Utils.getInputStream("/FXML/ClipBoardViewer.fxml"));
@@ -58,6 +61,11 @@ public class MyApp extends Application {
         controller.setRegistryManager(AppContext.registryManager);
         controller.setAcciones(AppContext.acciones);
         controller.setConfig(AppContext.config);
+        controller.setConfigMaster(AppContext.configMaster);
+
+        AppContext.configMaster.setScreen_width(screenWidth);
+        AppContext.configMaster.setScreen_height(screenHeight);
+        AppContext.configMaster.init();
 
 
         //comunicacion
@@ -67,17 +75,13 @@ public class MyApp extends Application {
         AppContext.acciones.getClipBoardListener().addObserver(controller);
         controller.initialize_shit();
 
-        stage.setWidth(300);
-        stage.setHeight(300);
 
-//        int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
-//        int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
-//
-//        double widthPercent = (300.0 / screenWidth) * 100;
-//        double heightPercent = (300.0 / screenHeight) * 100;
-//
-//        System.out.printf("Width: %.2f%% of screen%n", widthPercent);
-//        System.out.printf("Height: %.2f%% of screen%n", heightPercent);
+
+        double widthPercent = (300.0 / screenWidth) * 100;
+        double heightPercent = (300.0 / screenHeight) * 100;
+
+        System.out.printf("Width: %.2f%% of screen%n", widthPercent);
+        System.out.printf("Height: %.2f%% of screen%n", heightPercent);
 
 
         stage.show();

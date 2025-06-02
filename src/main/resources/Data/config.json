@@ -8,8 +8,8 @@
     "show_background_cues": true
   },
   "clipboardViewer_config": {
-    "mainPane_height_percent": 19.53,
-    "mainPane_width_percent": 36.76,
+    "mainPane_height_percent": 36.76,
+    "mainPane_width_percent": 19.53,
     "label_max_height": 100,
     "stage_edge_postition": "topRight_edge"
   },
