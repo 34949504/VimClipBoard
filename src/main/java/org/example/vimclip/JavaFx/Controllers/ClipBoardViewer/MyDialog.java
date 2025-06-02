@@ -96,7 +96,9 @@ public class MyDialog extends Dialog implements Observar {
 
         int available_space_below = screenHeight - (int) (sharedInfo.getStage().getY() + sharedInfo.getStage().getHeight());
         int available_space_above = (int)sharedInfo.getStage().getY();
-//        int available_space_left =
+        int available_space_left = (int)sharedInfo.getStage().getX();
+
+
 
         System.out.println("Available space " + available_space_below);
         System.out.println("dialog height is " + getHeight());
@@ -114,6 +116,20 @@ public class MyDialog extends Dialog implements Observar {
             x = (int) bounds.getMinX();
             y = (int) (bounds.getMinY() - currentHeight);  // directly above the stage content
 
+        }
+        else if (available_space_left > currentWidth)
+        {
+
+//            System.out.println("Positing left ");
+//            Bounds bounds = sharedInfo.getStage().getScene().getRoot().localToScreen(sharedInfo.getStage().getScene().getRoot().getBoundsInLocal());
+//
+//            x = (int) bounds.getMinX() - currentWidth;
+//            y = (int) (bounds.getMaxY() - currentHeight);  // directly above the stage content
+            Stage stage = sharedInfo.getStage();
+            x = (int) (stage.getX() - currentWidth);
+            y = (int) (stage.getY() + stage.getHeight() - currentHeight);
+            x=0;
+            y=0;
         }
 
 
@@ -174,6 +190,15 @@ public class MyDialog extends Dialog implements Observar {
     public void setCurrentBlocktext(BlocText currentBlocktext) {
         this.currentBlocktext = currentBlocktext;
 
+    }
+
+    @Override
+    public void stage_closing() {
+
+        if (dialog_showing)
+        {
+            window.hide();
+        }
     }
 
     public void addObserver(Observar observer)

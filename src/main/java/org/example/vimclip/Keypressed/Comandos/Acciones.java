@@ -2,19 +2,17 @@ package org.example.vimclip.Keypressed.Comandos;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.vimclip.ClipBoardListener;
-import org.example.vimclip.Keypressed.ClipboardUtils;
+import org.example.vimclip.Clipboard.ClipBoardListener;
+import org.example.vimclip.Clipboard.ClipboardUtils;
+import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
-import org.example.vimclip.Utils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,8 +30,13 @@ public class Acciones {
     private Listen_to_clipboard listenToClipboard;
     private listen_for_numbers listenForNumbers;
 
-    public Acciones(RegistryManager registryManager) {
+    private ConfigMaster configMaster;
+
+
+    public Acciones(RegistryManager registryManager, ConfigMaster configMaster) {
         this.registryManager = registryManager;
+        this.configMaster = configMaster;
+
         clipBoardListener.setRegistryManager(registryManager);
 
         hashMap.put("script", new do_script());
@@ -163,11 +166,11 @@ public class Acciones {
         @Override
         public void do_command(Character reg) {
 
-            String last_value = registryManager.get_last_value(reg);
-            if (last_value != null)
+            Object last_value = registryManager.get_last_value(reg);
+            if (last_value != null && last_value instanceof String last_val)
             {
                 System.out.println("Se ha pasado al clipboard el last value");
-                ClipboardUtils.setClipboardContents(last_value);
+                ClipboardUtils.setClipboardContents(last_val);
                 return;
             }
 
@@ -181,11 +184,11 @@ public class Acciones {
         @Override
         public void do_command(Character reg) {
 
-            String firstValue = registryManager.get_first_value(reg);
-            if (firstValue != null)
+            Object firstValue = registryManager.get_first_value(reg);
+            if (firstValue != null && firstValue instanceof String first_val)
             {
                 System.out.println("Se ha pasado al clipboard el first value");
-                ClipboardUtils.setClipboardContents(firstValue);
+                ClipboardUtils.setClipboardContents(first_val);
                 return;
             }
 
@@ -255,10 +258,10 @@ public class Acciones {
         public void do_command3(Character reg,int index) {
 
             System.out.println("Getting value here in getVALUE");
-            String value = registryManager.getValue(reg,index);
+            Object value = registryManager.getValue(reg,index);
 
-            if (value != null)
-             ClipboardUtils.setClipboardContents(value);
+            if (value != null && value instanceof String val)
+             ClipboardUtils.setClipboardContents(val);
         }
     }
     public  class removeValue implements doing_action
@@ -282,8 +285,10 @@ public class Acciones {
                 for (int i = 0; i < index_array.size(); i++) {
 
                     int index = index_array.get(i);
-                    String reg_cont = registryManager.getValue(reg,index);
-                    contents.append(String.format("%s\n",reg_cont));
+                    Object reg_cont = registryManager.getValue(reg,index);
+                    if (reg_cont instanceof String str) {
+                        contents.append(String.format("%s%s", str,configMaster.getSeparator_when_getting_all_text()));
+                    }
                 }
                 ClipboardUtils.setClipboardContents(contents.toString());
                 return 0;

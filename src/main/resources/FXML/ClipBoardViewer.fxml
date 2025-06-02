@@ -12,7 +12,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.ClipBoardViewer"
-            prefHeight="400"
+            prefHeight="200"
             fx:id="mainPane">
 
     <stylesheets>
@@ -47,10 +47,7 @@
             <HBox alignment="BASELINE_RIGHT">
 
 
-                <Button fx:id="switchEdge" >
-                </Button>
-                <Button fx:id="expand" >
-                </Button>
+
                 <Button fx:id="trashButton" >
                 </Button>
                 <Button fx:id="copyButton" >
@@ -62,7 +59,12 @@
             </HBox>
 
             <HBox alignment="BASELINE_RIGHT">
-
+                <Button fx:id="separator" >
+                </Button>
+                <Button fx:id="switchEdge" >
+                </Button>
+                <Button fx:id="expand" >
+                </Button>
                 <Button fx:id="gearButton" >
                 </Button>
             </HBox>

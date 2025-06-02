@@ -1,9 +1,9 @@
-package org.example.vimclip;
+package org.example.vimclip.JavaFx;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Keypressed.KeyPressed;
+import org.example.vimclip.RegistryManager;
 import org.json.JSONObject;
 
 public class AppContext {
@@ -12,5 +12,6 @@ public class AppContext {
     public static RegistryManager registryManager;
     public static JSONObject config;
     public static Acciones acciones;
+    public static ConfigMaster configMaster;
 
 }

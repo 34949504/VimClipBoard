@@ -1,8 +1,9 @@
-package org.example.vimclip;
+package org.example.vimclip.Clipboard;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.vimclip.Keypressed.ClipboardUtils;
+import org.example.vimclip.Observar;
+import org.example.vimclip.RegistryManager;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -87,6 +88,12 @@ public class ClipBoardListener implements Observar {
                 else if (object_contetnt instanceof  Image image)
                 {
                     System.out.println("image was detetected");
+                    registryManager.addValue(reg_selected,image);
+
+                    for (Observar observador:observers_list)
+                    {
+                        observador.something_was_copied(image);
+                    }
                     ClipboardUtils.setClipboardContents("");
 
                 }

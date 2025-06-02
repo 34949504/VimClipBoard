@@ -16,8 +16,10 @@ import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 import org.example.vimclip.Observar;
 
@@ -34,7 +36,7 @@ public class Instance_manager implements Observar {
     @Override
     public void tab_changed(Character reg) {
 
-        ArrayList<String> array_of_reg = sh.getRegistryManager().getArray(reg);
+        ArrayList<Object> array_of_reg = sh.getRegistryManager().getArray(reg);
         int array_of_reg_size = array_of_reg.size();
 
 
@@ -71,11 +73,17 @@ public class Instance_manager implements Observar {
                     sh.getContentPane().getChildren().add(wholePackage.getVBox());
                 }
 
-                String contents = array_of_reg.get(i);
-                SharedInfo.WholePackage wp = WPC.get(i);
-                BlocText blocText = wp.getBlocText();
-                blocText.purify_instance();
-                blocText.getLabel().setText(contents);
+                Object contents = array_of_reg.get(i);
+                if (contents instanceof String cunt) {
+                    SharedInfo.WholePackage wp = WPC.get(i);
+                    BlocText blocText = wp.getBlocText();
+                    blocText.purify_instance();
+                    blocText.getLabel().setText(cunt);
+                }
+                else if (contents instanceof Image image)
+                {
+
+                }
             }
 
             if (i < WPC_size) //Si solamente se ocuparon unos y otros no, hay pasar esos al WPAI y quitarlos de las vista

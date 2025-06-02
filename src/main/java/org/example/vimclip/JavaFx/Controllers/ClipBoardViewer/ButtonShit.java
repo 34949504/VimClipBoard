@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import org.example.vimclip.Observar;
+import org.example.vimclip.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,6 +80,10 @@ public class ButtonShit implements Observar {
                 myImages.imageViewConstructor("switchEdge.png", "switchEdgePressed.png"),
                 () -> myButtonFuncs.switchEdge()
         ));
+        buttons.put("separator", new ButtonInfo(
+                myImages.imageViewConstructor("separator.png", "separatorPressed.png"),
+                () -> myButtonFuncs.separator()
+        ));
 
     }
 
@@ -143,7 +148,7 @@ public class ButtonShit implements Observar {
 
     public class MyImages {
 
-        private String path = "C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\resources\\assets\\images\\";
+        private String path = "/assets/images/";
 
         public String[] string_creator(String... names) {
             String[] strings = new String[names.length];
@@ -160,7 +165,9 @@ public class ButtonShit implements Observar {
             ImageView[] imageViews = new ImageView[names.length];
 
             for (int i = 0; i < paths.length; i++) {
-                Image image = new Image("file:" + paths[i]); // prefix "file:" for absolute paths
+
+                Image image = new Image(Utils.getInputStream(paths[i])); // prefix "file:" for absolute paths
+//                Image image = new Image("file:" + paths[i]); // prefix "file:" for absolute paths
                 System.out.println("path is" + String.format("file:%s",paths[i]));
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(40); // Optional: scale the image
@@ -208,6 +215,11 @@ public class ButtonShit implements Observar {
 //                    sharedInfo.getCurrentWholePackageArray().remove(index);
 //                }
             }
+        }
+
+        public void separator()
+        {
+            System.out.println("separating");
         }
 
         public void gear() {

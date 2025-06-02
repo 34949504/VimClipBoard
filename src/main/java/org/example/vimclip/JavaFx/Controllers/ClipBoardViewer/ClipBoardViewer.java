@@ -1,4 +1,6 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
+import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -58,6 +60,8 @@ public class ClipBoardViewer implements Observar {
     private Button startRecordingButton;
     @FXML
     private Button selectAll;
+    @FXML
+    private Button separator;
 
     @FXML
     private Button expand;
@@ -78,11 +82,10 @@ public class ClipBoardViewer implements Observar {
 
     @FXML
     public void initialize() throws IOException {
+        setting_tooltips();
         scroll.setFitToWidth(true);
         contentPane.setFillWidth(true); // Ensures children can use full width
 
-//        contentPane.setMaxWidth(Double.MAX_VALUE);
-//        contentPane.setMaxHeight(Double.MAX_VALUE);
 
         buttons = new ArrayList<>(Arrays.asList(
                 gearButton,
@@ -91,7 +94,8 @@ public class ClipBoardViewer implements Observar {
                 startRecordingButton,
                 selectAll,
                 expand,
-                switchEdge
+                switchEdge,
+                separator
         ));
 
 
@@ -148,6 +152,8 @@ public class ClipBoardViewer implements Observar {
         addObserver(instanceManager);
         addObserver(acciones.getClipBoardListener());
         myDialog.addObserver(this);
+
+        stage_window_listener();
     }
 
     public void settingUp_sharedInfo() {
@@ -228,32 +234,53 @@ public class ClipBoardViewer implements Observar {
 
                 if (object instanceof String copiedString) {
                     System.out.println("Copied thing is here in thang " + copiedString);
-                    doing_array_surgery(copiedString);
+                    settingUp_blocText(copiedString);
                     sharedInfo.getCopyingStrings().set(true);
                 }
                 else if (object instanceof Image image)
                 {
+                    settingUp_imageBloc(image);
+                    System.out.println("Image was copied");
 
                 }
             }
         });
     }
 
-    public void doing_array_surgery(String copiedString) {
+    public void settingUp_blocText(String copiedString) {
         SharedInfo.WholePackage wholePackage = sharedInfo.getInstance_from_available_wholePackage();
 
         BlocText blocText = wholePackage.getBlocText();
         Separator separator = wholePackage.getSeparator();
-        VBox hBox = wholePackage.getVBox();
+        VBox vBox = wholePackage.getVBox();
+
+        vBox.getChildren().addAll(blocText.getLabel(),separator);
+
 
         blocText.getLabel().setText(copiedString);
         separator.setOrientation(Orientation.HORIZONTAL);
-//        hBox.getChildren().addAll(blocText.getLabel(), separator);
 
         sharedInfo.getCurrentWholePackageArray().add(wholePackage);
 
-        contentPane.getChildren().add(hBox);
+        contentPane.getChildren().add(vBox);
+    }
+    public void settingUp_imageBloc(Image image)
+    {
 
+        SharedInfo.WholePackage wholePackage = sharedInfo.getInstance_from_available_wholePackage();
+
+        BlocImage blocImage = wholePackage.getBlocImage();
+        Separator separator = wholePackage.getSeparator();
+        VBox vBox = wholePackage.getVBox();
+
+        blocImage.setImage(image);
+
+
+        vBox.getChildren().addAll(blocImage.getImageView(),separator);
+        separator.setOrientation(Orientation.HORIZONTAL);
+        sharedInfo.getCurrentWholePackageArray().add(wholePackage);
+
+        contentPane.getChildren().add(vBox);
     }
 
 
@@ -271,6 +298,15 @@ public class ClipBoardViewer implements Observar {
         });
     }
 
+    private void setting_tooltips() {
+        expand.setTooltip(new MyTooltip("Expands application vertically"));
+        gearButton.setTooltip(new MyTooltip("Configuration"));
+        trashButton.setTooltip(new MyTooltip("Deletes selected blocks"));
+        copyButton.setTooltip(new MyTooltip("Copies to your normal clipboard the selected blocks"));
+        startRecordingButton.setTooltip(new MyTooltip("Saves everything that you copy when its on in the current tab"));
+        selectAll.setTooltip(new MyTooltip("Selects all blocks/Deselects all blocks"));
+        switchEdge.setTooltip(new MyTooltip("Switches edge"));
+    }
 
     public class MyTooltip extends Tooltip {
         public static Font font = Font.loadFont("file:C:/Users/gerar/IdeaProjects/VimClip/src/main/resources/assets/BarberChop.otf", 14);
@@ -278,18 +314,38 @@ public class ClipBoardViewer implements Observar {
         public MyTooltip(String message) {
             this.setText(message);
             this.setFont(font);
-            setting_tooltips();
         }
 
-        private void setting_tooltips() {
-            expand.setTooltip(new MyTooltip("Expands application vertically"));
-            gearButton.setTooltip(new MyTooltip("Configuration"));
-            trashButton.setTooltip(new MyTooltip("Deletes selected blocks"));
-            copyButton.setTooltip(new MyTooltip("Copies to your normal clipboard the selected blocks"));
-            startRecordingButton.setTooltip(new MyTooltip("Saves everything that you copy when its on in the current tab"));
-            selectAll.setTooltip(new MyTooltip("Selects all blocks/Deselects all blocks"));
-            switchEdge.setTooltip(new MyTooltip("Switches edge"));
-        }
+    }
+
+    private void stage_window_listener()
+    {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+
+                if (WindowEvent.WINDOW_CLOSE_REQUEST == windowEvent.getEventType())
+                {
+
+                    System.exit(0);
+                }
+                if (WindowEvent.WINDOW_HIDDEN == windowEvent.getEventType())
+                {
+
+                }
+            }
+        });
+
+        stage.iconifiedProperty().addListener((obs, wasMinimized, isNowMinimized) -> {
+            if (isNowMinimized) {
+                for (Observar observer:observadores_list)
+                {
+                    observer.stage_closing();
+                }
+            } else {
+                System.out.println("Window was restored");
+            }
+        });
     }
 
     public void addObserver(Observar observador) {

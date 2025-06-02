@@ -17,6 +17,7 @@ public interface Observar {
     default public void text_in_visualize_mode_modified(String newText){}
     default public void tab_changed(Character reg){}
     default public void blocs_were_deleted(ArrayList<Integer> selectedLabels){};
+    default public void stage_closing(){};
 
 
 }

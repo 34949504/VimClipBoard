@@ -1,6 +1,7 @@
 package org.example.vimclip;
 
 
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.ConfigLoader;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -9,16 +10,21 @@ import java.util.Iterator;
 
 public class RegistryManager implements Observar {
 
-    private HashMap<Character,ArrayList<String>> clipboardRegistries = new HashMap<>();
+    private HashMap<Character,ArrayList<Object>> clipboardRegistries = new HashMap<>();
+    JSONObject configLoader;
+    String getting_all_separator;
 
-    public RegistryManager(){
+
+    public RegistryManager(JSONObject  configLoader){
+        this.configLoader = configLoader;
+        getting_all_separator = configLoader.getString("separator_when_getting_all_text");
 
 
         for (char c = 'a'; c <= 'z'; c++) {
             clipboardRegistries.put(c, new ArrayList<>());
         }
     }
-    public ArrayList<String> getArray(Character reg)
+    public ArrayList<Object> getArray(Character reg)
     {
         return clipboardRegistries.get(reg);
     }
@@ -26,12 +32,12 @@ public class RegistryManager implements Observar {
     public void changeValue(Character registry,int index,String newText)
     {
 
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         arrray.set(index,newText);
     }
-    public String getValue(Character registry,int index)
+    public Object getValue(Character registry,int index)
     {
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         int length = arrray.size();
 
         boolean flag = checkArray_size(length,index,
@@ -45,15 +51,15 @@ public class RegistryManager implements Observar {
         return  arrray.get(index);
     }
 
-    public void addValue(Character registry,String value)
+    public void addValue(Character registry,Object value)
     {
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         arrray.add(value);
     }
 
     public void removeValue(Character registry,int index)
     {
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         int length = arrray.size();
 
         boolean flag = checkArray_size(length,index,
@@ -71,7 +77,7 @@ public class RegistryManager implements Observar {
     public void removeLastValue(Character registry,int index)
     {
 
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         int length = arrray.size();
         if (length <=0)
         {
@@ -84,17 +90,17 @@ public class RegistryManager implements Observar {
     public void removeRange(Character registry,int start_index,int end_index)
     {
 
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         int length = arrray.size();
     }
     public void clearArray(Character registry)
     {
 
-        ArrayList<String> arrray = clipboardRegistries.get(registry);
+        ArrayList<Object> arrray = clipboardRegistries.get(registry);
         arrray.clear();
     }
 
-    public HashMap<Character, ArrayList<String>> getClipboardRegistries() {
+    public HashMap<Character, ArrayList<Object>> getClipboardRegistries() {
         return clipboardRegistries;
     }
 
@@ -143,9 +149,9 @@ public class RegistryManager implements Observar {
     {
         return clipboardRegistries.get(reg).size();
     }
-    public String get_last_value(Character reg)
+    public Object get_last_value(Character reg)
     {
-        ArrayList<String> array = clipboardRegistries.get(reg);
+        ArrayList<Object> array = clipboardRegistries.get(reg);
         int length = array.size();
 
         if (length <=0)
@@ -158,9 +164,9 @@ public class RegistryManager implements Observar {
 
     }
 
-    public String get_first_value(Character reg)
+    public Object get_first_value(Character reg)
     {
-        ArrayList<String> array = clipboardRegistries.get(reg);
+        ArrayList<Object> array = clipboardRegistries.get(reg);
         int length = array.size();
 
         if (length <=0)
@@ -172,10 +178,11 @@ public class RegistryManager implements Observar {
         return  array.getLast();
 
     }
+    //Get all values only allows strings
     public String get_all_values(Character reg)
     {
         StringBuilder contents = new StringBuilder();
-        ArrayList<String> array = clipboardRegistries.get(reg);
+        ArrayList<Object> array = clipboardRegistries.get(reg);
         int length = array.size();
 
         if (length <=0)
@@ -184,9 +191,12 @@ public class RegistryManager implements Observar {
             return null;
         }
 
-        for (String str: array)
+        for (Object str: array)
         {
-            contents.append(String.format("%s\n",str));
+            if (str instanceof String string) {
+                contents.append(String.format("%s%s", string, getting_all_separator));
+                System.out.println("separator is "+getting_all_separator);
+            }
         }
 
         return  contents.toString();
@@ -195,7 +205,7 @@ public class RegistryManager implements Observar {
     public void remove_last_value(Character reg)
     {
 
-        ArrayList<String> array = clipboardRegistries.get(reg);
+        ArrayList<Object> array = clipboardRegistries.get(reg);
         int length = array.size();
 
         if (length <=0)

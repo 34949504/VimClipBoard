@@ -61,6 +61,10 @@ public class SharedInfo {
         return wholePackage;
     }
 
+
+    /**
+     * WholePackaga has blockText ANd BlocImage
+     */
     @Getter
     @Setter
     public static class WholePackage
@@ -68,15 +72,18 @@ public class SharedInfo {
         BlocText blocText;
         Separator separator;
         VBox vBox;
+        BlocImage blocImage;
 
         public static WholePackage cleanInstance(ConfigLoader configLoader, MyDialog myDialog) {
             WholePackage wp = new WholePackage();
             wp.setBlocText(new BlocText("", configLoader, myDialog));
             wp.setSeparator(new Separator());
             Label label = wp.getBlocText().getLabel();
-            VBox vBox1 = new VBox(label, wp.getSeparator());
+            VBox vBox1 = new VBox();
             vBox1.setFillWidth(true); // Optional, usually VBox does this by default
             wp.setVBox(vBox1);
+
+            wp.setBlocImage(new BlocImage());
             return wp;
         }
     }

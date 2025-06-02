@@ -1,18 +1,10 @@
-package org.example.vimclip;
+package org.example.vimclip.Clipboard;
 
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.image.BufferedImage;
 
 public class ClipboardImageDetector {
 

@@ -51,7 +51,8 @@ public class Command_displayer implements Observar {
         setting_up_timeline();
 
         main_stage.setScene(scene);
-        main_stage.show();
+//        main_stage.show();
+//        main_stage.hide();
 
     }
     private void setting_up_timeline()
@@ -117,6 +118,7 @@ public class Command_displayer implements Observar {
             }
 //            System.out.println("Allegedly showings");
             main_stage.setOpacity(1);
+            main_stage.show();
         });
 
         vBox.requestLayout();
@@ -133,6 +135,7 @@ public class Command_displayer implements Observar {
                 vBox.getChildren().clear();
                 main_stage.setOpacity(0);}
                 vBox.setStyle("-fx-background-color: white;");
+                main_stage.hide();
 
             }
         });
@@ -181,6 +184,7 @@ public class Command_displayer implements Observar {
                     vBox.getChildren().clear();
                     main_stage.setOpacity(0);
                     vBox.setStyle("-fx-background-color: white;");
+                    main_stage.hide();
                 }
             }
         });

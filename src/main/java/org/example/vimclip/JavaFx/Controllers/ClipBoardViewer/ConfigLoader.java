@@ -29,30 +29,32 @@ public class ConfigLoader implements Observar {
     int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
 
 
+
+
     public ConfigLoader(JSONObject config,SharedInfo sharedInfo) {
         this.config = config;
         this.sharedInfo = sharedInfo;
-        initialize_mainPaine_dims();
+//        initialize_mainPaine_dims();
         initialize_stage_position();
 
         label_maxHeight = config.getInt("label_max_height");
 
     }
 
-    private void initialize_mainPaine_dims() {
-        Rectangle2D rectangle2D = Screen.getPrimary().getBounds();
-        int width = (int) rectangle2D.getWidth();
-        int height = (int) rectangle2D.getHeight();
-        int height_percent = config.getInt("mainPane_height_percent");
-        int width_percent = config.getInt("mainPane_width_percent");
-
-        mainPane_defaultHeight = height * height_percent / 100;
-        mainPane_defaultWidth = width * width_percent / 100;
-
-        sharedInfo.getMainPane().setPrefHeight(mainPane_defaultHeight);
-        sharedInfo.getMainPane().setPrefWidth(mainPane_defaultWidth);
-
-    }
+//    private void initialize_mainPaine_dims() {
+//        Rectangle2D rectangle2D = Screen.getPrimary().getBounds();
+//        int width = (int) rectangle2D.getWidth();
+//        int height = (int) rectangle2D.getHeight();
+//        int height_percent = config.getInt("mainPane_height_percent");
+//        int width_percent = config.getInt("mainPane_width_percent");
+//
+//        mainPane_defaultHeight = height * height_percent / 100;
+//        mainPane_defaultWidth = width * width_percent / 100;
+//
+////        sharedInfo.getMainPane().setPrefHeight(mainPane_defaultHeight);
+////        sharedInfo.getMainPane().setPrefWidth(mainPane_defaultWidth);
+//
+//    }
     private void initialize_stage_position()
     {
         calculating_default_postition();

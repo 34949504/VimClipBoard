@@ -1,7 +1,6 @@
 package org.example.vimclip;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -9,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -133,5 +131,13 @@ public class Utils {
             return null;
         }
     }
+
+    public static InputStream getInputStream(String resourcePath)
+    {
+
+        InputStream file = MainProgram.class.getResourceAsStream(resourcePath);
+        return file;
+    }
+
 
 }
