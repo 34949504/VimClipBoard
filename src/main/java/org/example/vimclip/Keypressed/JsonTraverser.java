@@ -51,8 +51,11 @@ public class JsonTraverser implements Observar {
             try {
                 pointer = pointer.getJSONObject(keystack.get(i));
             } catch (JSONException e) {
-                status_wrong();
-                return jsonTraverserStatusv2;
+
+                if (!finding_parameters_without_keyword(keystack.get(i),pointer,traversalState)) {
+                    status_wrong();
+                    return jsonTraverserStatusv2;
+                }
             }
         }
         System.out.println();
@@ -359,6 +362,22 @@ public class JsonTraverser implements Observar {
         public ArrayList<String> keystack = null;
 
         public JsonTraverser_statusv2 jsonTraverserStatus = null;
+    }
+    private boolean finding_parameters_without_keyword(String key,JSONObject pointer,JsonTraversalState jsonTraversalState)
+    {
+        try {
+            JSONArray jsonArray = pointer.getJSONArray(key); // getting parameter
+            jsonTraversalState.setScriptParameters(jsonArray);
+            pointer  = new JSONObject();
+
+            return true;
+
+
+        } catch (JSONException e) {
+
+            return false;
+        }
+
     }
 }
 

@@ -37,6 +37,7 @@ public class ClipBoardViewer implements Observar {
     private ConfigLoader configLoader;
     private MyDialog myDialog;
     private Instance_manager instanceManager;
+    private SepDialog sepDialog;
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
@@ -152,6 +153,8 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.initialize_available_instances(configLoader, myDialog);
 
         instanceManager = new Instance_manager(sharedInfo);
+        sepDialog = new SepDialog(sharedInfo,configMaster);
+        buttonShit.addObserver(sepDialog); //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
 
         addObserver(myDialog);
         addObserver(configLoader);

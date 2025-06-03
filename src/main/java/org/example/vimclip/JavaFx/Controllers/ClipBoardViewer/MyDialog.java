@@ -80,8 +80,6 @@ public class MyDialog extends Dialog implements Observar {
         dialogPane.setPrefHeight(sharedInfo.getConfigLoader().stage_defaultHeight / 2);
         setResizable(true);
 
-//        currentHeight = sharedInfo.getConfigLoader().stage_defaultHeight / 2;
-//        currentWidth = sharedInfo.getConfigLoader().stage_currentWidth;
         currentHeight = (int)(clipboardViewer_config.getStage_height()/2);
         currentWidth = (int)(clipboardViewer_config.getStage_width());
     }

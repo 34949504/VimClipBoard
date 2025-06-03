@@ -210,17 +210,18 @@ public class ButtonShit implements Observar {
                     observador.blocs_were_deleted(selected_labels);
                 }
 
-//                for (int i = 0; i < selected_labels.size(); i++) {
-//                    int index = selected_labels.get(i);
-//                    sharedInfo.getContentPane().getChildren().remove(index);
-//                    sharedInfo.getCurrentWholePackageArray().remove(index);
-//                }
+
             }
         }
 
         public void separator()
         {
             System.out.println("separating");
+
+            for (Observar observar:observadores_list)
+            {
+                observar.separator_button_was_clicked();
+            }
         }
 
         public void gear() {

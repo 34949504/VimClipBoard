@@ -100,7 +100,8 @@
             "1": "Languages channels ",
             "2": "Programming Channels",
             "3": "Common websites",
-            "4": "Música"
+            "4": "Música",
+            "5": "Vitacora"
           },
           "1": {
             "desc_traversing": {
@@ -129,7 +130,10 @@
             "desc_traversing":{
   "1": "Marty Music@@COOLSCRIPTSEPARATOR@@https://www.youtube.com/@MartyMusic/videos"
 }
-          }
+          },
+          "5":[
+            "https://docs.google.com/document/d/18-JrRPyoK3OxFCH9qvzvw1vSLHf_sKbCrEHDRNxyELo/edit?tab=t.0"
+            ]
         }
       }
     }

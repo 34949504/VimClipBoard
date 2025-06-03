@@ -19,6 +19,7 @@ public interface Observar {
     default public void blocs_were_deleted(ArrayList<Integer> selectedLabels){};
     default public void stage_closing(){};
     default public void stage_has_been_resized(){}
+    default public void separator_button_was_clicked(){}
 
 
 }
