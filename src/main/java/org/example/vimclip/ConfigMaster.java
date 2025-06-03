@@ -51,8 +51,8 @@ public class ConfigMaster {
 
 
             JSONObject c = config.getJSONObject("clipboardViewer_config");
-            stage_height_percent = c.getDouble("mainPane_height_percent");
-            stage_width_percent = c.getDouble("mainPane_width_percent");
+            stage_height_percent = c.getDouble("stage_height_percent");
+            stage_width_percent = c.getDouble("stage_width_percent");
             label_max_height = c.getInt("label_max_height");
             stage_edge_postition =  c.getString("stage_edge_postition");
 

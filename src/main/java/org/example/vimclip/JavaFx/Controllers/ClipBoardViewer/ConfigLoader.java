@@ -45,8 +45,8 @@ public class ConfigLoader implements Observar {
         Rectangle2D rectangle2D = Screen.getPrimary().getBounds();
         int width = (int) rectangle2D.getWidth();
         int height = (int) rectangle2D.getHeight();
-        int height_percent = config.getInt("mainPane_height_percent");
-        int width_percent = config.getInt("mainPane_width_percent");
+        int height_percent = config.getInt("stage_height_percent");
+        int width_percent = config.getInt("stage_width_percent");
 
         stage_defaultHeight = height * height_percent / 100;
         stage_defaultWidth = width * width_percent / 100;

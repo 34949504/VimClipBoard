@@ -76,14 +76,6 @@ public class MyApp extends Application {
         controller.initialize_shit();
 
 
-
-        double widthPercent = (300.0 / screenWidth) * 100;
-        double heightPercent = (300.0 / screenHeight) * 100;
-
-        System.out.printf("Width: %.2f%% of screen%n", widthPercent);
-        System.out.printf("Height: %.2f%% of screen%n", heightPercent);
-
-
         stage.show();
     }
 

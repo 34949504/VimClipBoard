@@ -333,6 +333,11 @@ public class ButtonShit implements Observar {
             }
             expanded = !expanded;
 
+            for (Observar observar:observadores_list)
+            {
+                observar.stage_has_been_resized();
+            }
+
 
             System.out.println("Expanding");
         }

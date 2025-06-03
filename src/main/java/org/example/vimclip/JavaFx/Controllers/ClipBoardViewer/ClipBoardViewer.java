@@ -158,6 +158,7 @@ public class ClipBoardViewer implements Observar {
         addObserver(instanceManager);
         addObserver(acciones.getClipBoardListener());
         myDialog.addObserver(this);
+        buttonShit.addObserver(myDialog);
 
         stage_window_listener();
 
