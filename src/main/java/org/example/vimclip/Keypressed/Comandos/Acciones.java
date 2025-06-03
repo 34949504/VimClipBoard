@@ -287,6 +287,17 @@ public class Acciones {
                     int index = index_array.get(i);
                     Object reg_cont = registryManager.getValue(reg,index);
                     if (reg_cont instanceof String str) {
+                        if (index_array.size() == 1)
+                        {
+                            contents.append( str);
+                            continue;
+                        }
+                        else if (index_array.size()-1 == i)
+                        {
+
+                            contents.append( str);
+                            continue;
+                        }
                         contents.append(String.format("%s%s", str,configMaster.getSeparator_when_getting_all_text()));
                     }
                 }

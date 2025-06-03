@@ -20,6 +20,7 @@ public interface Observar {
     default public void stage_closing(){};
     default public void stage_has_been_resized(){}
     default public void separator_button_was_clicked(){}
+    default public void separator_has_changed(String separator){}
 
 
 }

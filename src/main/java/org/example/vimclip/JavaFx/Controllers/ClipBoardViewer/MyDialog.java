@@ -97,26 +97,6 @@ public class MyDialog extends Dialog implements Observar {
         int available_space_right = (int) (screenWidth - bounds.getMaxX());
 
 
-        System.out.printf(".......................\n" +
-                "Imprimiendo bounds del stage\n" +
-                "min x es %f\n" +
-                "min y es %f\n" +
-                "max x es %f\n" +
-                "max y es %f\n" +
-                "..................................\n",bounds.getMinX(),bounds.getMinY(),
-                bounds.getMaxX(),bounds.getMaxY());
-
-
-        System.out.printf("-------------------\nPrinting available space:\n" +
-                "below %s\n" +
-                "above %s \n" +
-                "left %s\n" +
-                "right %s\n", available_space_below, available_space_above, available_space_left,available_space_right);
-        System.out.println("---------------------------");
-
-        System.out.printf("Current height is %d and current width %d\n-----------------",currentHeight,currentWidth);
-
-
         if (available_space_below > currentHeight) {
             x = (int) bounds.getMinX();
             y = (int) bounds.getMaxY();
