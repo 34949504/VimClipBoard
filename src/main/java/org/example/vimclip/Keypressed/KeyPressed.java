@@ -88,7 +88,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
         int keycode = e.getKeyCode();
         String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
 
-        System.out.println("Key pressed here is "+key);
+//        System.out.println("Key pressed here is "+key);
 
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
             return;

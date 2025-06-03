@@ -18,6 +18,7 @@ public class SeparateDialog extends Dialog implements Observar {
     public SeparateDialog(SharedInfo sharedInfo)
     {
         this.sharedInfo = sharedInfo;
+
     }
 
 

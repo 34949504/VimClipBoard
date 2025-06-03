@@ -1,5 +1,6 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -11,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
+import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.Observar;
 
 import java.util.ArrayList;
@@ -35,9 +37,11 @@ public class MyDialog extends Dialog implements Observar {
     private TextArea textArea = new TextArea();
 
     SharedInfo sharedInfo;
+    ConfigMaster.ClipboardViewer_config clipboardViewer_config;
 
-    public MyDialog(SharedInfo sharedInfo) {
+    public MyDialog(SharedInfo sharedInfo, ConfigMaster configMaster) {
         this.sharedInfo = sharedInfo;
+        clipboardViewer_config = configMaster.getClipboardViewer_config();
         settingDims();
         settingUp_dialogLayout();
         dialogPane.setContent(borderPane);
@@ -76,8 +80,10 @@ public class MyDialog extends Dialog implements Observar {
         dialogPane.setPrefHeight(sharedInfo.getConfigLoader().stage_defaultHeight / 2);
         setResizable(true);
 
-        currentHeight = sharedInfo.getConfigLoader().stage_defaultHeight / 2;
-        currentWidth = sharedInfo.getConfigLoader().stage_currentWidth;
+//        currentHeight = sharedInfo.getConfigLoader().stage_defaultHeight / 2;
+//        currentWidth = sharedInfo.getConfigLoader().stage_currentWidth;
+        currentHeight = (int)(clipboardViewer_config.getStage_height()/2);
+        currentWidth = (int)(clipboardViewer_config.getStage_width());
     }
 
     private void calculating_where_dialog_should_appear() {
@@ -92,10 +98,25 @@ public class MyDialog extends Dialog implements Observar {
         int available_space_left = (int) (bounds.getMinX());
         int available_space_right = (int) (screenWidth - bounds.getMaxX());
 
-        System.out.printf("Printing available space:\n" +
+
+        System.out.printf(".......................\n" +
+                "Imprimiendo bounds del stage\n" +
+                "min x es %f\n" +
+                "min y es %f\n" +
+                "max x es %f\n" +
+                "max y es %f\n" +
+                "..................................\n",bounds.getMinX(),bounds.getMinY(),
+                bounds.getMaxX(),bounds.getMaxY());
+
+
+        System.out.printf("-------------------\nPrinting available space:\n" +
                 "below %s\n" +
                 "above %s \n" +
-                "left %s\n", available_space_below, available_space_above, available_space_left);
+                "left %s\n" +
+                "right %s\n", available_space_below, available_space_above, available_space_left,available_space_right);
+        System.out.println("---------------------------");
+
+        System.out.printf("Current height is %d and current width %d\n-----------------",currentHeight,currentWidth);
 
 
         if (available_space_below > currentHeight) {
@@ -107,12 +128,12 @@ public class MyDialog extends Dialog implements Observar {
         } else if (available_space_left > currentWidth) {
             System.out.printf("Dialog width %f\nDialogPane width %f\n", getWidth(), dialogPane.getWidth());
             x = (int) (bounds.getMinX() - dialogPane.getWidth());
-            y = (int) bounds.getMinY();
+            y = (int) bounds.getMaxY() - currentHeight;
         }else if (available_space_right > currentWidth)
         {
 
             x = (int) (bounds.getMaxX()) ;
-            y = (int) bounds.getMinY();
+            y = (int) bounds.getMaxY() - currentHeight;
         }
     }
 
@@ -187,17 +208,23 @@ public class MyDialog extends Dialog implements Observar {
         setDialog_showing(false);
     }
 
-    @Override
-    public void stage_has_been_resized() {
-        if (dialog_showing) {
+   @Override
+public void stage_has_been_resized() {
+    System.out.println("yeha motherfuckers ");
+
+    if (dialog_showing) {
+        // Defer repositioning until after resize/layout pass
+        Platform.runLater(() -> {
             dialogPane.applyCss();
             dialogPane.layout();
             calculating_where_dialog_should_appear();
+
             Window window = getDialogPane().getScene().getWindow();
             if (window != null) {
                 window.setX(x);
                 window.setY(y);
             }
-        }
+        });
     }
+}
 }

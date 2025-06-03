@@ -1,9 +1,12 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -167,8 +170,6 @@ public class ButtonShit implements Observar {
             for (int i = 0; i < paths.length; i++) {
 
                 Image image = new Image(Utils.getInputStream(paths[i])); // prefix "file:" for absolute paths
-//                Image image = new Image("file:" + paths[i]); // prefix "file:" for absolute paths
-                System.out.println("path is" + String.format("file:%s",paths[i]));
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(40); // Optional: scale the image
                 imageView.setFitHeight(40);
@@ -322,10 +323,12 @@ public class ButtonShit implements Observar {
 
             if (expanded) // its big so now shrink
             {
+                System.out.println("shrinking");
                 sharedInfo.getStage().setY(stage_previousY);
                 sharedInfo.getStage().setHeight(sharedInfo.getConfigLoader().stage_defaultHeight);
 
             } else {
+                System.out.println("Super expanding");
                 stage_previousX = (int) sharedInfo.getStage().getX();
                 stage_previousY = (int) sharedInfo.getStage().getY();
                 sharedInfo.getStage().setY(0);
@@ -333,13 +336,41 @@ public class ButtonShit implements Observar {
             }
             expanded = !expanded;
 
-            for (Observar observar:observadores_list)
-            {
-                observar.stage_has_been_resized();
-            }
+
+            PauseTransition pause = new PauseTransition(Duration.millis(50));
+            pause.setOnFinished(event -> {
+                Bounds bounds = sharedInfo.getStage().getScene().getRoot()
+                        .localToScreen(sharedInfo.getStage().getScene().getRoot().getBoundsInLocal());
+
+                System.out.printf(".......................\n" +
+                                "Imprimiendo bounds del  aqui en buttonsstage\n" +
+                                "min x es %f\n" +
+                                "min y es %f\n" +
+                                "max x es %f\n" +
+                                "max y es %f\n" +
+                                "..................................\n",
+                        bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
+
+                // Now call observers when bounds are correct
+                for (Observar observar : observadores_list) {
+                    observar.stage_has_been_resized();
+                }
+            });
+            pause.play();
+
+//            Platform.runLater(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    for (Observar observar:observadores_list)
+//                    {
+//                        observar.stage_has_been_resized();
+//                    }
+//                }
+//            });
 
 
-            System.out.println("Expanding");
+
         }
 
         public ArrayList<Integer> get_selected_labels() {
@@ -357,7 +388,6 @@ public class ButtonShit implements Observar {
         }
 
         public void deselect_labels(ArrayList<Integer> array_list) {
-            System.out.println("Deselection");
 
             for (int i = 0; i < array_list.size(); i++) {
 
@@ -366,7 +396,6 @@ public class ButtonShit implements Observar {
                 SharedInfo.WholePackage wholePackage = sharedInfo.getCurrentWholePackageArray().get(index);
                 BlocText blocText = wholePackage.getBlocText();
 
-                System.out.println("index is " + i);
                 blocText.set_selected(false);
 
             }

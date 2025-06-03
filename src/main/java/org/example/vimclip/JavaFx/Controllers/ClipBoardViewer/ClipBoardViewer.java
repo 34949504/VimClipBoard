@@ -143,7 +143,7 @@ public class ClipBoardViewer implements Observar {
         settingUp_sharedInfo();
         configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"), sharedInfo);
         sharedInfo.setConfigLoader(configLoader);
-        myDialog = new MyDialog(sharedInfo);
+        myDialog = new MyDialog(sharedInfo,configMaster);
         sharedInfo.setMyDialog(myDialog);
         buttonShit = new ButtonShit(buttons, sharedInfo);
         buttonShit.setObservadores_list(observadores_list);
@@ -158,7 +158,7 @@ public class ClipBoardViewer implements Observar {
         addObserver(instanceManager);
         addObserver(acciones.getClipBoardListener());
         myDialog.addObserver(this);
-        buttonShit.addObserver(myDialog);
+//        buttonShit.addObserver(myDialog);
 
         stage_window_listener();
 
@@ -213,7 +213,6 @@ public class ClipBoardViewer implements Observar {
                 for (Observar observador : observadores_list) {
                     observador.stage_was_moved();
                 }
-                System.out.println("Numbers " + number + " " + t1);
             }
         });
 //        System.out.println("wtfaoee" + myDialog.getHeight() + "lefromgaae height is ");
@@ -266,7 +265,8 @@ public class ClipBoardViewer implements Observar {
         Separator separator = wholePackage.getSeparator();
         VBox vBox = wholePackage.getVBox();
 
-        vBox.getChildren().addAll(blocText.getLabel(),separator);
+        if (vBox.getChildren().isEmpty())
+            vBox.getChildren().addAll(blocText.getLabel(),separator);
 
 
         blocText.getLabel().setText(copiedString);

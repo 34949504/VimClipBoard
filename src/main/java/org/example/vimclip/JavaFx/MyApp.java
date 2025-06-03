@@ -42,10 +42,6 @@ public class MyApp extends Application {
         double screenWidth =  Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight =  Screen.getPrimary().getVisualBounds().getHeight();
 
-
-
-//        File fxmlFile = new File(Utils.getInputStream("/FXML/ClipBoardViewer.fxml"));
-//        FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL()); // convert to URL
         FXMLLoader loader = new FXMLLoader(MyApp.class.getResource("/FXML/ClipBoardViewer.fxml")); // convert to URL
         Parent root = loader.load();
 
