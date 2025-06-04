@@ -9,3 +9,19 @@
     -fx-max-height: 1;   /* prevent it from growing */
 }
 
+
+.no-hover-highlight:hover {
+    -fx-background-color: transparent;
+}
+
+.context .custom-menu-item:focused{
+    -fx-background-color:white;
+}
+
+.context .custom-menu-item{
+    -fx-background-color:white;
+}
+
+
+
+

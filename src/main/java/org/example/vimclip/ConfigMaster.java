@@ -6,12 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
 
+import java.nio.file.Path;
+
 @Getter
 @Setter
-public class ConfigMaster {
+public class ConfigMaster implements Observar {
 
     private String separator_when_getting_all_text;
     public JSONObject config;
+    public Path configPath;
 
     double screen_width;
     double screen_height;
@@ -97,5 +100,20 @@ public class ConfigMaster {
 
             return this;
         }
+    }
+
+    public void writingConfig()
+    {
+
+        config.put("separator_when_getting_all_text",separator_when_getting_all_text);
+
+
+        Utils.writeFile(configPath,config.toString(4));
+
+    }
+
+    @Override
+    public void stage_closing() {
+      writingConfig();
     }
 }

@@ -3,11 +3,10 @@ package org.example.vimclip;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -137,6 +136,51 @@ public class Utils {
 
         InputStream file = MainProgram.class.getResourceAsStream(resourcePath);
         return file;
+    }
+
+    public static void writeFile(Path path,String content){
+        try (FileWriter writer = new FileWriter(path.toFile())) {
+            writer.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static JSONObject readJsonFromPath(Path path)
+    {
+        try {
+            String configContent = Files.readString(path, StandardCharsets.UTF_8);
+            System.out.println("Config content:");
+            System.out.println(configContent);
+            return new JSONObject(configContent);
+        } catch (IOException e) {
+            return  null;
+        }
+    }
+
+
+    /**
+     *
+     * @param localappdata
+     * @param fileName how it is named in localData
+     * @param resourcePath the path thats inside the jar /resource/data etc
+     * @return
+     */
+    public static Path getPathfromAppData(Path localappdata,String fileName,String resourcePath)
+    {
+        Path configPath = localappdata.resolve(fileName);
+
+        if (!Files.exists(configPath)) {
+            try (InputStream in = Utils.class.getResourceAsStream(resourcePath)) {
+                Files.copy(in, configPath); // copy from JAR to AppData
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return configPath;
+
     }
 
 

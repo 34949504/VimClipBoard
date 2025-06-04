@@ -1,7 +1,5 @@
 package org.example.vimclip;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public interface Observar {
@@ -17,10 +15,11 @@ public interface Observar {
     default public void text_in_visualize_mode_modified(String newText){}
     default public void tab_changed(Character reg){}
     default public void blocs_were_deleted(ArrayList<Integer> selectedLabels){};
-    default public void stage_closing(){};
+    default public void stage_minimizing(){};
     default public void stage_has_been_resized(){}
     default public void separator_button_was_clicked(){}
-    default public void separator_has_changed(String separator){}
+    default public void stage_closing(){}
+
 
 
 }

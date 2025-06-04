@@ -67,6 +67,7 @@ public class MyApp extends Application {
         //comunicacion
         controller.addObserver(AppContext.acciones.getListenToClipboard());
         controller.addObserver(commandDisplayer);
+        controller.addObserver(AppContext.configMaster);
 
         AppContext.acciones.getClipBoardListener().addObserver(controller);
         controller.initialize_shit();

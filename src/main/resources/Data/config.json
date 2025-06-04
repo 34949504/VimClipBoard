@@ -13,5 +13,5 @@
     "label_max_height": 100,
     "stage_edge_postition": "topRight_edge"
   },
-  "separator_when_getting_all_text": "\n"
+  "separator_when_getting_all_text": "\\n"
 }

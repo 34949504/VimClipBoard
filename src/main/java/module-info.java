@@ -7,6 +7,7 @@ module org.example.vimclip {
     requires static lombok;
     requires org.json;
     requires java.sql;
+    requires jdk.compiler;
 
     opens org.example.vimclip to javafx.fxml;
     exports org.example.vimclip;

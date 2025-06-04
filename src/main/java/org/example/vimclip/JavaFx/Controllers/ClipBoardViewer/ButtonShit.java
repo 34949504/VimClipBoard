@@ -340,17 +340,6 @@ public class ButtonShit implements Observar {
 
             PauseTransition pause = new PauseTransition(Duration.millis(50));
             pause.setOnFinished(event -> {
-                Bounds bounds = sharedInfo.getStage().getScene().getRoot()
-                        .localToScreen(sharedInfo.getStage().getScene().getRoot().getBoundsInLocal());
-
-                System.out.printf(".......................\n" +
-                                "Imprimiendo bounds del  aqui en buttonsstage\n" +
-                                "min x es %f\n" +
-                                "min y es %f\n" +
-                                "max x es %f\n" +
-                                "max y es %f\n" +
-                                "..................................\n",
-                        bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
 
                 // Now call observers when bounds are correct
                 for (Observar observar : observadores_list) {
@@ -358,18 +347,6 @@ public class ButtonShit implements Observar {
                 }
             });
             pause.play();
-
-//            Platform.runLater(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                    for (Observar observar:observadores_list)
-//                    {
-//                        observar.stage_has_been_resized();
-//                    }
-//                }
-//            });
-
 
 
         }

@@ -170,7 +170,7 @@ public class MyDialog extends Dialog implements Observar {
     }
 
     @Override
-    public void stage_closing() {
+    public void stage_minimizing() {
         if (dialog_showing) {
             Window window = getDialogPane().getScene().getWindow();
             if (window != null) window.hide();

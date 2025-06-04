@@ -21,7 +21,6 @@ import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
 import org.json.JSONObject;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -341,7 +340,11 @@ public class ClipBoardViewer implements Observar {
 
                 if (WindowEvent.WINDOW_CLOSE_REQUEST == windowEvent.getEventType())
                 {
-
+                    for (Observar observer:observadores_list)
+                    {
+                        observer.stage_closing();
+                    }
+                    System.out.println("X symbol to close was clicked ");
                     System.exit(0);
                 }
                 if (WindowEvent.WINDOW_HIDDEN == windowEvent.getEventType())
@@ -355,7 +358,7 @@ public class ClipBoardViewer implements Observar {
             if (isNowMinimized) {
                 for (Observar observer:observadores_list)
                 {
-                    observer.stage_closing();
+                    observer.stage_minimizing();
                 }
             } else {
                 System.out.println("Window was restored");
