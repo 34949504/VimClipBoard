@@ -13,6 +13,7 @@ import java.nio.file.Path;
 public class ConfigMaster implements Observar {
 
     private String separator_when_getting_all_text;
+    private String unprocessed_separator_when_getting_all_text;
     public JSONObject config;
     public Path configPath;
 
@@ -104,10 +105,7 @@ public class ConfigMaster implements Observar {
 
     public void writingConfig()
     {
-
-        config.put("separator_when_getting_all_text",separator_when_getting_all_text);
-
-
+        config.put("separator_when_getting_all_text",unprocessed_separator_when_getting_all_text);
         Utils.writeFile(configPath,config.toString(4));
 
     }

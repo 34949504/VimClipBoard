@@ -3,9 +3,7 @@ package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +26,7 @@ public class SepDialog extends Dialog implements Observar {
    private Button pattern_button = new Button("Pattern");
    private PatternCreator_contextMenu patternCreatorContextMenu = new PatternCreator_contextMenu();
 
+   private DialogSimilarFuncs DSF;
 
 
     boolean dialog_showing = false;
@@ -56,12 +55,16 @@ public class SepDialog extends Dialog implements Observar {
         initModality(Modality.WINDOW_MODAL);
         initStyle(StageStyle.UNDECORATED);
 
+        DSF = new DialogSimilarFuncs(sharedInfo,this);
+
         // Let window positioning happen after dialog is shown
         this.setOnShown(e -> {
             dialogPane.applyCss();
             dialogPane.layout();
 
-            calculating_where_dialog_should_appear();
+            DialogSimilarFuncs.Coords coords =  DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
+            x = coords.x;
+            y = coords.y;
 
             Window window = getDialogPane().getScene().getWindow();
             if (window instanceof Stage) {
@@ -74,7 +77,9 @@ public class SepDialog extends Dialog implements Observar {
         new_line_button_onAction();
 
         textfield.setText(configMaster.getSeparator_when_getting_all_text());
+        configMaster.setUnprocessed_separator_when_getting_all_text(textfield.getText());
         configMaster.setSeparator_when_getting_all_text(processing_string());
+
     }
 
     private void new_line_button_onAction()
@@ -110,56 +115,38 @@ public class SepDialog extends Dialog implements Observar {
         currentWidth = (int)(clipboardViewer_config.getStage_width());
     }
 
-    private void calculating_where_dialog_should_appear() {
-        int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
-        int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
-
-        Bounds bounds = sharedInfo.getStage().getScene().getRoot().localToScreen(
-                sharedInfo.getStage().getScene().getRoot().getBoundsInLocal());
-
-        int available_space_below = (int) (screenHeight - bounds.getMaxY());
-        int available_space_above = (int) (bounds.getMinY());
-        int available_space_left = (int) (bounds.getMinX());
-        int available_space_right = (int) (screenWidth - bounds.getMaxX());
-
-
-        System.out.printf(".......................\n" +
-                "Imprimiendo bounds del stage\n" +
-                "min x es %f\n" +
-                "min y es %f\n" +
-                "max x es %f\n" +
-                "max y es %f\n" +
-                "..................................\n",bounds.getMinX(),bounds.getMinY(),
-                bounds.getMaxX(),bounds.getMaxY());
-
-
-        System.out.printf("-------------------\nPrinting available space:\n" +
-                "below %s\n" +
-                "above %s \n" +
-                "left %s\n" +
-                "right %s\n", available_space_below, available_space_above, available_space_left,available_space_right);
-        System.out.println("---------------------------");
-
-        System.out.printf("Current height is %d and current width %d\n-----------------",currentHeight,currentWidth);
-
-
-        if (available_space_below > currentHeight) {
-            x = (int) bounds.getMinX();
-            y = (int) bounds.getMaxY();
-        } else if (available_space_above > currentHeight) {
-            x = (int) bounds.getMinX();
-            y = (int) (bounds.getMinY() - currentHeight);
-        } else if (available_space_left > currentWidth) {
-            System.out.printf("Dialog width %f\nDialogPane width %f\n", getWidth(), dialogPane.getWidth());
-            x = (int) (bounds.getMinX() - dialogPane.getWidth());
-            y = (int) bounds.getMaxY() - currentHeight;
-        }else if (available_space_right > currentWidth)
-        {
-
-            x = (int) (bounds.getMaxX()) ;
-            y = (int) bounds.getMaxY() - currentHeight;
-        }
-    }
+//    private void calculating_where_dialog_should_appear() {
+//        int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
+//        int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
+//
+//        Bounds bounds = sharedInfo.getStage().getScene().getRoot().localToScreen(
+//                sharedInfo.getStage().getScene().getRoot().getBoundsInLocal());
+//
+//        int available_space_below = (int) (screenHeight - bounds.getMaxY());
+//        int available_space_above = (int) (bounds.getMinY());
+//        int available_space_left = (int) (bounds.getMinX());
+//        int available_space_right = (int) (screenWidth - bounds.getMaxX());
+//
+//
+//
+//
+//        if (available_space_below > currentHeight) {
+//            x = (int) bounds.getMinX();
+//            y = (int) bounds.getMaxY();
+//        } else if (available_space_above > currentHeight) {
+//            x = (int) bounds.getMinX();
+//            y = (int) (bounds.getMinY() - currentHeight);
+//        } else if (available_space_left > currentWidth) {
+//            System.out.printf("Dialog width %f\nDialogPane width %f\n", getWidth(), dialogPane.getWidth());
+//            x = (int) (bounds.getMinX() - dialogPane.getWidth());
+//            y = (int) bounds.getMaxY() - currentHeight;
+//        }else if (available_space_right > currentWidth)
+//        {
+//
+//            x = (int) (bounds.getMaxX()) ;
+//            y = (int) bounds.getMaxY() - currentHeight;
+//        }
+//    }
 
     private void settingUp_dialogLayout() {
         settingUp_closeButton();
@@ -201,6 +188,7 @@ public class SepDialog extends Dialog implements Observar {
             public void handle(ActionEvent actionEvent) {
 
                 configMaster.setSeparator_when_getting_all_text(processing_string());
+                configMaster.setUnprocessed_separator_when_getting_all_text(textfield.getText());
                 setDialog_showing(false);
             }
         });
@@ -382,7 +370,9 @@ public class SepDialog extends Dialog implements Observar {
         if (dialog_showing) {
             dialogPane.applyCss();
             dialogPane.layout();
-            calculating_where_dialog_should_appear();
+            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
+            x = coords.x;
+            y = coords.y;
             Window window = getDialogPane().getScene().getWindow();
             if (window != null) {
                 window.setX(x);
@@ -411,14 +401,15 @@ public class SepDialog extends Dialog implements Observar {
 
    @Override
 public void stage_has_been_resized() {
-    System.out.println("yeha motherfuckers ");
 
     if (dialog_showing) {
         // Defer repositioning until after resize/layout pass
         Platform.runLater(() -> {
             dialogPane.applyCss();
             dialogPane.layout();
-            calculating_where_dialog_should_appear();
+            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
+            x = coords.x;
+            y = coords.y;
 
             Window window = getDialogPane().getScene().getWindow();
             if (window != null) {

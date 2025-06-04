@@ -1,19 +1,10 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import org.example.vimclip.Observar;
-import org.example.vimclip.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +12,7 @@ import java.util.HashMap;
 
 //What i have to do. Assign to the buttons their corresponding actions and images
 
-public class ButtonShit implements Observar {
+public class MainButton implements Observar {
 
     private HashMap<String, Leboutton.ButtonInfo> buttons = new HashMap<>();
 
@@ -34,7 +25,7 @@ public class ButtonShit implements Observar {
     int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
     private ArrayList<Observar> observadores_list = new ArrayList<>();
 
-    public ButtonShit(ArrayList<Button> buttons_array,
+    public MainButton(ArrayList<Button> buttons_array,
                       SharedInfo sharedInfo) {
 
         this.sharedInfo = sharedInfo;

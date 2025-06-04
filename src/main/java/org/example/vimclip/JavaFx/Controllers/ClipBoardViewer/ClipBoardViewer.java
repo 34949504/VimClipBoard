@@ -32,7 +32,7 @@ public class ClipBoardViewer implements Observar {
     private SharedInfo sharedInfo = new SharedInfo();
     private RegistryManager registryManager;
 
-    private ButtonShit buttonShit;
+    private MainButton buttonShit;
     private ConfigLoader configLoader;
     private MyDialog myDialog;
     private Instance_manager instanceManager;
@@ -145,7 +145,7 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.setConfigLoader(configLoader);
         myDialog = new MyDialog(sharedInfo,configMaster);
         sharedInfo.setMyDialog(myDialog);
-        buttonShit = new ButtonShit(buttons, sharedInfo);
+        buttonShit = new MainButton(buttons, sharedInfo);
         buttonShit.setObservadores_list(observadores_list);
         changeListener_stagePosition();
 
