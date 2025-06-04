@@ -6,6 +6,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
 
 @Setter
 @Getter

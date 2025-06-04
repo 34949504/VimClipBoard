@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 //What i have to do. Assign to the buttons their corresponding actions and images
 
-public class MainButton implements Observar {
+public class MainButtons implements Observar {
 
     private HashMap<String, Leboutton.ButtonInfo> buttons = new HashMap<>();
 
@@ -25,8 +25,8 @@ public class MainButton implements Observar {
     int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
     private ArrayList<Observar> observadores_list = new ArrayList<>();
 
-    public MainButton(ArrayList<Button> buttons_array,
-                      SharedInfo sharedInfo) {
+    public MainButtons(ArrayList<Button> buttons_array,
+                       SharedInfo sharedInfo) {
 
         this.sharedInfo = sharedInfo;
         addObserver(sharedInfo.getAcciones().getClipBoardListener());

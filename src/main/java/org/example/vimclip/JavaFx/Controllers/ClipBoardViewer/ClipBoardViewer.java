@@ -16,6 +16,8 @@ import javafx.scene.text.Font;
 import javafx.stage.*;
 import lombok.Setter;
 import org.example.vimclip.ConfigMaster;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.SepDialog;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
@@ -32,7 +34,7 @@ public class ClipBoardViewer implements Observar {
     private SharedInfo sharedInfo = new SharedInfo();
     private RegistryManager registryManager;
 
-    private MainButton buttonShit;
+    private MainButtons buttonShit;
     private ConfigLoader configLoader;
     private MyDialog myDialog;
     private Instance_manager instanceManager;
@@ -145,7 +147,7 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.setConfigLoader(configLoader);
         myDialog = new MyDialog(sharedInfo,configMaster);
         sharedInfo.setMyDialog(myDialog);
-        buttonShit = new MainButton(buttons, sharedInfo);
+        buttonShit = new MainButtons(buttons, sharedInfo);
         buttonShit.setObservadores_list(observadores_list);
         changeListener_stagePosition();
 
@@ -320,6 +322,7 @@ public class ClipBoardViewer implements Observar {
         startRecordingButton.setTooltip(new MyTooltip("Saves everything that you copy when its on in the current tab"));
         selectAll.setTooltip(new MyTooltip("Selects all blocks/Deselects all blocks"));
         switchEdge.setTooltip(new MyTooltip("Switches edge"));
+        separator.setTooltip(new MyTooltip(""));
     }
 
     public class MyTooltip extends Tooltip {

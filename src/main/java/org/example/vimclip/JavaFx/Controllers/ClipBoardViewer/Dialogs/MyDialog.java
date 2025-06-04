@@ -1,4 +1,4 @@
-package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
+package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
 import org.example.vimclip.ConfigMaster;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.BlocText;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 import org.example.vimclip.Observar;
 
 import java.util.ArrayList;
@@ -76,12 +78,16 @@ public class MyDialog extends Dialog implements Observar {
     }
 
     private void settingDims() {
-        dialogPane.setPrefWidth(sharedInfo.getConfigLoader().stage_defaultWidth);
-        dialogPane.setPrefHeight(sharedInfo.getConfigLoader().stage_defaultHeight / 2);
+
+
+        int w =sharedInfo.getConfigLoader().getStage_defaultWidth();
+        int h = sharedInfo.getConfigLoader().getStage_defaultHeight() / 2;
+        dialogPane.setPrefWidth(w);
+        dialogPane.setPrefHeight(h);
         setResizable(true);
 
-        currentHeight = (int)(clipboardViewer_config.getStage_height()/2);
-        currentWidth = (int)(clipboardViewer_config.getStage_width());
+        currentHeight = h;
+        currentWidth =  w;
     }
 
     private void calculating_where_dialog_should_appear() {

@@ -87,6 +87,8 @@ public class Leboutton {
         Timeline timeline = new Timeline();
         buttonInfo.button = button;
 
+        System.out.println("Id is "+button.getId());
+
         timeline.setCycleCount(1);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), actionEvent -> {
 
@@ -104,6 +106,7 @@ public class Leboutton {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
+                    System.out.println("something happening?");
 
                     button.setGraphic(second_image);
                     timeline.play();

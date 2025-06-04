@@ -1,6 +1,8 @@
-package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
+package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
@@ -12,9 +14,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.*;
 import org.example.vimclip.ConfigMaster;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Leboutton;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 import org.example.vimclip.Observar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SepDialog extends Dialog implements Observar {
 
@@ -22,10 +27,12 @@ public class SepDialog extends Dialog implements Observar {
 
     private DialogPane dialogPane = this.getDialogPane();
     private BorderPane borderPane = new BorderPane();
-   private Button newLine_button = new Button("New line button");
-   private Button pattern_button = new Button("Pattern");
+   private Button newLine_button = new Button();
+   private Button pattern_button = new Button();
    private PatternCreator_contextMenu patternCreatorContextMenu = new PatternCreator_contextMenu();
+   private LoadingButtons loadingButtons = new LoadingButtons();
 
+   private Label label = new Label();
    private DialogSimilarFuncs DSF;
 
 
@@ -50,10 +57,11 @@ public class SepDialog extends Dialog implements Observar {
         clipboardViewer_config = configMaster.getClipboardViewer_config();
         settingDims();
         settingUp_dialogLayout();
-        action_patternButton();
         dialogPane.setContent(borderPane);
         initModality(Modality.WINDOW_MODAL);
         initStyle(StageStyle.UNDECORATED);
+
+        separator_textfieldListener();
 
         DSF = new DialogSimilarFuncs(sharedInfo,this);
 
@@ -74,7 +82,7 @@ public class SepDialog extends Dialog implements Observar {
             window.setY(y);
         });
 
-        new_line_button_onAction();
+//        new_line_button_onAction();
 
         textfield.setText(configMaster.getSeparator_when_getting_all_text());
         configMaster.setUnprocessed_separator_when_getting_all_text(textfield.getText());
@@ -82,18 +90,19 @@ public class SepDialog extends Dialog implements Observar {
 
     }
 
-    private void new_line_button_onAction()
+    private void separator_textfieldListener()
     {
-       newLine_button.setOnAction(new EventHandler<ActionEvent>() {
-           @Override
-           public void handle(ActionEvent actionEvent) {
+//       textfield.textProperty().addListener(new ChangeListener<String>() {
+//           @Override
+//           public void changed(ObservableValue<? extends String> observableValue, String string, String t1) {
+//
+//               System.out.println(t1);
+//           }
+//       });
+//
+        label.textProperty().bind(textfield.textProperty()); // ✅ RIGHT DIRECTION
 
-               StringBuilder cur_text =new StringBuilder(textfield.getText());
 
-               cur_text.append("\\n");
-               textfield.setText(cur_text.toString());
-           }
-       });
     }
 
 
@@ -105,53 +114,23 @@ public class SepDialog extends Dialog implements Observar {
 
 
     private void settingDims() {
-        dialogPane.setPrefWidth(sharedInfo.getConfigLoader().stage_defaultWidth);
-        dialogPane.setPrefHeight(sharedInfo.getConfigLoader().stage_defaultHeight / 2);
+
+        int w =sharedInfo.getConfigLoader().getStage_defaultWidth();
+        int h = sharedInfo.getConfigLoader().getStage_defaultHeight() / 2;
+        dialogPane.setPrefWidth(w);
+        dialogPane.setPrefHeight(h);
         setResizable(true);
 
-//        currentHeight = sharedInfo.getConfigLoader().stage_defaultHeight / 2;
-//        currentWidth = sharedInfo.getConfigLoader().stage_currentWidth;
-        currentHeight = (int)(clipboardViewer_config.getStage_height()/2);
-        currentWidth = (int)(clipboardViewer_config.getStage_width());
+        currentHeight = (int)(h);
+        currentWidth = (int)(w);
     }
 
-//    private void calculating_where_dialog_should_appear() {
-//        int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
-//        int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
-//
-//        Bounds bounds = sharedInfo.getStage().getScene().getRoot().localToScreen(
-//                sharedInfo.getStage().getScene().getRoot().getBoundsInLocal());
-//
-//        int available_space_below = (int) (screenHeight - bounds.getMaxY());
-//        int available_space_above = (int) (bounds.getMinY());
-//        int available_space_left = (int) (bounds.getMinX());
-//        int available_space_right = (int) (screenWidth - bounds.getMaxX());
-//
-//
-//
-//
-//        if (available_space_below > currentHeight) {
-//            x = (int) bounds.getMinX();
-//            y = (int) bounds.getMaxY();
-//        } else if (available_space_above > currentHeight) {
-//            x = (int) bounds.getMinX();
-//            y = (int) (bounds.getMinY() - currentHeight);
-//        } else if (available_space_left > currentWidth) {
-//            System.out.printf("Dialog width %f\nDialogPane width %f\n", getWidth(), dialogPane.getWidth());
-//            x = (int) (bounds.getMinX() - dialogPane.getWidth());
-//            y = (int) bounds.getMaxY() - currentHeight;
-//        }else if (available_space_right > currentWidth)
-//        {
-//
-//            x = (int) (bounds.getMaxX()) ;
-//            y = (int) bounds.getMaxY() - currentHeight;
-//        }
-//    }
 
     private void settingUp_dialogLayout() {
         settingUp_closeButton();
         borderPane.setTop(close_button);
         borderPane.setCenter(textfield);
+        borderPane.setRight(label);
 
         HBox hBox = new HBox();
         hBox.getChildren().addAll(newLine_button,pattern_button);
@@ -164,16 +143,7 @@ public class SepDialog extends Dialog implements Observar {
 
     }
 
-    private void action_patternButton()
-    {
-        pattern_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                patternCreatorContextMenu.show(pattern_button, Side.BOTTOM,0,0);
-            }
-        });
 
-    }
 
     private void settingUp_closeButton() {
         Image image = new Image("file:" + "C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\resources\\assets\\images\\close.png");
@@ -506,6 +476,60 @@ public void stage_has_been_resized() {
 
                 }
             });
+        }
+    }
+
+    public class LoadingButtons
+    {
+
+        private HashMap<String, Leboutton.ButtonInfo> buttons_hash = new HashMap<>();
+        private Leboutton.MyImages myImages = new Leboutton.MyImages();
+        private ArrayList<Button> button_array = new ArrayList<>();
+        public LoadingButtons()
+        {
+            settingUpId();
+            creatingButtonInfo();
+            inicializando_botones(button_array);
+        }
+
+        private void settingUpId()
+        {
+            newLine_button.setId("newLine");
+            button_array.add(newLine_button);
+
+            pattern_button.setId("pattern");
+            button_array.add(pattern_button);
+
+//            pattern_button.setId("patternButton");
+        }
+        private void creatingButtonInfo()
+        {
+            buttons_hash.put("newLine",new Leboutton.ButtonInfo(
+                    myImages.imageViewConstructor("new_line.png","new_linePressed.png"),
+                    () -> newLine_buttonFunc()));
+
+            buttons_hash.put("pattern",new Leboutton.ButtonInfo(
+                    myImages.imageViewConstructor("pattern.png","patternPressed.png"),
+                    () -> pattern_buttonFunc()));
+        }
+
+        private void newLine_buttonFunc()
+        {
+            StringBuilder cur_text =new StringBuilder(textfield.getText());
+            cur_text.append("\\n");
+                    textfield.setText(cur_text.toString());
+
+        }
+        private void pattern_buttonFunc()
+        {
+
+            patternCreatorContextMenu.show(pattern_button, Side.BOTTOM,0,0);
+        }
+
+        private void inicializando_botones(ArrayList<Button> buttons_array) {
+            for (Button button : buttons_array) {
+                Leboutton.inicialiar_boton(buttons_hash,button);
+            }
         }
     }
 }

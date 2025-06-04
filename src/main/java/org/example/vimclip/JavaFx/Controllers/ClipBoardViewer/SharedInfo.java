@@ -5,15 +5,13 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.scene.control.Separator;
 import org.example.vimclip.RegistryManager;
-
-import javax.swing.border.LineBorder;
 
 @Getter
 @Setter

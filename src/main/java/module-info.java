@@ -23,4 +23,6 @@ module org.example.vimclip {
     opens org.example.vimclip.JavaFx.Controllers.ClipBoardViewer to javafx.fxml;
     exports org.example.vimclip.Clipboard;
     opens org.example.vimclip.Clipboard to javafx.fxml;
+    exports org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs;
+    opens org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs to javafx.fxml;
 }

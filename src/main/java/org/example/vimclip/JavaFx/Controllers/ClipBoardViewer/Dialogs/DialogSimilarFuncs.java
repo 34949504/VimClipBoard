@@ -1,4 +1,4 @@
-package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
+package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs;
 
 import javafx.geometry.Bounds;
 import javafx.scene.control.Dialog;
@@ -6,6 +6,7 @@ import javafx.scene.control.DialogPane;
 import javafx.stage.Screen;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 
 
 public class DialogSimilarFuncs {
@@ -63,8 +64,8 @@ public class DialogSimilarFuncs {
     @Setter
     public static class Coords
     {
-        int x;
-        int y;
+        public int x;
+        public int y;
 
         public Coords(int x, int y )
         {
