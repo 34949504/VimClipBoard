@@ -78,6 +78,11 @@ public class MainButtons implements Observar {
                 () -> myButtonFuncs.separator()
         ));
 
+        buttons.put("copy_and_remove",new Leboutton.ButtonInfo(
+                myImages.imageViewConstructor("copy_and_remove.png","copy_and_removePressed.png"),
+                () -> myButtonFuncs.copy_and_remove()
+        ));
+
     }
 
     private void inicializando_botones(ArrayList<Button> buttons_array) {
@@ -155,9 +160,9 @@ public class MainButtons implements Observar {
          * that actividates copying
          * @param flag
          */
-        private void prohecing_disable_hand(boolean flag)
+        private void prohecing_disable_hand(boolean flag,String id)
         {
-            Leboutton.ButtonInfo buttonInfo = buttons.get("copyButton");
+            Leboutton.ButtonInfo buttonInfo = buttons.get(id);
             Button button = buttonInfo.button;
             button.setDisable(flag);
         }
@@ -170,12 +175,15 @@ public class MainButtons implements Observar {
                     observador.esc_was_pressed();
                 }
                 sharedInfo.getCopyingStrings().set(false);
-                prohecing_disable_hand(false);
+                prohecing_disable_hand(false,"copyButton");
+                prohecing_disable_hand(false,"copy_and_remove");
+
             } else {
 
                 sharedInfo.getAcciones().doCommand(sharedInfo.getCurrent_register(), "clipboard_listener");
                 sharedInfo.getCopyingStrings().set(true);
-                prohecing_disable_hand(true);
+                prohecing_disable_hand(true,"copyButton");
+                prohecing_disable_hand(true,"copy_and_remove");
             }
         }
 
@@ -255,6 +263,49 @@ public class MainButtons implements Observar {
 
 
         }
+        public void copy_and_remove()
+        {
+            //check if current reg not empty. check if selected
+            //remove from top to bottom// disable when button active
+            System.out.println("hello");
+
+            ArrayList<Integer> selected_labels = get_selected_labels();
+
+            int status = sharedInfo.getAcciones().doCommand4(sharedInfo.getCurrent_register(), selected_labels, "get_values");
+
+            if (status == 0) {
+
+                 sharedInfo.getAcciones().doCommand4(sharedInfo.getCurrent_register(), selected_labels, "remove_values");
+                for (Observar observador:observadores_list)
+                {
+                    observador.blocs_were_deleted(selected_labels);
+                }
+//                deselect_labels(selected_labels);
+//                allSelected = false;
+            }
+            else { // It means there was no selection then  reg size
+
+               int reg_size = sharedInfo.getRegistryManager().get_array_size(sharedInfo.getCurrent_register());
+
+               if ( reg_size <= 0){
+                   System.out.println("Cannot remove and copy because reg size is 0");
+                   return;
+               }
+               sharedInfo.getAcciones().doCommand(sharedInfo.getCurrent_register(),"get_first_value");
+               sharedInfo.getAcciones().doCommand(sharedInfo.getCurrent_register(),"remove_first_value");
+
+               ArrayList<Integer> s = new ArrayList<>();
+               s.add(0);
+                for (Observar observador:observadores_list)
+                {
+                    observador.blocs_were_deleted(s);
+                }
+
+
+            }
+        }
+
+
 
         public ArrayList<Integer> get_selected_labels() {
             ArrayList<Integer> index_arrray = new ArrayList<>();
@@ -283,6 +334,7 @@ public class MainButtons implements Observar {
 
             }
         }
+
     }
 
     public void addObserver(Observar observer) {

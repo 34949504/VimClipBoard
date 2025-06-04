@@ -48,6 +48,8 @@
 
 
 
+                <Button fx:id="copy_and_remove" >
+                </Button>
                 <Button fx:id="trashButton" >
                 </Button>
                 <Button fx:id="copyButton" >

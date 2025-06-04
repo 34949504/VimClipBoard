@@ -45,6 +45,7 @@ public class Acciones {
         hashMap.put("get_all_values",new get_all_values());
         hashMap.put("remove_all_values",new remove_all_values());
         hashMap.put("remove_last_value",new remove_last_value());
+        hashMap.put("remove_first_value",new remove_last_value());
         hashMap.put("get_value_by_number",new getValue());
         hashMap.put("remove_value_by_number",new removeValue());
         hashMap.put("get_values", new get_values());
@@ -328,6 +329,16 @@ public class Acciones {
             }
             return 0;
 
+        }
+    }
+
+    public class remove_first_value implements doing_action
+    {
+
+        @Override
+        public void do_command(Character reg) {
+
+            registryManager.removeValue(reg,0);
         }
     }
 }

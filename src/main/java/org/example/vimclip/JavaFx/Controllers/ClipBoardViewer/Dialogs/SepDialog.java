@@ -92,15 +92,17 @@ public class SepDialog extends Dialog implements Observar {
 
     private void separator_textfieldListener()
     {
-//       textfield.textProperty().addListener(new ChangeListener<String>() {
-//           @Override
-//           public void changed(ObservableValue<? extends String> observableValue, String string, String t1) {
-//
-//               System.out.println(t1);
-//           }
-//       });
-//
-        label.textProperty().bind(textfield.textProperty()); // ✅ RIGHT DIRECTION
+       textfield.textProperty().addListener(new ChangeListener<String>() {
+           @Override
+           public void changed(ObservableValue<? extends String> observableValue, String string, String t1) {
+
+               String processed_string = processing_string();
+               configMaster.setSeparator_when_getting_all_text(processed_string);
+               configMaster.setUnprocessed_separator_when_getting_all_text(textfield.getText());
+               System.out.println(t1);
+           }
+       });
+
 
 
     }
