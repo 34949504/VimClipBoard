@@ -23,9 +23,9 @@ import java.util.HashMap;
 
 public class ButtonShit implements Observar {
 
-    private HashMap<String, ButtonInfo> buttons = new HashMap<>();
+    private HashMap<String, Leboutton.ButtonInfo> buttons = new HashMap<>();
 
-    private MyImages myImages = new MyImages();
+    private Leboutton.MyImages myImages = new Leboutton.MyImages();
    private  MyButtonFuncs myButtonFuncs = new MyButtonFuncs();
 
    private SharedInfo sharedInfo;
@@ -48,139 +48,53 @@ public class ButtonShit implements Observar {
     private void creatingButtonInfo()
     {
 
-
-        buttons.put("expand", new ButtonInfo(
+        buttons.put("expand", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("expand.png", "expandPressed.png"),
                 () -> myButtonFuncs.expand()
         ));
 
-        buttons.put("trashButton", new ButtonInfo(
+        buttons.put("trashButton", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("trash.png", "trashPressed.png"),
                 () -> myButtonFuncs.trashCan()
         ));
 
-        buttons.put("copyButton", new ButtonInfo(
+        buttons.put("copyButton", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("copy.png", "copyPressed.png"),
                 () -> myButtonFuncs.copyHand()
         ));
 
-        buttons.put("selectAll", new ButtonInfo(
+        buttons.put("selectAll", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("selectAll.png", "selectAllPressed.png"),
                 () -> myButtonFuncs.selectAll()
         ));
 
-        buttons.put("startRecordingButton", new ButtonInfo(
+        buttons.put("startRecordingButton", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("startRecording.png", "startRecordingPressed.png"),
                 () -> myButtonFuncs.startCopying(),false
         ));
 
-        buttons.put("gearButton", new ButtonInfo(
+        buttons.put("gearButton", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("gear.png", "gearPressed.png"),
                 () -> myButtonFuncs.gear()
         ));
 
-        buttons.put("switchEdge", new ButtonInfo(
+        buttons.put("switchEdge", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("switchEdge.png", "switchEdgePressed.png"),
                 () -> myButtonFuncs.switchEdge()
         ));
-        buttons.put("separator", new ButtonInfo(
+        buttons.put("separator", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("separator.png", "separatorPressed.png"),
                 () -> myButtonFuncs.separator()
         ));
 
     }
 
-    private void inicializando_botones(ArrayList<Button> buttons) {
-        for (Button button : buttons) {
-            inicialiar_boton(button);
+    private void inicializando_botones(ArrayList<Button> buttons_array) {
+        for (Button button : buttons_array) {
+            Leboutton.inicialiar_boton(buttons,button);
         }
     }
 
-
-    private void inicialiar_boton(Button button) {
-
-
-
-        ButtonInfo buttonInfo =buttons.get(button.getId());
-        ImageView[] imageViews = buttonInfo.imageViews;
-        ImageView first_image = imageViews[0];
-        ImageView second_image = imageViews[1];
-        Timeline timeline = new Timeline();
-        buttonInfo.button = button;
-
-        timeline.setCycleCount(1);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), actionEvent -> {
-
-            button.setGraphic(first_image);
-
-
-        }));
-        button.setGraphic(first_image);
-        button.setStyle("-fx-background-color: transparent;"); // Optional styling
-        button.setOnAction(e -> {
-            System.out.println("Button clicked!");
-        });
-
-        if (buttonInfo.quickanimation) {
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-
-                    button.setGraphic(second_image);
-                    timeline.play();
-                    buttonInfo.func.run();
-                    System.out.println("was pressed");
-                }
-            });
-        } else {
-
-
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-
-                    buttonInfo.toogle_image = buttonInfo.toogle_image == 0 ? 1 : 0;
-                    button.setGraphic(imageViews[buttonInfo.toogle_image]);
-                    buttonInfo.func.run();
-                }
-            });
-
-        }
-    }
-
-
-    public class MyImages {
-
-        private String path = "/assets/images/";
-
-        public String[] string_creator(String... names) {
-            String[] strings = new String[names.length];
-            int i = 0;
-            for (String str : names) {
-                String new_string = String.format("%s%s", path, str);
-                strings[i++] = new_string;
-            }
-            return strings;
-        }
-        public ImageView[] imageViewConstructor(String... names)
-        {
-            String[] paths = string_creator(names);
-            ImageView[] imageViews = new ImageView[names.length];
-
-            for (int i = 0; i < paths.length; i++) {
-
-                Image image = new Image(Utils.getInputStream(paths[i])); // prefix "file:" for absolute paths
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(40); // Optional: scale the image
-                imageView.setFitHeight(40);
-                imageViews[i] = imageView;
-
-            }
-            return imageViews;
-
-        }
-
-        }
 
     public class MyButtonFuncs {
 
@@ -252,7 +166,7 @@ public class ButtonShit implements Observar {
          */
         private void prohecing_disable_hand(boolean flag)
         {
-            ButtonInfo buttonInfo = buttons.get("copyButton");
+            Leboutton.ButtonInfo buttonInfo = buttons.get("copyButton");
             Button button = buttonInfo.button;
             button.setDisable(flag);
         }
@@ -380,33 +294,6 @@ public class ButtonShit implements Observar {
         }
     }
 
-    public class ButtonInfo {
-
-        public ImageView[] imageViews ;
-        public Runnable func;
-        public boolean quickanimation = true;
-        public int toogle_image = 0;
-        public Button button;
-
-
-        public  ButtonInfo(ImageView[] imageViews,Runnable func,boolean quickanimation)
-        {
-            if (quickanimation) {
-                System.out.println("[Info] quickanimation is already true by default — you can omit it.");
-            }
-
-            this.imageViews = imageViews;
-            this.func = func;
-            this.quickanimation = quickanimation;
-        }
-
-        public  ButtonInfo(ImageView[] imageViews,Runnable func)
-        {
-            this.imageViews = imageViews;
-            this.func = func;
-        }
-
-    }
     public void addObserver(Observar observer) {
         observadores_list.add(observer);
     }
