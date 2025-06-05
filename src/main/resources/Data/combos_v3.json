@@ -136,7 +136,8 @@
             ]
         }
       }
-    }
+    },
+    "c": "appshortcut@copyButton"
   }
 }
 

@@ -17,6 +17,8 @@ public class JsonTraverser_statusv2 {
     boolean comando_terminado = false;
     String actions_params = null;
 
+    String appShortcut = null;
+
     public static int STATUS_NEUTRAL = 0; //dont do nothing
     public static int STATUS_CORRECT = 1; // clear keystack and execute action
     public static int STATUS_INMMEDIATE_ACTION = 2; //Do inmmediate action but dont clear stack

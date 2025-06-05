@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -51,6 +52,11 @@ public class JsonTraverser implements Observar {
             try {
                 pointer = pointer.getJSONObject(keystack.get(i));
             } catch (JSONException e) {
+
+                if (find_appshortcut(pointer,keystack.get(i)))
+                {
+                    return jsonTraverserStatusv2;
+                }
 
                 if (!finding_parameters_without_keyword(keystack.get(i),pointer,traversalState)) {
                     status_wrong();
@@ -378,6 +384,33 @@ public class JsonTraverser implements Observar {
             return false;
         }
 
+    }
+
+    private boolean find_appshortcut(JSONObject pointer,String key)
+    {
+
+        try {
+            String text = pointer.getString(key);
+
+            String[] split = text.split("@");
+            if (split.length == 2)
+            {
+
+                String f = split[0];
+                String s = split[1];
+
+                if (f.compareTo("appshortcut") == 0)
+                {
+                    jsonTraverserStatusv2.setAppShortcut(s);
+                    return true;
+                }
+            }
+
+            return false;
+
+        } catch (JSONException e) {
+           return false;
+        }
     }
 }
 
