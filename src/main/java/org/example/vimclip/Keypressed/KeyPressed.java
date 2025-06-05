@@ -94,9 +94,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
         int keycode = e.getKeyCode();
         String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
 
-        System.out.println("Pressed "+key);
 
-//        System.out.println("Key pressed here is "+key);
 
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
         {
@@ -131,12 +129,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
             keyStack.add(key);
         }
 
-        System.out.println("-------\nprintingstack\n");
-        for(String str:keyStack)
-        {
-            System.out.println(str);
-        }
-        System.out.println("-------\nprintingstack\n");
 
         JsonTraverser_statusv2 js = jsonTraverser.traverseV3(keyStack);
         JSONArray acciones_array = js.getAccion_arrays();
@@ -280,7 +272,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
     @Override
     public void isTimerOn(boolean flag) {
-        System.out.println("This was called "+flag);
        isTimerOn = flag;
     }
     @Override

@@ -1,6 +1,11 @@
 {
   "alt": {
+
     "alt": {
+
+      "t": "appshortcut@shortcut_button"
+    },
+    "shift": {
       "desc_traversing": {
         "p": "Mas funcionalidades",
         "shift": "Visitar scripts",
@@ -146,7 +151,8 @@
     "a": "appshortcut@selectAll",
     "h": "appshortcut@expand",
     "e": "appshortcut@switchEdge",
-    "comma": "appshortcut@separator"
+    "comma": "appshortcut@separator",
+    "v": "appshortcut@hide_app"
   }
 }
 

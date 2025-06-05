@@ -171,14 +171,12 @@ public class SepDialog extends Dialog implements Observar {
         StringBuilder processed = new StringBuilder();
 
 
-        System.out.println("Unprocessed string es "+unprocessed);
         boolean found_slash = false;
         // first ( then num then string then parenthesis
 
         for (int i = 0; i < unprocessed.length(); i++) {
 
             boolean continue_first_loop = false;
-            System.out.println("i is "+i);
             Character c = unprocessed.charAt(i);
 
 
@@ -199,14 +197,12 @@ public class SepDialog extends Dialog implements Observar {
             }
 
             if (c == '('){
-                System.out.println("se encontro left par");
                for (int x = i; x < unprocessed.length();++x)
                {
                    Character e = unprocessed.charAt(x);
 
                    if (e == ')')
                    {
-                       System.out.println("se encontro right par");
                        String pattern = unprocessed.substring(i,x+1);
                        PatternInfo patternInfo =find_pattern(pattern);
                        if ( patternInfo == null)
@@ -218,7 +214,6 @@ public class SepDialog extends Dialog implements Observar {
                           int times = patternInfo.number_of_times;
                           String pattern_text = patternInfo.pattern_text;
 
-                           System.out.printf("Times %d and text %s\n",times,pattern_text);
                            for(int y = 0; y < times;++y)
                            {
                                processed.append(pattern_text);
@@ -226,7 +221,6 @@ public class SepDialog extends Dialog implements Observar {
 
                           i = x;
                            continue_first_loop = true;
-                           System.out.println("next char is "+unprocessed.charAt(i));
                            break;
                        }
                    }
@@ -238,11 +232,9 @@ public class SepDialog extends Dialog implements Observar {
             }
 
 
-            System.out.println("apending to c ");
             processed.append(c);
 
         }
-        System.out.printf("Separator is %s hello myname is jeff \n",processed.toString());
         return  processed.toString();
 
     }
@@ -273,7 +265,6 @@ public class SepDialog extends Dialog implements Observar {
 
                if (c == ',') {
 
-                   System.out.println("Se encontro la coma");
                    stage_number = false;
                    stage_text = true;
                    continue;
@@ -313,7 +304,6 @@ public class SepDialog extends Dialog implements Observar {
             return null;
         }
 
-        System.out.println("number es "+number+" and text is "+text.toString());
 
         PatternInfo patternInfo = new PatternInfo();
         patternInfo.number_of_times = number;

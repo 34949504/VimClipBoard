@@ -69,10 +69,15 @@
                 </Button>
                 <Button fx:id="expand" >
                 </Button>
-                <Button fx:id="gearButton" >
+
+                <Button fx:id="hide_app" >
                 </Button>
             </HBox>
 
+            <HBox alignment="BASELINE_RIGHT">
+                <Button fx:id="gearButton" >
+                </Button>
+            </HBox>
         </VBox>
     </bottom>
 

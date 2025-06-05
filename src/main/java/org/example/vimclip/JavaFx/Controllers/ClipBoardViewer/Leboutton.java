@@ -88,7 +88,6 @@ public class Leboutton {
         Timeline timeline = new Timeline();
         buttonInfo.button = button;
 
-        System.out.println("Id is "+button.getId());
 
         timeline.setCycleCount(1);
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), actionEvent -> {

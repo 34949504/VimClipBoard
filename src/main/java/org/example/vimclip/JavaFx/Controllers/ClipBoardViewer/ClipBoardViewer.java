@@ -1,5 +1,6 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 
 import javafx.application.Platform;
@@ -12,7 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.*;
 import lombok.Setter;
 import org.example.vimclip.ConfigMaster;
@@ -76,6 +80,7 @@ public class ClipBoardViewer implements Observar {
 
     @FXML private Button copy_and_remove;
     @FXML private Button shortcut_button;
+    @FXML private Button hide_app;
 
     ArrayList<Button> buttons;
 
@@ -106,7 +111,8 @@ public class ClipBoardViewer implements Observar {
                 switchEdge,
                 separator,
                 copy_and_remove,
-                shortcut_button
+                shortcut_button,
+                hide_app
         ));
 
 
@@ -117,6 +123,16 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.setCurrent_register(registryTabPane.getTabs().get(0).getId().charAt(0));
 
 
+    }
+
+    private void stage_hidden_listener()
+    {
+        stage.setOnHidden(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                System.out.println("was hidden");
+            }
+        });
     }
 
 
@@ -150,6 +166,7 @@ public class ClipBoardViewer implements Observar {
 
     public void initialize_shit() {
 
+        stage_hidden_listener();
         clipboardViewer_config = configMaster.getClipboardViewer_config();
 
 
@@ -328,20 +345,24 @@ public class ClipBoardViewer implements Observar {
     }
 
     private void setting_tooltips() {
-        expand.setTooltip(new MyTooltip("Expands application vertically"));
-        gearButton.setTooltip(new MyTooltip("Configuration"));
-        trashButton.setTooltip(new MyTooltip("Deletes selected blocks"));
-        copyButton.setTooltip(new MyTooltip("Copies to your normal clipboard the selected blocks"));
-        startRecordingButton.setTooltip(new MyTooltip("Saves everything that you copy when its on in the current tab"));
-        selectAll.setTooltip(new MyTooltip("Selects all blocks/Deselects all blocks"));
-        switchEdge.setTooltip(new MyTooltip("Switches edge"));
-        separator.setTooltip(new MyTooltip(""));
+        expand.setTooltip(new MyTooltip("Alt + h\nExpands application vertically"));
+        gearButton.setTooltip(new MyTooltip("Alt + g\nConfiguration"));
+        trashButton.setTooltip(new MyTooltip(" Alt + t\nDeletes selected blocks"));
+        copyButton.setTooltip(new MyTooltip("Alt + c\nCopies to your normal clipboard the selected blocks"));
+        startRecordingButton.setTooltip(new MyTooltip("Alt + s\nSaves everything that you copy when its on in the current tab"));
+        selectAll.setTooltip(new MyTooltip("Alt + a\nSelects all blocks/Deselects all blocks"));
+        switchEdge.setTooltip(new MyTooltip("Alt + e\nSwitches edge"));
+        separator.setTooltip(new MyTooltip("Alt + ,\n"));
+        copy_and_remove.setTooltip(new MyTooltip("Alt + x\nCopies to your normal clipboard and removes the blocks"));
+        shortcut_button.setTooltip(new MyTooltip("Alt + Alt + t\nActivate or Deactivate shorcuts"));
+        hide_app.setTooltip(new MyTooltip("Alt + v\nMinimize or show the app"));
     }
 
     public class MyTooltip extends Tooltip {
         public static Font font = Font.loadFont("file:C:/Users/gerar/IdeaProjects/VimClip/src/main/resources/assets/BarberChop.otf", 14);
 
         public MyTooltip(String message) {
+
             this.setText(message);
             this.setFont(font);
         }

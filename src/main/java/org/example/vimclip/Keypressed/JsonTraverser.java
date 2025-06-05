@@ -127,7 +127,6 @@ public class JsonTraverser implements Observar {
             desc = split[0];
             String script_path = split[1];
             traversalState.getNorbit().put(key,script_path);
-            System.out.println("Se encontro esa wea");
 
             return desc;
         }

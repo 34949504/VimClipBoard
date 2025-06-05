@@ -151,8 +151,6 @@ public class Utils {
     {
         try {
             String configContent = Files.readString(path, StandardCharsets.UTF_8);
-            System.out.println("Config content:");
-            System.out.println(configContent);
             return new JSONObject(configContent);
         } catch (IOException e) {
             return  null;

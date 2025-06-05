@@ -4,6 +4,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.vimclip.Observar;
 
@@ -88,6 +89,10 @@ public class MainButtons implements Observar {
                 myImages.imageViewConstructor("shortbutton_active.png","shortbutton_not_active.png"),
                 () -> myButtonFuncs.shortcut_button(),false
         ));
+        buttons.put("hide_app",new Leboutton.ButtonInfo(
+                myImages.imageViewConstructor("hideApp.png","hideApp_pressed.png"),
+                () -> myButtonFuncs.hideApp()
+        ));
     }
 
     private void inicializando_botones(ArrayList<Button> buttons_array) {
@@ -103,13 +108,25 @@ public class MainButtons implements Observar {
         boolean allSelected = false;
         boolean shorctutButton_active = true;
 
+        boolean expanded = false;
+        int stage_previousX;
+        int stage_previousY;
+
         public MyButtonFuncs() {
 
         }
 
-        boolean expanded = false;
-        int stage_previousX;
-        int stage_previousY;
+        public boolean isShorctutButton_active()
+        {
+            return shorctutButton_active;
+        }
+
+        public void hideApp()
+        {
+
+            Stage stage = sharedInfo.getStage();
+            stage.setIconified(!stage.isIconified());
+        }
 
 
         public void trashCan() {
@@ -352,13 +369,21 @@ public class MainButtons implements Observar {
         System.out.println("was this called");
        Leboutton.ButtonInfo buttonInfo =  buttons.get(shortcut);
 
+       String name = shortcut;
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
 
-                buttonInfo.button.fire();
-//                buttonInfo.func.run();
+                if (name.compareTo("shortcut_button")==0)
+                {
+                    buttonInfo.button.fire();
+                    return;
+                }
+
+                if (myButtonFuncs.isShorctutButton_active()) {
+                    buttonInfo.button.fire();
+                }
             }
         });
     }
