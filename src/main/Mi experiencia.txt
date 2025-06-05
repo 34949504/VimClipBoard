@@ -56,6 +56,18 @@ parameters: Opcionales, pero si no esta vacios puedes formar el comando con los 
 same_script: used if it is seen, then it would make a variable be true and stored  to avoid redundancy
 
 
+alt a = all
+alt c = copy
+alt x = copy remove
+alt s = start recording
+alt e = switch edge
+alt h = exla d vertically
+alt r = alt remove
+
+ill something like  shortcuts activated  thats a button and can get
+activiad with a shortcut combinaition like alt alt a or something
+
+
 
 
 

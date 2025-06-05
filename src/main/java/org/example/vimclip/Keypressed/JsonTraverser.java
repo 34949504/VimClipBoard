@@ -52,6 +52,13 @@ public class JsonTraverser implements Observar {
                 pointer = pointer.getJSONObject(keystack.get(i));
             } catch (JSONException e) {
 
+               if (findAppShortcut(pointer,keystack.get(i)))
+               {
+                   jsonTraverserStatusv2.setKeystack(keystack);
+                   jsonTraverserStatusv2.setFoundAppShortcut(true);
+                   return jsonTraverserStatusv2;
+               }
+
                 if (!finding_parameters_without_keyword(keystack.get(i),pointer,traversalState)) {
                     status_wrong();
                     return jsonTraverserStatusv2;
@@ -378,6 +385,21 @@ public class JsonTraverser implements Observar {
             return false;
         }
 
+    }
+
+    private boolean findAppShortcut(JSONObject pointer,String key)
+    {
+       try {
+          String text = pointer.getString(key) ;
+
+          if (text.compareTo("appShortCut")==0)
+          {
+              return true;
+          }
+          return false;
+       } catch (JSONException e) {
+          return  false;
+       }
     }
 }
 

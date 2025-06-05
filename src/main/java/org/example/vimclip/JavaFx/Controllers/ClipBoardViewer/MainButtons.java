@@ -280,8 +280,6 @@ public class MainButtons implements Observar {
                 {
                     observador.blocs_were_deleted(selected_labels);
                 }
-//                deselect_labels(selected_labels);
-//                allSelected = false;
             }
             else { // It means there was no selection then  reg size
 

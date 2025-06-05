@@ -117,6 +117,17 @@ public class ClipBoardViewer implements Observar {
     }
 
 
+    @Override
+    public void appShortcut_beenPressed(ArrayList<String> shortCut) {
+
+        for(String str: shortCut)
+        {
+            System.out.println(str);
+        }
+        System.out.println("Found it sucka");
+
+    }
+
     private void tabsPane_listener() {
 
         registryTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -383,6 +394,19 @@ public class ClipBoardViewer implements Observar {
     public void setAcciones(Acciones acciones) {
         this.acciones = acciones;
     }
+
+
+    public class ShortCutManager
+    {
+
+        public ShortCutManager()
+        {
+            z
+        }
+    }
+
+
+
 
 
 }

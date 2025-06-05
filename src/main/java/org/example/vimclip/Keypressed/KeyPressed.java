@@ -130,6 +130,22 @@ public class KeyPressed implements NativeKeyListener, Observar {
             current_action_param = js.getActions_params();
         }
 
+        if (js.isFoundAppShortcut())
+        {
+            System.out.println("Found the shortcut");
+
+            for (Observar observer:observadores_list)
+            {
+                observer.appShortcut_beenPressed(js.getKeystack());
+            }
+
+
+            keyStack.clear();
+            return;
+        }
+
+
+
         int status = js.getStatus();
 
 

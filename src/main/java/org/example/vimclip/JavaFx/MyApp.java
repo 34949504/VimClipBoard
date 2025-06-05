@@ -19,7 +19,7 @@ import java.io.IOException;
 public class MyApp extends Application {
 
     Command_displayer commandDisplayer;
-
+    ClipBoardViewer clipBoardViewer;
     @Override
     public void start(Stage primaryStage) throws IOException {
 
@@ -27,15 +27,16 @@ public class MyApp extends Application {
         primaryStage.setAlwaysOnTop(true);
         primaryStage.setOpacity(0);
         commandDisplayer = new Command_displayer(AppContext.config, primaryStage);
-        creating_communication();
 
         initialize_clipboardViewer();
 
+        creating_communication();
 
     }
 
     private void creating_communication() {
         AppContext.keyPressed.addObserver(commandDisplayer);
+        AppContext.keyPressed.addObserver(clipBoardViewer);
     }
 
     private void initialize_clipboardViewer() throws IOException {
@@ -45,7 +46,7 @@ public class MyApp extends Application {
         FXMLLoader loader = new FXMLLoader(MyApp.class.getResource("/FXML/ClipBoardViewer.fxml")); // convert to URL
         Parent root = loader.load();
 
-        ClipBoardViewer controller = loader.getController();
+        clipBoardViewer = loader.getController();
 
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -53,11 +54,11 @@ public class MyApp extends Application {
 
         stage.setResizable(false);
         stage.setAlwaysOnTop(true);
-        controller.setStage(stage);
-        controller.setRegistryManager(AppContext.registryManager);
-        controller.setAcciones(AppContext.acciones);
-        controller.setConfig(AppContext.config);
-        controller.setConfigMaster(AppContext.configMaster);
+        clipBoardViewer.setStage(stage);
+        clipBoardViewer.setRegistryManager(AppContext.registryManager);
+        clipBoardViewer.setAcciones(AppContext.acciones);
+        clipBoardViewer.setConfig(AppContext.config);
+        clipBoardViewer.setConfigMaster(AppContext.configMaster);
 
         AppContext.configMaster.setScreen_width(screenWidth);
         AppContext.configMaster.setScreen_height(screenHeight);
@@ -65,12 +66,12 @@ public class MyApp extends Application {
 
 
         //comunicacion
-        controller.addObserver(AppContext.acciones.getListenToClipboard());
-        controller.addObserver(commandDisplayer);
-        controller.addObserver(AppContext.configMaster);
+        clipBoardViewer.addObserver(AppContext.acciones.getListenToClipboard());
+        clipBoardViewer.addObserver(commandDisplayer);
+        clipBoardViewer.addObserver(AppContext.configMaster);
 
-        AppContext.acciones.getClipBoardListener().addObserver(controller);
-        controller.initialize_shit();
+        AppContext.acciones.getClipBoardListener().addObserver(clipBoardViewer);
+        clipBoardViewer.initialize_shit();
 
 
         stage.show();
