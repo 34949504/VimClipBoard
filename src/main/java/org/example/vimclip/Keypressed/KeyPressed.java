@@ -65,7 +65,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
         addObserver(acciones.getListenForNumbers());
         acciones.getListenForNumbers().add_observer(this);
 
-        acciones.getClipBoardListener().setObservers_list(observadores_list);
+        acciones.getClipBoardListener().setObservers_list(new ArrayList<>(observadores_list));
 
         getTriggerKeys();
 
@@ -80,6 +80,12 @@ public class KeyPressed implements NativeKeyListener, Observar {
             System.exit(1);
         }
         GlobalScreen.addNativeKeyListener(this);
+
+
+        for (Observar observador:observadores_list)
+        {
+            System.out.println("Clase es "+observador.getClass());
+        }
 
     }
 
@@ -130,20 +136,21 @@ public class KeyPressed implements NativeKeyListener, Observar {
             current_action_param = js.getActions_params();
         }
 
-        if (js.isFoundAppShortcut())
+        if (js.getAppShortcut() !=null)
         {
-            System.out.println("Found the shortcut");
 
-            for (Observar observer:observadores_list)
+            for (Observar observar:observadores_list)
             {
-                observer.appShortcut_beenPressed(js.getKeystack());
+                observar.appShortcut_beenPressed(js.getAppShortcut());
             }
-
-
+            for (Observar observador:observadores_list)
+            {
+                System.out.println("Clase es "+observador.getClass());
+            }
+//            System.out.println("Shortcut es "+js.getAppShortcut());
             keyStack.clear();
             return;
         }
-
 
 
         int status = js.getStatus();
@@ -154,6 +161,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
             for (Observar observador: observadores_list){
                 observador.command_restarted();
             }
+
             keyStack.clear();
             return;
         }

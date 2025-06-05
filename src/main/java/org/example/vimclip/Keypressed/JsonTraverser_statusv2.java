@@ -5,8 +5,6 @@ import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 @Getter
 @Setter
 public class JsonTraverser_statusv2 {
@@ -19,8 +17,7 @@ public class JsonTraverser_statusv2 {
     boolean comando_terminado = false;
     String actions_params = null;
 
-    ArrayList<String> keystack = null;
-    boolean foundAppShortcut = false;
+    String appShortcut = null;
 
     public static int STATUS_NEUTRAL = 0; //dont do nothing
     public static int STATUS_CORRECT = 1; // clear keystack and execute action

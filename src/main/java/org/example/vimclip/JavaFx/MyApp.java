@@ -30,13 +30,14 @@ public class MyApp extends Application {
 
         initialize_clipboardViewer();
 
-        creating_communication();
 
+        creating_communication();
     }
 
     private void creating_communication() {
         AppContext.keyPressed.addObserver(commandDisplayer);
-        AppContext.keyPressed.addObserver(clipBoardViewer);
+       //WARNING parece que ya agrege observador a clipboadrview, no se donde
+
     }
 
     private void initialize_clipboardViewer() throws IOException {
@@ -46,7 +47,7 @@ public class MyApp extends Application {
         FXMLLoader loader = new FXMLLoader(MyApp.class.getResource("/FXML/ClipBoardViewer.fxml")); // convert to URL
         Parent root = loader.load();
 
-        clipBoardViewer = loader.getController();
+        clipBoardViewer= loader.getController();
 
         Stage stage = new Stage();
         Scene scene = new Scene(root);

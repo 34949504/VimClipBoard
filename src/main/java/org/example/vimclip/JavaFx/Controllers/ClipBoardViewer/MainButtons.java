@@ -335,6 +335,13 @@ public class MainButtons implements Observar {
 
     }
 
+    @Override
+    public void appShortcut_beenPressed(String shortcut) {
+        System.out.println("was this called");
+       Leboutton.ButtonInfo buttonInfo =  buttons.get(shortcut);
+       buttonInfo.func.run();
+    }
+
     public void addObserver(Observar observer) {
         observadores_list.add(observer);
     }

@@ -80,6 +80,8 @@ public class Leboutton {
 
     public static void inicialiar_boton(HashMap<String, ButtonInfo> buttons, Button button) {
 
+        System.out.println("fuckign id is "+button.getId());
+
         ButtonInfo buttonInfo =buttons.get(button.getId());
         ImageView[] imageViews = buttonInfo.imageViews;
         ImageView first_image = imageViews[0];

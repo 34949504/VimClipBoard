@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.stage.*;
 import lombok.Setter;
 import org.example.vimclip.ConfigMaster;
+import org.example.vimclip.JavaFx.AppContext;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.SepDialog;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
@@ -117,17 +118,6 @@ public class ClipBoardViewer implements Observar {
     }
 
 
-    @Override
-    public void appShortcut_beenPressed(ArrayList<String> shortCut) {
-
-        for(String str: shortCut)
-        {
-            System.out.println(str);
-        }
-        System.out.println("Found it sucka");
-
-    }
-
     private void tabsPane_listener() {
 
         registryTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -150,6 +140,11 @@ public class ClipBoardViewer implements Observar {
         });
     }
 
+    @Override
+    public void appShortcut_beenPressed(String shortcut) {
+
+        System.out.println("Shortcut suckers here is "+shortcut);
+    }
 
     public void initialize_shit() {
 
@@ -184,6 +179,8 @@ public class ClipBoardViewer implements Observar {
         stage.setWidth(clipboardViewer_config.getStage_width());
         stage.setHeight(clipboardViewer_config.getStage_height());
 
+
+        AppContext.keyPressed.addObserver(buttonShit);
     }
 
     public void settingUp_sharedInfo() {
@@ -396,17 +393,24 @@ public class ClipBoardViewer implements Observar {
     }
 
 
-    public class ShortCutManager
+    public class ShortcutManager
     {
+        private HashMap<String,Runnable> shortcuts_hash = new HashMap<>();
 
-        public ShortCutManager()
+        public ShortcutManager()
         {
-            z
+
         }
+
+        private void inicializar_shortcuts()
+        {
+
+        }
+
+
+
+
     }
-
-
-
 
 
 }
