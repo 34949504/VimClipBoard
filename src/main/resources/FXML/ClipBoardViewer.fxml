@@ -61,6 +61,8 @@
             </HBox>
 
             <HBox alignment="BASELINE_RIGHT">
+                <Button fx:id="shortcut_button" >
+                </Button>
                 <Button fx:id="separator" >
                 </Button>
                 <Button fx:id="switchEdge" >

@@ -84,24 +84,31 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
         for (Observar observador:observadores_list)
         {
-            System.out.println("Clase es "+observador.getClass());
         }
 
     }
 
     public void nativeKeyPressed(NativeKeyEvent e) {
 
+
         int keycode = e.getKeyCode();
         String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
+
+        System.out.println("Pressed "+key);
 
 //        System.out.println("Key pressed here is "+key);
 
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
+        {
+            System.out.println("Lala lala not listening");
             return;
+        }
 
 
-        if (if_listen_for_number(keycode,key))
+        if (if_listen_for_number(keycode,key)) {
+            System.out.println("HERE aswell not listening");
             return;
+        }
 
 
         if (keycode == NativeKeyEvent.VC_ESCAPE) {
@@ -113,16 +120,23 @@ public class KeyPressed implements NativeKeyListener, Observar {
             keyStack.clear();
 //            return;
         }
-        if (isTimerOn)
-        {
-            return;
-        }
+//        if (isTimerOn)
+//        {
+//            return;
+//        }
 
 
 
         if (e.getKeyCode() != NativeKeyEvent.VC_ESCAPE) {
             keyStack.add(key);
         }
+
+        System.out.println("-------\nprintingstack\n");
+        for(String str:keyStack)
+        {
+            System.out.println(str);
+        }
+        System.out.println("-------\nprintingstack\n");
 
         JsonTraverser_statusv2 js = jsonTraverser.traverseV3(keyStack);
         JSONArray acciones_array = js.getAccion_arrays();
@@ -141,12 +155,10 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
             for (Observar observar:observadores_list)
             {
+                System.out.println("App shortcut pressed it"+js.getAppShortcut());
                 observar.appShortcut_beenPressed(js.getAppShortcut());
             }
-            for (Observar observador:observadores_list)
-            {
-                System.out.println("Clase es "+observador.getClass());
-            }
+
 //            System.out.println("Shortcut es "+js.getAppShortcut());
             keyStack.clear();
             return;

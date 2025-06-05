@@ -80,7 +80,6 @@ public class Leboutton {
 
     public static void inicialiar_boton(HashMap<String, ButtonInfo> buttons, Button button) {
 
-        System.out.println("fuckign id is "+button.getId());
 
         ButtonInfo buttonInfo =buttons.get(button.getId());
         ImageView[] imageViews = buttonInfo.imageViews;
@@ -122,6 +121,8 @@ public class Leboutton {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
+
+                    System.out.println("was called");
 
                     buttonInfo.toogle_image = buttonInfo.toogle_image == 0 ? 1 : 0;
                     button.setGraphic(imageViews[buttonInfo.toogle_image]);

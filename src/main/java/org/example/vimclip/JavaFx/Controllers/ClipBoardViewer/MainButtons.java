@@ -1,6 +1,7 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Screen;
 import javafx.util.Duration;
@@ -83,6 +84,10 @@ public class MainButtons implements Observar {
                 () -> myButtonFuncs.copy_and_remove()
         ));
 
+        buttons.put("shortcut_button",new Leboutton.ButtonInfo(
+                myImages.imageViewConstructor("shortbutton_active.png","shortbutton_not_active.png"),
+                () -> myButtonFuncs.shortcut_button(),false
+        ));
     }
 
     private void inicializando_botones(ArrayList<Button> buttons_array) {
@@ -96,6 +101,7 @@ public class MainButtons implements Observar {
 
 
         boolean allSelected = false;
+        boolean shorctutButton_active = true;
 
         public MyButtonFuncs() {
 
@@ -333,13 +339,28 @@ public class MainButtons implements Observar {
             }
         }
 
+        public void shortcut_button()
+        {
+            System.out.println("shortcut");
+            shorctutButton_active = !shorctutButton_active;
+        }
+
     }
 
     @Override
     public void appShortcut_beenPressed(String shortcut) {
         System.out.println("was this called");
        Leboutton.ButtonInfo buttonInfo =  buttons.get(shortcut);
-       buttonInfo.func.run();
+
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                buttonInfo.button.fire();
+//                buttonInfo.func.run();
+            }
+        });
     }
 
     public void addObserver(Observar observer) {

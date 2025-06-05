@@ -136,8 +136,17 @@
             ]
         }
       }
+
     },
-    "c": "appshortcut@copyButton"
+    "c": "appshortcut@copyButton",
+    "x": "appshortcut@copy_and_remove",
+    "g": "appshortcut@gearButton",
+    "t": "appshortcut@trashButton",
+    "s": "appshortcut@startRecordingButton",
+    "a": "appshortcut@selectAll",
+    "h": "appshortcut@expand",
+    "e": "appshortcut@switchEdge",
+    "comma": "appshortcut@separator"
   }
 }
 

@@ -395,6 +395,11 @@ public void stage_has_been_resized() {
 
     @Override
     public void separator_button_was_clicked() {
+        if (dialog_showing)
+        {
+           setDialog_showing(false);
+        }
+        else
        setDialog_showing(true);
     }
 

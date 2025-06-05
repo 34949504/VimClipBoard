@@ -75,6 +75,7 @@ public class ClipBoardViewer implements Observar {
     private Button switchEdge;
 
     @FXML private Button copy_and_remove;
+    @FXML private Button shortcut_button;
 
     ArrayList<Button> buttons;
 
@@ -104,7 +105,8 @@ public class ClipBoardViewer implements Observar {
                 expand,
                 switchEdge,
                 separator,
-                copy_and_remove
+                copy_and_remove,
+                shortcut_button
         ));
 
 
@@ -406,7 +408,6 @@ public class ClipBoardViewer implements Observar {
         {
 
         }
-
 
 
 

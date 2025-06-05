@@ -175,7 +175,7 @@ public class RegistryManager implements Observar {
             return null;
         }
 
-        return  array.getLast();
+        return  array.getFirst();
 
     }
     //Get all values only allows strings

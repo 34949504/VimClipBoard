@@ -45,7 +45,7 @@ public class Acciones {
         hashMap.put("get_all_values",new get_all_values());
         hashMap.put("remove_all_values",new remove_all_values());
         hashMap.put("remove_last_value",new remove_last_value());
-        hashMap.put("remove_first_value",new remove_last_value());
+        hashMap.put("remove_first_value",new remove_first_value());
         hashMap.put("get_value_by_number",new getValue());
         hashMap.put("remove_value_by_number",new removeValue());
         hashMap.put("get_values", new get_values());
@@ -189,6 +189,7 @@ public class Acciones {
             if (firstValue != null && firstValue instanceof String first_val)
             {
                 System.out.println("Se ha pasado al clipboard el first value");
+                System.out.println("First val is "+firstValue);
                 ClipboardUtils.setClipboardContents(first_val);
                 return;
             }
