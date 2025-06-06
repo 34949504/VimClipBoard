@@ -75,6 +75,8 @@
             </HBox>
 
             <HBox alignment="BASELINE_RIGHT">
+                <Button fx:id="help" >
+                </Button>
                 <Button fx:id="gearButton" >
                 </Button>
             </HBox>

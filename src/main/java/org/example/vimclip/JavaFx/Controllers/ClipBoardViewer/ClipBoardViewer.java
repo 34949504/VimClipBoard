@@ -21,6 +21,7 @@ import javafx.stage.*;
 import lombok.Setter;
 import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.AppContext;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.HelpDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.SepDialog;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
@@ -45,6 +46,7 @@ public class ClipBoardViewer implements Observar {
     private Instance_manager instanceManager;
     private SepDialog sepDialog;
     private Scroller scroller;
+    private HelpDialog helpDialog;
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
@@ -82,6 +84,7 @@ public class ClipBoardViewer implements Observar {
     @FXML private Button copy_and_remove;
     @FXML private Button shortcut_button;
     @FXML private Button hide_app;
+    @FXML private Button help;
 
     ArrayList<Button> buttons;
 
@@ -113,7 +116,8 @@ public class ClipBoardViewer implements Observar {
                 separator,
                 copy_and_remove,
                 shortcut_button,
-                hide_app
+                hide_app,
+                help
         ));
 
 
@@ -186,10 +190,12 @@ public class ClipBoardViewer implements Observar {
         instanceManager = new Instance_manager(sharedInfo);
         sepDialog = new SepDialog(sharedInfo,configMaster);
         scroller = new Scroller(sharedInfo);
+        helpDialog= new HelpDialog(sharedInfo,configMaster);
 
         buttonShit.addObserver(scroller);
         buttonShit.addObserver(sepDialog); //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
         buttonShit.addObserver(scroller);
+        buttonShit.addObserver(helpDialog);
 
         addObserver(scroller);
         addObserver(myDialog);
@@ -198,6 +204,7 @@ public class ClipBoardViewer implements Observar {
         addObserver(acciones.getClipBoardListener());
         addObserver(AppContext.acciones.getListenToClipboard());
         addObserver(AppContext.configMaster);
+        addObserver(helpDialog);
         myDialog.addObserver(this);
 //        buttonShit.addObserver(myDialog);
 
@@ -459,6 +466,10 @@ public class ClipBoardViewer implements Observar {
     {
 
         registryTabPane.setFocusTraversable(false);
+//        a.setDisable(true);
+//        s.setDisable(true);
+//        d.setDisable(true);
+//        f.setDisable(true);
     }
 
 

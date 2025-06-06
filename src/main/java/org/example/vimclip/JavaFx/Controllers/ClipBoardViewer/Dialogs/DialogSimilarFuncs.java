@@ -39,23 +39,32 @@ public class DialogSimilarFuncs {
 
         int x = 0;
         int y = 0;
+        String side = null;
 
         if (available_space_below > currentHeight) {
             x = (int) bounds.getMinX();
             y = (int) bounds.getMaxY();
+            side = "below";
         } else if (available_space_above > currentHeight) {
             x = (int) bounds.getMinX();
             y = (int) (bounds.getMinY() - currentHeight);
+            side = "above";
         } else if (available_space_left > currentWidth) {
             x = (int) (bounds.getMinX() - dialogPane.getWidth());
             y = (int) bounds.getMaxY() - currentHeight;
+            side = "left";
+
         }else if (available_space_right > currentWidth)
         {
             x = (int) (bounds.getMaxX()) ;
             y = (int) bounds.getMaxY() - currentHeight;
+            side = "right";
         }
 
-        return new Coords(x,y);
+        Coords coords =  new Coords(x,y);
+        coords.setSide(side);
+
+        return coords;
 
     }
 
@@ -66,6 +75,7 @@ public class DialogSimilarFuncs {
     {
         public int x;
         public int y;
+        public String side = null;
 
         public Coords(int x, int y )
         {

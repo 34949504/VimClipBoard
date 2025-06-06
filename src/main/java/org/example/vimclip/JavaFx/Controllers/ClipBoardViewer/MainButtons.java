@@ -2,12 +2,17 @@ package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.DialogSimilarFuncs;
 import org.example.vimclip.Observar;
 
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,11 +31,12 @@ public class MainButtons implements Observar {
     int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
     int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
     private ArrayList<Observar> observadores_list = new ArrayList<>();
-
+    private StageFocuser stageFocuser;
     public MainButtons(ArrayList<Button> buttons_array,
                        SharedInfo sharedInfo) {
 
         this.sharedInfo = sharedInfo;
+        stageFocuser = new StageFocuser(sharedInfo);
         addObserver(sharedInfo.getAcciones().getClipBoardListener());
         creatingButtonInfo();
         inicializando_botones(buttons_array);
@@ -93,6 +99,10 @@ public class MainButtons implements Observar {
                 myImages.imageViewConstructor("hideApp.png","hideApp_pressed.png"),
                 () -> myButtonFuncs.hideApp()
         ));
+        buttons.put("help",new Leboutton.ButtonInfo(
+                myImages.imageViewConstructor("help.png","helpPressed.png"),
+                () -> myButtonFuncs.help_button()
+        ));
     }
 
     private void inicializando_botones(ArrayList<Button> buttons_array) {
@@ -112,6 +122,8 @@ public class MainButtons implements Observar {
         int stage_previousX;
         int stage_previousY;
 
+
+
         public MyButtonFuncs() {
 
         }
@@ -126,6 +138,13 @@ public class MainButtons implements Observar {
 
             Stage stage = sharedInfo.getStage();
             stage.setIconified(!stage.isIconified());
+
+            if (!stage.isIconified()) {
+                stageFocuser.giveFocus();
+            }
+            else {
+                stageFocuser.giveFocusBack();
+            }
         }
 
 
@@ -362,7 +381,18 @@ public class MainButtons implements Observar {
             shorctutButton_active = !shorctutButton_active;
         }
 
+        public void help_button()
+        {
+            System.out.println("help");
+            for (Observar observar:observadores_list)
+            {
+                observar.showHelpDialog();
+            }
+        }
+
     }
+
+
 
     @Override
     public void appShortcut_beenPressed(String shortcut) {
@@ -381,21 +411,11 @@ public class MainButtons implements Observar {
                     return;
                 }
 
-                if (name.compareTo("move_down")==0)
+                if (name.compareTo("move_down")==0 || name.compareTo("move_up")==0)
                 {
                     for (Observar observar:observadores_list)
                     {
-                        observar.up_or_down_keyPressed("down");
-                    }
-                    return;
-                }
-
-                if (name.compareTo("move_up")==0)
-                {
-                    for (Observar observar:observadores_list)
-                    {
-                        observar.up_or_down_keyPressed("up");
-
+                        observar.up_or_down_keyPressed(name);
                     }
                     return;
                 }

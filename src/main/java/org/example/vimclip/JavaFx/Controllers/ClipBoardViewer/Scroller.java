@@ -14,10 +14,12 @@ public class Scroller implements Observar {
     SharedInfo sharedInfo;
     SharedInfo.WholePackage wholePackage_current = null;
     int current_index = 0;
+    StageFocuser stageFocuser;
 
     public Scroller(SharedInfo sharedInfo){
 
         this.sharedInfo = sharedInfo;
+        stageFocuser =  new StageFocuser(sharedInfo);
     }
 
 
@@ -64,7 +66,7 @@ public class Scroller implements Observar {
                 }
 
 
-                int offset = direction.equals("up") ? -1 : 1;
+                int offset = direction.equals("move_up") ? -1 : 1;
                 current_index += offset;
 
                 // Wrap around
@@ -89,35 +91,6 @@ public class Scroller implements Observar {
 
             wholePackage_current = newSelection;
 
-//            Platform.runLater(() -> {
-//                ScrollPane scrollPane = sharedInfo.getScrollPane_blocs();
-//                Label targetLabel = newSelection.getBlocText().getLabel();
-//                VBox content = sharedInfo.getContentPane();
-//
-//                // Convert bounds to the ScrollPane's coordinate system
-//                Bounds labelBounds = targetLabel.localToScene(targetLabel.getBoundsInLocal());
-//                Bounds contentSceneBounds = scrollPane.getContent().localToScene(scrollPane.getContent().getBoundsInLocal());
-//                Bounds viewportBounds = scrollPane.getViewportBounds();
-//                Bounds contentBounds = content.getLayoutBounds();
-//
-//                double labelTop = labelBounds.getMinY();
-//                double labelBottom = labelBounds.getMaxY();
-//                double viewportTop = contentSceneBounds.getMinY();
-//                double viewportBottom = viewportTop + viewportBounds.getHeight();
-//
-//                boolean above = labelTop < viewportTop;
-//                boolean below = labelBottom > viewportBottom;
-//
-//                if (above || below) {
-//                    // Get the offset from the top of the content
-//                    double targetY = targetLabel.getBoundsInParent().getMinY();
-//                    double scrollY = targetY / (contentBounds.getHeight() - viewportBounds.getHeight());
-//
-//                    // Clamp scrollY to [0, 1] range
-//                    scrollY = Math.max(0, Math.min(1, scrollY));
-//                    scrollPane.setVvalue(scrollY);
-//                }
-//            });
             Platform.runLater(() -> {
                 ScrollPane scrollPane = sharedInfo.getScrollPane_blocs();
                 Label targetLabel = newSelection.getBlocText().getLabel();
@@ -130,6 +103,7 @@ public class Scroller implements Observar {
                 double scrollY = y / contentBounds.getHeight();
 
                 scrollPane.setVvalue(scrollY);  // Scroll vertically
+                stageFocuser.giveFocus();
             });
         }
 
