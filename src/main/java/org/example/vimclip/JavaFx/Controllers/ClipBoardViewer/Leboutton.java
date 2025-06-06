@@ -54,6 +54,7 @@ public class Leboutton {
             int i = 0;
             for (String str : names) {
                 String new_string = String.format("%s%s", path, str);
+                System.out.println("full path "+new_string);
                 strings[i++] = new_string;
             }
             return strings;

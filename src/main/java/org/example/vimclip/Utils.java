@@ -137,6 +137,10 @@ public class Utils {
     {
 
         InputStream file = MainProgram.class.getResourceAsStream(resourcePath);
+        if (file == null)
+        {
+            System.out.println("File that is null is "+resourcePath);
+        }
         return file;
     }
 

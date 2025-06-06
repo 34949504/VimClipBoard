@@ -82,7 +82,7 @@ public class MainButtons implements Observar {
                 () -> myButtonFuncs.switchEdge()
         ));
         buttons.put("separator", new Leboutton.ButtonInfo(
-                myImages.imageViewConstructor("separator.png", "separatorPressed.png"),
+                myImages.imageViewConstructor("Separator.png", "SeparatorPressed.png"),
                 () -> myButtonFuncs.separator()
         ));
 
