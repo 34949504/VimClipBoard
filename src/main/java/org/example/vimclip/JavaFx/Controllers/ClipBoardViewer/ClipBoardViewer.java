@@ -177,7 +177,7 @@ public class ClipBoardViewer implements Observar {
         myDialog = new MyDialog(sharedInfo,configMaster);
         sharedInfo.setMyDialog(myDialog);
         buttonShit = new MainButtons(buttons, sharedInfo);
-        buttonShit.setObservadores_list(observadores_list);
+//        buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
         changeListener_stagePosition();
 
         sharedInfo.initialize_available_instances(configLoader, myDialog);
@@ -188,23 +188,28 @@ public class ClipBoardViewer implements Observar {
 
         buttonShit.addObserver(scroller);
         buttonShit.addObserver(sepDialog); //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
+        buttonShit.addObserver(scroller);
 
+        addObserver(scroller);
         addObserver(myDialog);
         addObserver(configLoader);
         addObserver(instanceManager);
         addObserver(acciones.getClipBoardListener());
         addObserver(AppContext.acciones.getListenToClipboard());
+        addObserver(AppContext.configMaster);
         myDialog.addObserver(this);
 //        buttonShit.addObserver(myDialog);
 
         stage_window_listener();
 
 
+        buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
         stage.setWidth(clipboardViewer_config.getStage_width());
         stage.setHeight(clipboardViewer_config.getStage_height());
 
 
         AppContext.keyPressed.addObserver(buttonShit);
+        AppContext.acciones.getClipBoardListener().addObserver(this);
     }
 
     public void settingUp_sharedInfo() {
@@ -214,6 +219,7 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.setStage(stage);
         sharedInfo.setAcciones(acciones);
         sharedInfo.setRegistryManager(registryManager);
+        sharedInfo.setScrollPane_blocs(scroll);
     }
 
     @Override
@@ -314,6 +320,11 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.getCurrentWholePackageArray().add(wholePackage);
 
         contentPane.getChildren().add(vBox);
+
+        for (Observar observar:observadores_list)
+        {
+            observar.bloc_was_created();
+        }
     }
     public void settingUp_imageBloc(Image image)
     {

@@ -1,6 +1,7 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -27,6 +28,8 @@ public class SharedInfo {
     private Acciones acciones;
     private MyDialog myDialog;
     private RegistryManager registryManager;
+
+    private ScrollPane scrollPane_blocs;
 
     private ArrayList<WholePackage> available_instances = new ArrayList<>(); // the one that stores the instances when not needed or some shit
 

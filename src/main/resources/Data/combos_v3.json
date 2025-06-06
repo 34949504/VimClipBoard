@@ -1,4 +1,8 @@
 {
+
+  "up": "appshortcut@move_up",
+  "down": "appshortcut@move_down",
+
   "alt": {
 
     "alt": {
@@ -153,8 +157,8 @@
     "e": "appshortcut@switchEdge",
     "comma": "appshortcut@separator",
     "v": "appshortcut@hide_app",
-    "up": "appshortcut@move_up",
-    "down": "appshortcut@move_down"
+    "up": "appshortcut@move_up_alt",
+    "down": "appshortcut@move_down_alt"
   }
 }
 

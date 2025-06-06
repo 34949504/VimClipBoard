@@ -68,9 +68,7 @@ public class MyApp extends Application {
 
         //comunicacion
         clipBoardViewer.addObserver(commandDisplayer);
-        clipBoardViewer.addObserver(AppContext.configMaster);
 
-        AppContext.acciones.getClipBoardListener().addObserver(clipBoardViewer);
         clipBoardViewer.initialize_shit();
 
 

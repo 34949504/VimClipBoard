@@ -15,10 +15,15 @@ public class BlocText {
     Label label = new Label();
     boolean selected = false;
     boolean selected_tovisualize = false;
+    boolean blue_selection = false;
     String style = null;
     BlocText blocText = this;
 
     String selected_style = "-fx-padding: 8; -fx-background-color: #fff8cc; -fx-border-color: #ffd208; -fx-background-radius: 5;";
+    String blue_selected_style = "-fx-padding: 8; "
+            + "-fx-background-color: #e0f0ff; "       // light blue background
+            + "-fx-border-color: #66b2ff; "           // medium blue border
+            + "-fx-background-radius: 5;";
     String not_selected_style = "-fx-padding: 8; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-background-radius: 5;";
 
 
@@ -74,6 +79,18 @@ public class BlocText {
         selected_tovisualize = false;
         style = null;
         label.setStyle(not_selected_style);
+
+    }
+    public void setBlueSelection(boolean selected)
+    {
+        if (selected) {
+            label.setStyle(blue_selected_style);
+        } else {
+            label.setStyle(not_selected_style);
+            System.out.println("Deselecting");
+        }
+        this.blue_selection = selected;
+
 
     }
 

@@ -25,6 +25,7 @@ public interface Observar {
 
     default public void move_scrollbar(String direction){}
     default public void bloc_was_created(){}
+    default public void up_or_down_keyPressed(String direction){}
 
 
 
