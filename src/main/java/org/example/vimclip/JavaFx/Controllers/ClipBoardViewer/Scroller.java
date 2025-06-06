@@ -30,6 +30,8 @@ public class Scroller implements Observar {
     @Override
     public void tab_changed(Character reg) {
 
+        wholePackage_current = null;
+
         System.out.println("here in scrollbar tab changed");
     }
 
@@ -53,7 +55,14 @@ public class Scroller implements Observar {
 
             if (wholePackage_current != null) {
                 // Unselect the current one
-                wholePackage_current.getBlocText().setBlueSelection(false);
+
+                if (!wholePackage_current.getBlocText().isSelected())
+                    wholePackage_current.getBlocText().setBlueSelection(false);
+                else {
+
+                    wholePackage_current.getBlocText().set_selected(true);
+                }
+
 
                 int offset = direction.equals("up") ? -1 : 1;
                 current_index += offset;
@@ -72,14 +81,47 @@ public class Scroller implements Observar {
 
             // Apply selection to the new item
             SharedInfo.WholePackage newSelection = CWP.get(current_index);
-            newSelection.getBlocText().setBlueSelection(true);
+            if (!newSelection.getBlocText().isSelected())
+                newSelection.getBlocText().setBlueSelection(true);
+            else {
+                newSelection.getBlocText().setBrighterSelection();
+            }
+
             wholePackage_current = newSelection;
 
+//            Platform.runLater(() -> {
+//                ScrollPane scrollPane = sharedInfo.getScrollPane_blocs();
+//                Label targetLabel = newSelection.getBlocText().getLabel();
+//                VBox content = sharedInfo.getContentPane();
+//
+//                // Convert bounds to the ScrollPane's coordinate system
+//                Bounds labelBounds = targetLabel.localToScene(targetLabel.getBoundsInLocal());
+//                Bounds contentSceneBounds = scrollPane.getContent().localToScene(scrollPane.getContent().getBoundsInLocal());
+//                Bounds viewportBounds = scrollPane.getViewportBounds();
+//                Bounds contentBounds = content.getLayoutBounds();
+//
+//                double labelTop = labelBounds.getMinY();
+//                double labelBottom = labelBounds.getMaxY();
+//                double viewportTop = contentSceneBounds.getMinY();
+//                double viewportBottom = viewportTop + viewportBounds.getHeight();
+//
+//                boolean above = labelTop < viewportTop;
+//                boolean below = labelBottom > viewportBottom;
+//
+//                if (above || below) {
+//                    // Get the offset from the top of the content
+//                    double targetY = targetLabel.getBoundsInParent().getMinY();
+//                    double scrollY = targetY / (contentBounds.getHeight() - viewportBounds.getHeight());
+//
+//                    // Clamp scrollY to [0, 1] range
+//                    scrollY = Math.max(0, Math.min(1, scrollY));
+//                    scrollPane.setVvalue(scrollY);
+//                }
+//            });
             Platform.runLater(() -> {
                 ScrollPane scrollPane = sharedInfo.getScrollPane_blocs();
                 Label targetLabel = newSelection.getBlocText().getLabel();
                 VBox content = sharedInfo.getContentPane();
-
                 Bounds contentBounds = content.getLayoutBounds();
                 Bounds nodeBounds = targetLabel.localToScene(targetLabel.getBoundsInLocal());
                 Bounds scrollBounds = scrollPane.getContent().localToScene(scrollPane.getContent().getBoundsInLocal());
@@ -95,10 +137,9 @@ public class Scroller implements Observar {
 
     @Override
     public void up_or_down_keyPressed(String direction) {
-        if (wholePackage_current != null)
-        {
-            moving(direction);
-        }
+       if (!sharedInfo.getStage().isIconified()) {
+           moving(direction);
+       }
     }
 
     private boolean checkIfthereAreBlocs()
@@ -115,5 +156,60 @@ public class Scroller implements Observar {
 
     }
 
+    @Override
+    public void block_was_clicked() {
 
+        System.out.println("clicked detected");
+        ArrayList<SharedInfo.WholePackage> CWP = sharedInfo.getCurrentWholePackageArray();
+
+        for (int i = 0; i < CWP.size(); i++) {
+            SharedInfo.WholePackage Wp = CWP.get(i);
+            BlocText blocText = Wp.getBlocText();
+            if (blocText.isClicked_righNow())
+            {
+               if (wholePackage_current != null)
+               {
+
+                   if (!wholePackage_current.getBlocText().isSelected())
+                       wholePackage_current.getBlocText().setBlueSelection(false);
+                   else {
+
+                       wholePackage_current.getBlocText().set_selected(true);
+                   }
+
+                   SharedInfo.WholePackage newSelection = CWP.get(i);
+                   current_index = i;
+                   if (!newSelection.getBlocText().isSelected())
+                       newSelection.getBlocText().setBlueSelection(true);
+                   else {
+                       newSelection.getBlocText().setBrighterSelection();
+                   }
+                   blocText.setClicked_righNow(false);
+
+                   wholePackage_current = newSelection;
+
+                   return;
+
+               }
+            }
+        }
+    }
+
+    @Override
+    public void spaceBar_keyPressed() {
+        if (wholePackage_current != null)
+        {
+            BlocText blocText = wholePackage_current.getBlocText();
+
+            if (blocText.isSelected())
+            {
+               blocText.set_selected(false);
+            }
+            else {
+
+                blocText.setBlueSelection(false);
+                blocText.set_selected(true);
+            }
+        }
+    }
 }

@@ -117,6 +117,7 @@ public class ClipBoardViewer implements Observar {
         ));
 
 
+        disablingTraversingTabs();
         tabsPane_listener();
         registryTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -310,8 +311,11 @@ public class ClipBoardViewer implements Observar {
         Separator separator = wholePackage.getSeparator();
         VBox vBox = wholePackage.getVBox();
 
-        if (vBox.getChildren().isEmpty())
-            vBox.getChildren().addAll(blocText.getLabel(),separator);
+        if (vBox.getChildren().isEmpty()) {
+            vBox.getChildren().addAll(blocText.getLabel(), separator);
+            blocText.addObserver(scroller);
+        }
+
 
 
         blocText.getLabel().setText(copiedString);
@@ -363,7 +367,7 @@ public class ClipBoardViewer implements Observar {
     private void setting_tooltips() {
         expand.setTooltip(new MyTooltip("Alt + h\nExpands application vertically"));
         gearButton.setTooltip(new MyTooltip("Alt + g\nConfiguration"));
-        trashButton.setTooltip(new MyTooltip(" Alt + t\nDeletes selected blocks"));
+        trashButton.setTooltip(new MyTooltip(" Alt + d\nDeletes selected blocks"));
         copyButton.setTooltip(new MyTooltip("Alt + c\nCopies to your normal clipboard the selected blocks"));
         startRecordingButton.setTooltip(new MyTooltip("Alt + s\nSaves everything that you copy when its on in the current tab"));
         selectAll.setTooltip(new MyTooltip("Alt + a\nSelects all blocks/Deselects all blocks"));
@@ -448,6 +452,13 @@ public class ClipBoardViewer implements Observar {
 
 
 
+    }
+
+
+    private  void disablingTraversingTabs()
+    {
+
+        registryTabPane.setFocusTraversable(false);
     }
 
 

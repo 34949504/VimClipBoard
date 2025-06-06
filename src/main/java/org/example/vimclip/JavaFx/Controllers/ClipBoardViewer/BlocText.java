@@ -7,10 +7,13 @@ import javafx.scene.input.MouseEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
+import org.example.vimclip.Observar;
+
+import java.util.ArrayList;
 
 @Setter
 @Getter
-public class BlocText {
+public class BlocText implements Observar {
 
     Label label = new Label();
     boolean selected = false;
@@ -19,6 +22,14 @@ public class BlocText {
     String style = null;
     BlocText blocText = this;
 
+    boolean clicked_righNow = false;
+
+    ArrayList<Observar> observer_list = new ArrayList<>();
+
+    String selected_style_brighter = "-fx-padding: 8; "
+            + "-fx-background-color: #ffff99; "    // brighter yellow background
+            + "-fx-border-color: #ffcc00; "        // bold yellow border
+            + "-fx-background-radius: 5;";
     String selected_style = "-fx-padding: 8; -fx-background-color: #fff8cc; -fx-border-color: #ffd208; -fx-background-radius: 5;";
     String blue_selected_style = "-fx-padding: 8; "
             + "-fx-background-color: #e0f0ff; "       // light blue background
@@ -52,6 +63,15 @@ public class BlocText {
                         label.setStyle(not_selected_style);
                         selected = !selected;
                     }
+                    clicked_righNow = true;
+
+                    for (Observar observar:observer_list)
+                    {
+                        observar.block_was_clicked();
+                    }
+
+
+
                 } else if (mouseButton == MouseButton.SECONDARY) {
                     selected_tovisualize = true;
                     myDialog.setCurrentBlocktext(blocText);
@@ -91,9 +111,18 @@ public class BlocText {
         }
         this.blue_selection = selected;
 
+    }
+
+    public void setBrighterSelection()
+    {
+        label.setStyle(selected_style_brighter);
 
     }
 
+    public void addObserver(Observar observer)
+    {
+        observer_list.add(observer);
+    }
 
 }
 

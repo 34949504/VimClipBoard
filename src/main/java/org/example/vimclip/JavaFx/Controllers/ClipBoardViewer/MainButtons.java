@@ -380,24 +380,6 @@ public class MainButtons implements Observar {
                     buttonInfo.button.fire();
                     return;
                 }
-                if (name.compareTo("move_down_alt")==0)
-                {
-                    for (Observar observar:observadores_list)
-                    {
-                        observar.move_scrollbar("down");
-                    }
-                    return;
-                }
-
-                if (name.compareTo("move_up_alt")==0)
-                {
-                    for (Observar observar:observadores_list)
-                    {
-                        observar.move_scrollbar("up");
-
-                    }
-                    return;
-                }
 
                 if (name.compareTo("move_down")==0)
                 {
@@ -417,6 +399,17 @@ public class MainButtons implements Observar {
                     }
                     return;
                 }
+
+                if (name.compareTo("space")==0)
+                {
+                    for (Observar observar:observadores_list)
+                    {
+                        observar.spaceBar_keyPressed();
+
+                    }
+                    return;
+                }
+
 
                 if (myButtonFuncs.isShorctutButton_active()) {
                     buttonInfo.button.fire();

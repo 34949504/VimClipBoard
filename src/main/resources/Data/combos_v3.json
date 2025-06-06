@@ -2,6 +2,8 @@
 
   "up": "appshortcut@move_up",
   "down": "appshortcut@move_down",
+  "space": "appshortcut@space",
+
 
   "alt": {
 
@@ -150,15 +152,13 @@
     "c": "appshortcut@copyButton",
     "x": "appshortcut@copy_and_remove",
     "g": "appshortcut@gearButton",
-    "t": "appshortcut@trashButton",
+    "d": "appshortcut@trashButton",
     "s": "appshortcut@startRecordingButton",
     "a": "appshortcut@selectAll",
     "h": "appshortcut@expand",
     "e": "appshortcut@switchEdge",
     "comma": "appshortcut@separator",
-    "v": "appshortcut@hide_app",
-    "up": "appshortcut@move_up_alt",
-    "down": "appshortcut@move_down_alt"
+    "v": "appshortcut@hide_app"
   }
 }
 
