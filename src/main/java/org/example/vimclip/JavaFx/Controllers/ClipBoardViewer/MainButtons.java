@@ -173,6 +173,7 @@ public class MainButtons implements Observar {
             for (Observar observar:observadores_list)
             {
                 observar.separator_button_was_clicked();
+                System.out.println("Class is "+observar.getClass());
             }
         }
 

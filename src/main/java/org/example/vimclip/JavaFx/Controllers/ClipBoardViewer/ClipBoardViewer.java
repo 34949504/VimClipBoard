@@ -191,11 +191,11 @@ public class ClipBoardViewer implements Observar {
         sepDialog = new SepDialog(sharedInfo,configMaster);
         scroller = new Scroller(sharedInfo);
         helpDialog= new HelpDialog(sharedInfo,configMaster);
-
-        buttonShit.addObserver(scroller);
-        buttonShit.addObserver(sepDialog); //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
-        buttonShit.addObserver(scroller);
-        buttonShit.addObserver(helpDialog);
+//WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
+//        buttonShit.addObserver(scroller);
+//        buttonShit.addObserver(sepDialog);
+//        buttonShit.addObserver(sepDialog);
+//        buttonShit.addObserver(helpDialog);
 
         addObserver(scroller);
         addObserver(myDialog);
@@ -212,6 +212,11 @@ public class ClipBoardViewer implements Observar {
 
 
         buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
+        buttonShit.addObserver(sepDialog);
+
+        //WARNING this is so messed up that i am copying the  observers of this to buttohn shit
+        //WARNING and sometimes that can be confusing gotta change that  to a class or func to be less confusing
+
         stage.setWidth(clipboardViewer_config.getStage_width());
         stage.setHeight(clipboardViewer_config.getStage_height());
 

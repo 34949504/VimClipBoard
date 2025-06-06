@@ -389,8 +389,10 @@ public void stage_has_been_resized() {
         {
            setDialog_showing(false);
         }
-        else
-       setDialog_showing(true);
+        else {
+            setDialog_showing(true);
+
+        }
     }
 
 
@@ -456,6 +458,7 @@ public void stage_has_been_resized() {
         {
             add.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
+
                 public void handle(ActionEvent actionEvent) {
 
                         String times = times_textfield.getText();

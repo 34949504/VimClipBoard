@@ -1,5 +1,7 @@
 package org.example.vimclip;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -178,6 +180,17 @@ public class Utils {
         }
 
         return configPath;
+
+    }
+
+    public static ImageView getImageView(String resource_path)
+    {
+            Image image = new Image(Utils.getInputStream(resource_path)); // prefix "file:" for absolute paths
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(40); // Optional: scale the image
+            imageView.setFitHeight(40);
+
+        return imageView;
 
     }
 
