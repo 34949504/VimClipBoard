@@ -152,7 +152,9 @@
     "h": "appshortcut@expand",
     "e": "appshortcut@switchEdge",
     "comma": "appshortcut@separator",
-    "v": "appshortcut@hide_app"
+    "v": "appshortcut@hide_app",
+    "up": "appshortcut@move_up",
+    "down": "appshortcut@move_down"
   }
 }
 

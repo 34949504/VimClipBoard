@@ -82,9 +82,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
         GlobalScreen.addNativeKeyListener(this);
 
 
-        for (Observar observador:observadores_list)
-        {
-        }
 
     }
 
@@ -95,6 +92,7 @@ public class KeyPressed implements NativeKeyListener, Observar {
         String key = NativeKeyEvent.getKeyText(keycode).toLowerCase();
 
 
+//        System.out.println(key);
 
         if (!listenKeys.get()) // To prevent funcs getting called whenever robot executes copy
         {

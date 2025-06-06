@@ -44,6 +44,7 @@ public class ClipBoardViewer implements Observar {
     private MyDialog myDialog;
     private Instance_manager instanceManager;
     private SepDialog sepDialog;
+    private Scroller scroller;
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
@@ -183,12 +184,16 @@ public class ClipBoardViewer implements Observar {
 
         instanceManager = new Instance_manager(sharedInfo);
         sepDialog = new SepDialog(sharedInfo,configMaster);
+        scroller = new Scroller(sharedInfo);
+
+        buttonShit.addObserver(scroller);
         buttonShit.addObserver(sepDialog); //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
 
         addObserver(myDialog);
         addObserver(configLoader);
         addObserver(instanceManager);
         addObserver(acciones.getClipBoardListener());
+        addObserver(AppContext.acciones.getListenToClipboard());
         myDialog.addObserver(this);
 //        buttonShit.addObserver(myDialog);
 

@@ -127,7 +127,7 @@ public class Instance_manager implements Observar {
 
         }
 
-//        check_register_size();
+        check_register_size();
 
 
 

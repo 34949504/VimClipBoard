@@ -23,6 +23,9 @@ public interface Observar {
 
     default public void appShortcut_beenPressed(ArrayList<String> shortCut){}
 
+    default public void move_scrollbar(String direction){}
+    default public void bloc_was_created(){}
+
 
 
 }

@@ -380,6 +380,16 @@ public class MainButtons implements Observar {
                     buttonInfo.button.fire();
                     return;
                 }
+                if (name.compareTo("move_down")==0)
+                {
+
+                }
+
+                if (name.compareTo("move_up")==0)
+                {
+
+                }
+
 
                 if (myButtonFuncs.isShorctutButton_active()) {
                     buttonInfo.button.fire();
