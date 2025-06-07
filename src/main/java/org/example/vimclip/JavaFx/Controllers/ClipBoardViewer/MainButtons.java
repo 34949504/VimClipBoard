@@ -182,7 +182,11 @@ public class MainButtons implements Observar {
 
         public void gear() {
 
-            System.out.println("Gear");
+            for (Observar observar:observadores_list)
+            {
+                observar.showConfigDialog();
+            }
+
         }
 
         public void copyHand() {

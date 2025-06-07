@@ -21,6 +21,7 @@ import javafx.stage.*;
 import lombok.Setter;
 import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.AppContext;
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.ConfigurationDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.HelpDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.SepDialog;
@@ -49,6 +50,7 @@ public class ClipBoardViewer implements Observar {
     private SepDialog sepDialog;
     private Scroller scroller;
     private HelpDialog helpDialog;
+    private ConfigurationDialog configurationDialog;
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
@@ -193,6 +195,7 @@ public class ClipBoardViewer implements Observar {
         sepDialog = new SepDialog(sharedInfo,configMaster);
         scroller = new Scroller(sharedInfo);
         helpDialog= new HelpDialog(sharedInfo,configMaster);
+        configurationDialog = new ConfigurationDialog(sharedInfo,configMaster);
 //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
 //        buttonShit.addObserver(scroller);
 //        buttonShit.addObserver(sepDialog);
@@ -207,6 +210,7 @@ public class ClipBoardViewer implements Observar {
         addObserver(AppContext.acciones.getListenToClipboard());
         addObserver(AppContext.configMaster);
         addObserver(helpDialog);
+        addObserver(configurationDialog.getDialogSimilarFuncs());
         myDialog.addObserver(this);
 //        buttonShit.addObserver(myDialog);
 
@@ -215,6 +219,7 @@ public class ClipBoardViewer implements Observar {
 
         buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
         buttonShit.addObserver(sepDialog);
+        buttonShit.addObserver(configurationDialog);
 
         //WARNING this is so messed up that i am copying the  observers of this to buttohn shit
         //WARNING and sometimes that can be confusing gotta change that  to a class or func to be less confusing
@@ -390,6 +395,7 @@ public class ClipBoardViewer implements Observar {
         copy_and_remove.setTooltip(new MyTooltip("Alt + x"));
         shortcut_button.setTooltip(new MyTooltip("Alt + Alt + t"));
         hide_app.setTooltip(new MyTooltip("Alt + v"));
+        help.setTooltip(new MyTooltip("Alt + q"));
     }
 
     public class MyTooltip extends Tooltip {

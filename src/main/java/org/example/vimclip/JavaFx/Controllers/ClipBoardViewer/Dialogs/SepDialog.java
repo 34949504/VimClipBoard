@@ -54,7 +54,7 @@ public class SepDialog extends Dialog implements Observar {
     public SepDialog(SharedInfo sharedInfo, ConfigMaster configMaster) {
         this.sharedInfo = sharedInfo;
         this.configMaster = configMaster;
-        clipboardViewer_config = configMaster.getClipboardViewer_config();
+        this.clipboardViewer_config = configMaster.getClipboardViewer_config();
         settingDims();
         settingUp_dialogLayout();
         dialogPane.setContent(borderPane);
@@ -63,7 +63,7 @@ public class SepDialog extends Dialog implements Observar {
 
         separator_textfieldListener();
 
-        DSF = new DialogSimilarFuncs(sharedInfo,this);
+        DSF = new DialogSimilarFuncs(sharedInfo,this,clipboardViewer_config);
 
         // Let window positioning happen after dialog is shown
         this.setOnShown(e -> {

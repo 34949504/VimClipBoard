@@ -1,31 +1,36 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs;
 
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.stage.Screen;
+import javafx.stage.Window;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
+import org.example.vimclip.Observar;
 
 
-public class DialogSimilarFuncs {
+public class DialogSimilarFuncs implements Observar {
 
     SharedInfo sharedInfo;
     Dialog dialog;
     DialogPane dialogPane;
+    ConfigMaster.ClipboardViewer_config clipboardViewer_config;
 
-    public DialogSimilarFuncs(SharedInfo sharedInfo, Dialog dialog)
-    {
+    public DialogSimilarFuncs(SharedInfo sharedInfo, Dialog dialog, ConfigMaster.ClipboardViewer_config clipboardViewer_config) {
 
         this.sharedInfo = sharedInfo;
         this.dialog = dialog;
         this.dialogPane = dialog.getDialogPane();
+        this.clipboardViewer_config = clipboardViewer_config;
     }
 
 
-
-    public Coords calculating_where_dialog_should_appear(int currentHeight,int currentWidth) {
+    public Coords calculating_where_dialog_should_appear(int currentHeight, int currentWidth) {
         int screenWidth = (int) Screen.getPrimary().getVisualBounds().getWidth();
         int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -54,14 +59,13 @@ public class DialogSimilarFuncs {
             y = (int) bounds.getMaxY() - currentHeight;
             side = "left";
 
-        }else if (available_space_right > currentWidth)
-        {
-            x = (int) (bounds.getMaxX()) ;
+        } else if (available_space_right > currentWidth) {
+            x = (int) (bounds.getMaxX());
             y = (int) bounds.getMaxY() - currentHeight;
             side = "right";
         }
 
-        Coords coords =  new Coords(x,y);
+        Coords coords = new Coords(x, y);
         coords.setSide(side);
 
         return coords;
@@ -71,15 +75,99 @@ public class DialogSimilarFuncs {
 
     @Getter
     @Setter
-    public static class Coords
-    {
+    public static class Coords {
         public int x;
         public int y;
         public String side = null;
 
-        public Coords(int x, int y )
-        {
-            this.x = x; this.y = y;
+        public Coords(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
     }
+
+    public  void initializeDims() {
+        double w = clipboardViewer_config.getStage_width();
+        double h = clipboardViewer_config.getStage_height();
+
+        dialogPane.setPrefWidth(w);
+        dialogPane.setPrefHeight(h);
+    }
+
+    public void settingDialogContent(Node node) {
+        dialogPane.setContent(node);
+    }
+
+    @Override
+    public void showHelpDialog() {
+        if (!dialog.isShowing()) {
+//            settingUpPosition();
+            dialog.show();
+            changingWholePos();
+            return;
+        }
+
+        Window window = dialogPane.getScene().getWindow();
+        if (window != null) window.hide();
+
+    }
+    public void showDialog()
+    {
+
+        if (!dialog.isShowing()) {
+//            settingUpPosition();
+            dialog.show();
+            changingWholePos();
+            return;
+        }
+
+        Window window = dialogPane.getScene().getWindow();
+        if (window != null) window.hide();
+    }
+
+
+
+    @Override
+    public void stage_was_moved() {
+        changingWholePos();
+    }
+    private void changingWholePos()
+    {
+
+        if (dialog.isShowing()) {
+            dialogPane.applyCss();
+            dialogPane.layout();
+            DialogSimilarFuncs.Coords coords = calculating_where_dialog_should_appear((int)dialogPane.getHeight(),(int)dialogPane.getWidth());
+            Window window = dialogPane.getScene().getWindow();
+            if (window != null) {
+                window.setX(coords.getX());
+                window.setY(coords.getY());
+            }
+        }
+    }
+    @Override
+    public void stage_minimizing() {
+        if (dialog.isShowing()) {
+            Window window = dialogPane.getScene().getWindow();
+            if (window != null) window.hide();
+        }
+    }
+    @Override
+    public void stage_has_been_resized() {
+        if (dialog.isShowing()) {
+            // Defer repositioning until after resize/layout pass
+            Platform.runLater(() -> {
+                dialogPane.applyCss();
+                dialogPane.layout();
+                DialogSimilarFuncs.Coords coords = calculating_where_dialog_should_appear((int)dialogPane.getHeight(),(int)dialogPane.getWidth());
+
+                Window window =dialogPane.getScene().getWindow();
+                if (window != null) {
+                    window.setX(coords.x);
+                    window.setY(coords.y);
+                }
+            });
+        }
+    }
+
 }

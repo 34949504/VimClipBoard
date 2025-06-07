@@ -30,6 +30,8 @@ public interface Observar {
     default public void block_was_clicked(){}
     default public void showHelpDialog(){}
 
+    default public void showConfigDialog(){}
+
 
 
 }

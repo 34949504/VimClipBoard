@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
@@ -55,7 +56,7 @@ public class HelpDialog extends Dialog implements Observar {
         this.sharedInfo = sharedInfo;
         this.configMaster = configMaster;
         this.clipboardViewer_config = configMaster.getClipboardViewer_config();
-        this.dialogSimilarFuncs = new DialogSimilarFuncs(sharedInfo,this);
+        this.dialogSimilarFuncs = new DialogSimilarFuncs(sharedInfo,this,clipboardViewer_config);
 
         initializeDims();
         helpManual = new HelpManual();
@@ -188,6 +189,7 @@ public class HelpDialog extends Dialog implements Observar {
         private Font title_font = Font.loadFont(Utils.getInputStream("/assets/RifficFree-Bold.ttf"),24);
         private Font shorcutFont = Font.loadFont(Utils.getInputStream("/assets/BarberChop.otf"),12);
         private Font descFont = Font.loadFont(Utils.getInputStream("/assets/Quicksand_Light.otf"),16);
+        private Font warningFont = Font.loadFont(Utils.getInputStream("/assets/MonospaceTypewriter.ttf"),20);
 
         String[][] descriptions = { copy_and_remove_string, trashButton_string, copyButton_string, selectAll_string, startRecordingButton_string, shortcut_button_string, separator_string, switchEdge_string, expand_string, hide_app_string, help_string, gearButton_string };
 
@@ -200,6 +202,7 @@ public class HelpDialog extends Dialog implements Observar {
         }
         private void initilize_textFlow()
         {
+            how_to_use_the_commands();
             tips_sections();
             learn_the_buttons_section();
             tutorial_section();
@@ -294,6 +297,47 @@ public class HelpDialog extends Dialog implements Observar {
             }
 
         }
+        private void how_to_use_the_commands()
+        {
+            Text title = createTitle("How to do the commands\n\n");
+
+            Text text = createDesc("The commands work by pressing a sequence of keys," +
+                    "for example if  i want to do the copy command i would press alt   " +
+                    "then press the key c\n\n");
+
+            Text warning =  createWarning("WARNING\n");
+            Text t = createDesc("Do not do the commands by holding the modifier alt because that would trigger " +
+                    "actions of the apps that use those commands, so press alt without holding it, then the other key to do the command\n\n");
+
+            this.getChildren().addAll(title,text,warning,t);
+
+
+
+        }
+
+        private Text createTitle(String text)
+        {
+
+            Text title = new Text(text);
+            title.setFont(title_font);
+            return  title;
+        }
+        private Text createDesc(String text)
+        {
+            Text desc = new Text(text);
+            desc.setFont(descFont);
+            return desc;
+        }
+        private Text createWarning(String text)
+        {
+            Text warning = new Text(text);
+            warning.setFont(warningFont);
+            warning.setFill(Color.RED);
+            return warning;
+        }
+
+
+
 
         private void createBlock(String desc_str,String shortcut_str,String image_id)
         {
