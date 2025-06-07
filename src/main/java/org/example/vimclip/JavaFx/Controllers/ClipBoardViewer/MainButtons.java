@@ -39,7 +39,7 @@ public class MainButtons implements Observar {
     public void init(ArrayList<Button> buttons_array, SharedInfo sharedInfo){
 
         this.sharedInfo = sharedInfo;
-//        stageFocuser = new StageFocuser(sharedInfo);
+        stageFocuser = new StageFocuser(sharedInfo);
         addObserver(sharedInfo.getAcciones().getClipBoardListener());
         creatingButtonInfo();
         inicializando_botones(buttons_array);
@@ -144,12 +144,12 @@ public class MainButtons implements Observar {
 //            stage.setIconified(true);
             stage.setIconified(!stage.isIconified());
 
-//            if (!stage.isIconified()) {
-//                stageFocuser.giveFocus();
-//            }
-//            else {
-//                stageFocuser.giveFocusBack();
-//            }
+            if (!stage.isIconified()) {
+                stageFocuser.giveFocus();
+            }
+            else {
+                stageFocuser.giveFocusBack();
+            }
         }
 
 

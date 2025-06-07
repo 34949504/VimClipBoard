@@ -325,7 +325,7 @@ public class ClipBoardViewer implements Observar {
 
         if (vBox.getChildren().isEmpty()) {
             vBox.getChildren().addAll(blocText.getLabel(), separator);
-            blocText.addObserver(scroller);
+//            blocText.addObserver(scroller);
         }
 
 
@@ -492,6 +492,7 @@ public class ClipBoardViewer implements Observar {
            initialize_MyDialog();
             initialize_MainButtons();
             initialize_appContextClasses();
+            initialize_blockText();
 
         }
 
@@ -511,6 +512,7 @@ public class ClipBoardViewer implements Observar {
             //Dialogs observers
             addObserver(configurationDialog.getDialogSimilarFuncs().getObservont());
             addObserver(sepDialog.getDialogSimilarFuncs().getObservont());
+            addObserver(myDialog.getDialogSimilarFuncs().getObservont());
         }
         private void initialize_MyDialog()
         {
@@ -530,6 +532,12 @@ public class ClipBoardViewer implements Observar {
 
             AppContext.keyPressed.addObserver(buttonShit);
             AppContext.acciones.getClipBoardListener().addObserver(clipBoardViewer);
+        }
+
+        private void initialize_blockText()
+        {
+            BlocText.addObserver(myDialog);
+            BlocText.addObserver(scroller);
         }
 
     }
