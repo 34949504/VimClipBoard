@@ -1,5 +1,7 @@
 package org.example.vimclip;
 
+import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.BlocText;
+
 import java.util.ArrayList;
 
 public interface Observar {
@@ -32,11 +34,8 @@ public interface Observar {
 
     default public void showConfigDialog(){}
 
+    default public void blocText_wasRightCicked(BlocText blocText){}
 
-    private void wasssa(){}
-
-
-    default public void initializeClass(){}
 
 
 

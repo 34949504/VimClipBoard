@@ -15,6 +15,7 @@ import java.util.ArrayList;
 @Getter
 public class BlocText implements Observar {
 
+    public static ArrayList<Observar> observers_list = new ArrayList<>();
     Label label = new Label();
     boolean selected = false;
     boolean selected_tovisualize = false;
@@ -24,7 +25,7 @@ public class BlocText implements Observar {
 
     boolean clicked_righNow = false;
 
-    ArrayList<Observar> observer_list = new ArrayList<>();
+//    ArrayList<Observar> observer_list = new ArrayList<>();
 
     String selected_style_brighter = "-fx-padding: 8; "
             + "-fx-background-color: #ffff99; "    // brighter yellow background
@@ -65,7 +66,7 @@ public class BlocText implements Observar {
                     }
                     clicked_righNow = true;
 
-                    for (Observar observar:observer_list)
+                    for (Observar observar:observers_list)
                     {
                         observar.block_was_clicked();
                     }
@@ -74,8 +75,16 @@ public class BlocText implements Observar {
 
                 } else if (mouseButton == MouseButton.SECONDARY) {
                     selected_tovisualize = true;
-                    myDialog.setCurrentBlocktext(blocText);
-                    myDialog.setDialog_showing(true);
+//                    myDialog.setCurrentBlocktext(blocText);
+//                    myDialog.setDialog_showing(true);
+
+                    for (Observar observar:observers_list)
+                    {
+                        observar.blocText_wasRightCicked(blocText);
+                    }
+
+
+
                 }
             }
         });
@@ -119,10 +128,14 @@ public class BlocText implements Observar {
 
     }
 
-    public void addObserver(Observar observer)
-    {
-        observer_list.add(observer);
-    }
+//    public void addObserver(Observar observer)
+//    {
+//        observer_list.add(observer);
+//    }
 
+    public static void addObserver(Observar observar)
+    {
+        observers_list.add(observar);
+    }
 }
 

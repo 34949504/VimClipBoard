@@ -41,14 +41,6 @@ public class SepDialog extends Dialog implements Observar {
    private DialogSimilarFuncs dialogSimilarFuncs;
 
 
-//    boolean dialog_showing = false;
-//
-//    int currentHeight;
-//    int currentWidth;
-//
-//    int x;
-//    int y;
-
 
     public DialogSimilarFuncs getDialogSimilarFuncs() {
         return dialogSimilarFuncs;
@@ -75,24 +67,6 @@ public class SepDialog extends Dialog implements Observar {
 
         separator_textfieldListener();
 
-        // Let window positioning happen after dialog is shown
-//        this.setOnShown(e -> {
-//            dialogPane.applyCss();
-//            dialogPane.layout();
-//
-//            DialogSimilarFuncs.Coords coords =  DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
-//            x = coords.x;
-//            y = coords.y;
-//
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window instanceof Stage) {
-//                ((Stage) window).setAlwaysOnTop(true);
-//            }
-//            window.setX(x);
-//            window.setY(y);
-//        });
-
-//        new_line_button_onAction();
 
             Window window = getDialogPane().getScene().getWindow();
             if (window instanceof Stage) {
@@ -315,72 +289,11 @@ public class SepDialog extends Dialog implements Observar {
 
 
 
-//    public void setDialog_showing(boolean showing) {
-//        dialog_showing = showing;
-//        if (dialog_showing) {
-//            show_dialog();
-//        } else {
-//            System.out.println("closing dialog");
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window != null) window.hide();
-//        }
-//    }
-
-//    @Override
-//    public void stage_was_moved() {
-//        if (dialog_showing) {
-//            dialogPane.applyCss();
-//            dialogPane.layout();
-//            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
-//            x = coords.x;
-//            y = coords.y;
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window != null) {
-//                window.setX(x);
-//                window.setY(y);
-//            }
-//        }
-//    }
-
-
-//    @Override
-//    public void stage_minimizing() {
-//        if (dialog_showing) {
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window != null) window.hide();
-//        }
-//    }
 
     public void addObserver(Observar observer) {
         observers_list.add(observer);
     }
 
-//    @Override
-//    public void tab_changed(Character reg) {
-//        setDialog_showing(false);
-//    }
-
-//   @Override
-//public void stage_has_been_resized() {
-//
-//    if (dialog_showing) {
-//        // Defer repositioning until after resize/layout pass
-//        Platform.runLater(() -> {
-//            dialogPane.applyCss();
-//            dialogPane.layout();
-//            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
-//            x = coords.x;
-//            y = coords.y;
-//
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window != null) {
-//                window.setX(x);
-//                window.setY(y);
-//            }
-//        });
-//    }
-//
-//}
 
     @Override
     public void separator_button_was_clicked() {
