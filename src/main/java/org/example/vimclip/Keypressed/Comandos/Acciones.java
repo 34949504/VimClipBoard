@@ -145,16 +145,19 @@ public class Acciones {
         @Override
         public void esc_was_pressed() {
 
+            //WARNING he comentado esto, eso antes era utilizado cuando mi
+            //WARNING proyecto era mas rudimentario
+            //WARNING Maybe this might break the clipboarddisplayer i dont shit the acciones but who cares they sucked
 
-            if (clipBoardListener.isTimer_running()) {
-                clipBoardListener.stop_timer();
-
-                for (Observar observer : observers_list)
-                {
-                    observer.isTimerOn(false);
-                }
-
-            }
+//            if (clipBoardListener.isTimer_running()) {
+//                clipBoardListener.stop_timer();
+//
+//                for (Observar observer : observers_list)
+//                {
+//                    observer.isTimerOn(false);
+//                }
+//
+//            }
         }
         public void add_observer(Observar observer)
         {

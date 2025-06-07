@@ -38,6 +38,9 @@ import java.util.*;
 @Setter
 public class ClipBoardViewer implements Observar {
 
+    ClipBoardViewer clipBoardViewer = this;
+
+
     Stage stage;
     Acciones acciones;
     private SharedInfo sharedInfo = new SharedInfo();
@@ -57,6 +60,7 @@ public class ClipBoardViewer implements Observar {
     private ConfigMaster configMaster;
     private ConfigMaster.ClipboardViewer_config clipboardViewer_config;
 
+    private Observer_initializer observerInitializer = new Observer_initializer();
 
     @FXML
     private BorderPane mainPane;
@@ -182,38 +186,16 @@ public class ClipBoardViewer implements Observar {
 
         changeListener_stagePosition();
         stage_hidden_listener();
-
-
-//WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
-
-        addObserver(scroller);
-        addObserver(myDialog);
-        addObserver(configLoader);
-        addObserver(instanceManager);
-        addObserver(acciones.getClipBoardListener());
-        addObserver(AppContext.acciones.getListenToClipboard());
-        addObserver(AppContext.configMaster);
-        addObserver(helpDialog);
-        addObserver(configurationDialog.getDialogSimilarFuncs().getObservont());
-        myDialog.addObserver(this);
-
         stage_window_listener();
 
-
-        buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
-        buttonShit.addObserver(sepDialog);
-        buttonShit.addObserver(configurationDialog);
-
-        //WARNING this is so messed up that i am copying the  observers of this to buttohn shit
-        //WARNING and sometimes that can be confusing gotta change that  to a class or func to be less confusing
-
+        observerInitializer.initialize_observers();
         stage.setWidth(clipboardViewer_config.getStage_width());
         stage.setHeight(clipboardViewer_config.getStage_height());
 
 
-        AppContext.keyPressed.addObserver(buttonShit);
-        AppContext.acciones.getClipBoardListener().addObserver(this);
     }
+
+
     public void initialize_classes()
     {
         clipboardViewer_config = configMaster.getClipboardViewer_config();
@@ -497,6 +479,55 @@ public class ClipBoardViewer implements Observar {
 //        s.setDisable(true);
 //        d.setDisable(true);
 //        f.setDisable(true);
+    }
+
+
+    private class Observer_initializer
+    {
+
+
+        public void initialize_observers()
+        {
+           initialize_ClipBoardViewerObservers();
+           initialize_MyDialog();
+            initialize_MainButtons();
+            initialize_appContextClasses();
+
+        }
+
+        private void initialize_ClipBoardViewerObservers()
+        {
+
+            addObserver(scroller);
+            addObserver(myDialog);
+            addObserver(configLoader);
+            addObserver(instanceManager);
+            addObserver(acciones.getClipBoardListener());
+            addObserver(AppContext.acciones.getListenToClipboard());
+            addObserver(AppContext.configMaster);
+            addObserver(helpDialog);
+            addObserver(configurationDialog.getDialogSimilarFuncs().getObservont());
+        }
+        private void initialize_MyDialog()
+        {
+            myDialog.addObserver(clipBoardViewer);
+        }
+
+        private void initialize_MainButtons()
+        {
+
+            buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
+            buttonShit.addObserver(sepDialog);
+            buttonShit.addObserver(configurationDialog);
+        }
+
+        private void initialize_appContextClasses()
+        {
+
+            AppContext.keyPressed.addObserver(buttonShit);
+            AppContext.acciones.getClipBoardListener().addObserver(clipBoardViewer);
+        }
+
     }
 
 
