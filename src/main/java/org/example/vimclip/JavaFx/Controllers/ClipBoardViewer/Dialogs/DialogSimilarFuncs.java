@@ -13,6 +13,8 @@ import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 import org.example.vimclip.Observar;
 
+import java.awt.*;
+
 
 public class DialogSimilarFuncs{
 
@@ -99,6 +101,11 @@ public class DialogSimilarFuncs{
         dialogPane.setPrefWidth(w);
         dialogPane.setPrefHeight(h);
     }
+    public  void initializeDims(Dimension dimension) {
+
+        dialogPane.setPrefWidth(dimension.width);
+        dialogPane.setPrefHeight(dimension.height);
+    }
 
     public void settingDialogContent(Node node) {
         dialogPane.setContent(node);
@@ -113,6 +120,12 @@ public class DialogSimilarFuncs{
             changingWholePos();
             return;
         }
+
+        hideDialog();
+    }
+
+    public void hideDialog()
+    {
 
         Window window = dialogPane.getScene().getWindow();
         if (window != null) window.hide();

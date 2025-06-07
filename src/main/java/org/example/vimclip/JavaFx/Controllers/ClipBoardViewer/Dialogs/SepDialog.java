@@ -1,23 +1,28 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.*;
+import javafx.stage.Window;
 import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Leboutton;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 import org.example.vimclip.Observar;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,16 +38,21 @@ public class SepDialog extends Dialog implements Observar {
    private LoadingButtons loadingButtons = new LoadingButtons();
 
    private Label label = new Label();
-   private DialogSimilarFuncs DSF;
+   private DialogSimilarFuncs dialogSimilarFuncs;
 
 
-    boolean dialog_showing = false;
+//    boolean dialog_showing = false;
+//
+//    int currentHeight;
+//    int currentWidth;
+//
+//    int x;
+//    int y;
 
-    int currentHeight;
-    int currentWidth;
 
-    int x;
-    int y;
+    public DialogSimilarFuncs getDialogSimilarFuncs() {
+        return dialogSimilarFuncs;
+    }
 
     private Button close_button = new Button();
     private TextField textfield = new TextField();
@@ -55,34 +65,39 @@ public class SepDialog extends Dialog implements Observar {
         this.sharedInfo = sharedInfo;
         this.configMaster = configMaster;
         this.clipboardViewer_config = configMaster.getClipboardViewer_config();
-        settingDims();
+        dialogSimilarFuncs = new DialogSimilarFuncs(sharedInfo,this,clipboardViewer_config);
+        dialogSimilarFuncs.initializeDims(settingDims());
+        dialogSimilarFuncs.settingDialogContent(borderPane);
+
         settingUp_dialogLayout();
-        dialogPane.setContent(borderPane);
         initModality(Modality.WINDOW_MODAL);
         initStyle(StageStyle.UNDECORATED);
 
         separator_textfieldListener();
 
-        DSF = new DialogSimilarFuncs(sharedInfo,this,clipboardViewer_config);
-
         // Let window positioning happen after dialog is shown
-        this.setOnShown(e -> {
-            dialogPane.applyCss();
-            dialogPane.layout();
+//        this.setOnShown(e -> {
+//            dialogPane.applyCss();
+//            dialogPane.layout();
+//
+//            DialogSimilarFuncs.Coords coords =  DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
+//            x = coords.x;
+//            y = coords.y;
+//
+//            Window window = getDialogPane().getScene().getWindow();
+//            if (window instanceof Stage) {
+//                ((Stage) window).setAlwaysOnTop(true);
+//            }
+//            window.setX(x);
+//            window.setY(y);
+//        });
 
-            DialogSimilarFuncs.Coords coords =  DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
-            x = coords.x;
-            y = coords.y;
+//        new_line_button_onAction();
 
             Window window = getDialogPane().getScene().getWindow();
             if (window instanceof Stage) {
                 ((Stage) window).setAlwaysOnTop(true);
             }
-            window.setX(x);
-            window.setY(y);
-        });
-
-//        new_line_button_onAction();
 
         textfield.setText(configMaster.getSeparator_when_getting_all_text());
         configMaster.setUnprocessed_separator_when_getting_all_text(textfield.getText());
@@ -108,23 +123,11 @@ public class SepDialog extends Dialog implements Observar {
     }
 
 
-    public void show_dialog() {
-        if (dialog_showing) {
-            this.show();
-        }
-    }
-
-
-    private void settingDims() {
+    private Dimension settingDims() {
 
         int w =sharedInfo.getConfigLoader().getStage_defaultWidth();
         int h = sharedInfo.getConfigLoader().getStage_defaultHeight() / 2;
-        dialogPane.setPrefWidth(w);
-        dialogPane.setPrefHeight(h);
-        setResizable(true);
-
-        currentHeight = (int)(h);
-        currentWidth = (int)(w);
+        return new Dimension(w,h);
     }
 
 
@@ -140,10 +143,6 @@ public class SepDialog extends Dialog implements Observar {
 
     }
 
-    private void settingUpLayout_contextMenu()
-    {
-
-    }
 
 
 
@@ -161,7 +160,7 @@ public class SepDialog extends Dialog implements Observar {
 
                 configMaster.setSeparator_when_getting_all_text(processing_string());
                 configMaster.setUnprocessed_separator_when_getting_all_text(textfield.getText());
-                setDialog_showing(false);
+                dialogSimilarFuncs.hideDialog();
             }
         });
     }
@@ -316,83 +315,76 @@ public class SepDialog extends Dialog implements Observar {
 
 
 
-    public void setDialog_showing(boolean showing) {
-        dialog_showing = showing;
-        if (dialog_showing) {
-            show_dialog();
-        } else {
-            System.out.println("closing dialog");
-            Window window = getDialogPane().getScene().getWindow();
-            if (window != null) window.hide();
-        }
-    }
+//    public void setDialog_showing(boolean showing) {
+//        dialog_showing = showing;
+//        if (dialog_showing) {
+//            show_dialog();
+//        } else {
+//            System.out.println("closing dialog");
+//            Window window = getDialogPane().getScene().getWindow();
+//            if (window != null) window.hide();
+//        }
+//    }
 
-    @Override
-    public void stage_was_moved() {
-        if (dialog_showing) {
-            dialogPane.applyCss();
-            dialogPane.layout();
-            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
-            x = coords.x;
-            y = coords.y;
-            Window window = getDialogPane().getScene().getWindow();
-            if (window != null) {
-                window.setX(x);
-                window.setY(y);
-            }
-        }
-    }
+//    @Override
+//    public void stage_was_moved() {
+//        if (dialog_showing) {
+//            dialogPane.applyCss();
+//            dialogPane.layout();
+//            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
+//            x = coords.x;
+//            y = coords.y;
+//            Window window = getDialogPane().getScene().getWindow();
+//            if (window != null) {
+//                window.setX(x);
+//                window.setY(y);
+//            }
+//        }
+//    }
 
 
-    @Override
-    public void stage_minimizing() {
-        if (dialog_showing) {
-            Window window = getDialogPane().getScene().getWindow();
-            if (window != null) window.hide();
-        }
-    }
+//    @Override
+//    public void stage_minimizing() {
+//        if (dialog_showing) {
+//            Window window = getDialogPane().getScene().getWindow();
+//            if (window != null) window.hide();
+//        }
+//    }
 
     public void addObserver(Observar observer) {
         observers_list.add(observer);
     }
 
-    @Override
-    public void tab_changed(Character reg) {
-        setDialog_showing(false);
-    }
+//    @Override
+//    public void tab_changed(Character reg) {
+//        setDialog_showing(false);
+//    }
 
-   @Override
-public void stage_has_been_resized() {
-
-    if (dialog_showing) {
-        // Defer repositioning until after resize/layout pass
-        Platform.runLater(() -> {
-            dialogPane.applyCss();
-            dialogPane.layout();
-            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
-            x = coords.x;
-            y = coords.y;
-
-            Window window = getDialogPane().getScene().getWindow();
-            if (window != null) {
-                window.setX(x);
-                window.setY(y);
-            }
-        });
-    }
-
-}
+//   @Override
+//public void stage_has_been_resized() {
+//
+//    if (dialog_showing) {
+//        // Defer repositioning until after resize/layout pass
+//        Platform.runLater(() -> {
+//            dialogPane.applyCss();
+//            dialogPane.layout();
+//            DialogSimilarFuncs.Coords coords = DSF.calculating_where_dialog_should_appear(currentHeight,currentWidth);
+//            x = coords.x;
+//            y = coords.y;
+//
+//            Window window = getDialogPane().getScene().getWindow();
+//            if (window != null) {
+//                window.setX(x);
+//                window.setY(y);
+//            }
+//        });
+//    }
+//
+//}
 
     @Override
     public void separator_button_was_clicked() {
-        if (dialog_showing)
-        {
-           setDialog_showing(false);
-        }
-        else {
-            setDialog_showing(true);
-
-        }
+            dialogSimilarFuncs.showDialog();
     }
 
 

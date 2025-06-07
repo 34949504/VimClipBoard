@@ -506,7 +506,11 @@ public class ClipBoardViewer implements Observar {
             addObserver(AppContext.acciones.getListenToClipboard());
             addObserver(AppContext.configMaster);
             addObserver(helpDialog);
+
+
+            //Dialogs observers
             addObserver(configurationDialog.getDialogSimilarFuncs().getObservont());
+            addObserver(sepDialog.getDialogSimilarFuncs().getObservont());
         }
         private void initialize_MyDialog()
         {

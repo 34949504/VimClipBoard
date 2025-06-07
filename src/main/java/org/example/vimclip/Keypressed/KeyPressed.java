@@ -108,10 +108,10 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
 
         if (keycode == NativeKeyEvent.VC_ESCAPE) {
-            for (Observar observer:observadores_list)
-            {
-                observer.esc_was_pressed();
-            }
+//            for (Observar observer:observadores_list)
+//            {
+//                observer.esc_was_pressed();
+//            }
             System.out.println("Clearing keys ");
             keyStack.clear();
 //            return;
