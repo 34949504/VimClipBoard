@@ -27,8 +27,7 @@ public class Instance_manager implements Observar {
 
     SharedInfo sh;
 
-
-    public Instance_manager(SharedInfo sharedInfo)
+    public void  init(SharedInfo sharedInfo)
     {
         this.sh = sharedInfo;
     }

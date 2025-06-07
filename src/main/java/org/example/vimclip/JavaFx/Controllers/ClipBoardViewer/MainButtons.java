@@ -32,15 +32,17 @@ public class MainButtons implements Observar {
     int screenHeight = (int) Screen.getPrimary().getVisualBounds().getHeight();
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private StageFocuser stageFocuser;
-    public MainButtons(ArrayList<Button> buttons_array,
-                       SharedInfo sharedInfo) {
+    public MainButtons() {
+
+
+    }
+    public void init(ArrayList<Button> buttons_array, SharedInfo sharedInfo){
 
         this.sharedInfo = sharedInfo;
 //        stageFocuser = new StageFocuser(sharedInfo);
         addObserver(sharedInfo.getAcciones().getClipBoardListener());
         creatingButtonInfo();
         inicializando_botones(buttons_array);
-
     }
 
 

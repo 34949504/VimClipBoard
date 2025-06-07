@@ -48,7 +48,7 @@ public class ConfigurationDialog extends Dialog implements Observar {
 
 
 
-    public ConfigurationDialog(SharedInfo sharedInfo, ConfigMaster configMaster)
+    public void init(SharedInfo sharedInfo, ConfigMaster configMaster)
     {
 
         Label label = new Label("checing chang");

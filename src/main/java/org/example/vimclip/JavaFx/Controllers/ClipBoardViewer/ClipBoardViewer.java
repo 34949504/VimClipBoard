@@ -176,26 +176,14 @@ public class ClipBoardViewer implements Observar {
 
     public void initialize_shit() {
 
-        stage_hidden_listener();
-        clipboardViewer_config = configMaster.getClipboardViewer_config();
+        initialize_classes(); // Starts constructors
+        settingUp_sharedInfo(); // The order matter
+        initialize_classes_init(); // calls init
 
-
-        settingUp_sharedInfo();
-        configLoader = new ConfigLoader(config.getJSONObject("clipboardViewer_config"), sharedInfo);
-        sharedInfo.setConfigLoader(configLoader);
-        myDialog = new MyDialog(sharedInfo,configMaster);
-        sharedInfo.setMyDialog(myDialog);
-        buttonShit = new MainButtons(buttons, sharedInfo);
-//        buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
         changeListener_stagePosition();
+        stage_hidden_listener();
 
-        sharedInfo.initialize_available_instances(configLoader, myDialog);
 
-        instanceManager = new Instance_manager(sharedInfo);
-        sepDialog = new SepDialog(sharedInfo,configMaster);
-        scroller = new Scroller(sharedInfo);
-        helpDialog= new HelpDialog(sharedInfo,configMaster);
-        configurationDialog = new ConfigurationDialog(sharedInfo,configMaster);
 //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
 
         addObserver(scroller);
@@ -226,6 +214,31 @@ public class ClipBoardViewer implements Observar {
         AppContext.keyPressed.addObserver(buttonShit);
         AppContext.acciones.getClipBoardListener().addObserver(this);
     }
+    public void initialize_classes()
+    {
+        clipboardViewer_config = configMaster.getClipboardViewer_config();
+        configLoader = new ConfigLoader();
+        myDialog = new MyDialog();
+        buttonShit = new MainButtons();
+        instanceManager = new Instance_manager();
+        sepDialog = new SepDialog();
+        scroller = new Scroller();
+        helpDialog= new HelpDialog();
+        configurationDialog = new ConfigurationDialog();
+    }
+    public void initialize_classes_init()
+    {
+
+        clipboardViewer_config.init();
+        configLoader.init(config.getJSONObject("clipboardViewer_config"),sharedInfo);
+        myDialog.init(sharedInfo,configMaster);
+        buttonShit.init(buttons,sharedInfo);
+        instanceManager.init(sharedInfo);
+        sepDialog.init(sharedInfo,configMaster);
+        scroller.init(sharedInfo);
+        helpDialog.init(sharedInfo,configMaster);
+        configurationDialog.init(sharedInfo,configMaster);
+    }
 
     public void settingUp_sharedInfo() {
         sharedInfo.setContentPane(contentPane);
@@ -235,6 +248,9 @@ public class ClipBoardViewer implements Observar {
         sharedInfo.setAcciones(acciones);
         sharedInfo.setRegistryManager(registryManager);
         sharedInfo.setScrollPane_blocs(scroll);
+        sharedInfo.setConfigLoader(configLoader);
+        sharedInfo.setMyDialog(myDialog);
+        sharedInfo.initialize_available_instances(configLoader, myDialog);
     }
 
     @Override

@@ -50,13 +50,13 @@ public class HelpDialog extends Dialog implements Observar {
 
 
 
-    public HelpDialog(SharedInfo sharedInfo,ConfigMaster configMaster)
+    public void init(SharedInfo sharedInfo,ConfigMaster configMaster)
     {
 
         this.sharedInfo = sharedInfo;
         this.configMaster = configMaster;
         this.clipboardViewer_config = configMaster.getClipboardViewer_config();
-        this.dialogSimilarFuncs = new DialogSimilarFuncs(sharedInfo,this,clipboardViewer_config);
+        this.dialogSimilarFuncs = new DialogSimilarFuncs(sharedInfo,this,configMaster.getClipboardViewer_config());
 
         initializeDims();
         helpManual = new HelpManual();
@@ -303,7 +303,7 @@ public class HelpDialog extends Dialog implements Observar {
 
             Text text = createDesc("The commands work by pressing a sequence of keys," +
                     "for example if  i want to do the copy command i would press alt   " +
-                    "then press the key c\n\n");
+                    " press the key c\n\n");
 
             Text warning =  createWarning("WARNING\n");
             Text t = createDesc("Do not do the commands by holding the modifier alt because that would trigger " +

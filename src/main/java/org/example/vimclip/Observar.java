@@ -36,5 +36,8 @@ public interface Observar {
     private void wasssa(){}
 
 
+    default public void initializeClass(){}
+
+
 
 }

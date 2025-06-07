@@ -51,7 +51,7 @@ public class SepDialog extends Dialog implements Observar {
     private ConfigMaster.ClipboardViewer_config clipboardViewer_config;
     private ConfigMaster configMaster;
 
-    public SepDialog(SharedInfo sharedInfo, ConfigMaster configMaster) {
+    public void init(SharedInfo sharedInfo, ConfigMaster configMaster) {
         this.sharedInfo = sharedInfo;
         this.configMaster = configMaster;
         this.clipboardViewer_config = configMaster.getClipboardViewer_config();

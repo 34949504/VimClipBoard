@@ -16,7 +16,7 @@ public class Scroller implements Observar {
     int current_index = 0;
     StageFocuser stageFocuser;
 
-    public Scroller(SharedInfo sharedInfo){
+    public void  init(SharedInfo sharedInfo){
 
         this.sharedInfo = sharedInfo;
 //        stageFocuser =  new StageFocuser(sharedInfo);

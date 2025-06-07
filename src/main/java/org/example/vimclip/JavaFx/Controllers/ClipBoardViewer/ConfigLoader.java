@@ -31,15 +31,21 @@ public class ConfigLoader implements Observar {
 
 
 
-    public ConfigLoader(JSONObject config,SharedInfo sharedInfo) {
+    public ConfigLoader() {
+
+    }
+
+    public void init(JSONObject config,SharedInfo sharedInfo)
+    {
+
         this.config = config;
         this.sharedInfo = sharedInfo;
         initialize_mainPaine_dims();
         initialize_stage_position();
 
         label_maxHeight = config.getInt("label_max_height");
-
     }
+
 
     private void initialize_mainPaine_dims() {
         Rectangle2D rectangle2D = Screen.getPrimary().getBounds();

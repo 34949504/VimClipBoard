@@ -41,7 +41,11 @@ public class MyDialog extends Dialog implements Observar {
     SharedInfo sharedInfo;
     ConfigMaster.ClipboardViewer_config clipboardViewer_config;
 
-    public MyDialog(SharedInfo sharedInfo, ConfigMaster configMaster) {
+    public MyDialog() {
+    }
+    public void init(SharedInfo sharedInfo, ConfigMaster configMaster){
+
+
         this.sharedInfo = sharedInfo;
         clipboardViewer_config = configMaster.getClipboardViewer_config();
         settingDims();
