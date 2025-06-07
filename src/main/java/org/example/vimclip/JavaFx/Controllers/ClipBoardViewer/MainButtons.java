@@ -43,6 +43,7 @@ public class MainButtons implements Observar {
         addObserver(sharedInfo.getAcciones().getClipBoardListener());
         creatingButtonInfo();
         inicializando_botones(buttons_array);
+        disablingFocusTraversal(buttons_array);
     }
 
 
@@ -453,5 +454,13 @@ public class MainButtons implements Observar {
 
     public void setObservadores_list(ArrayList<Observar> observadores_list) {
         this.observadores_list = observadores_list;
+    }
+
+    private void disablingFocusTraversal(ArrayList<Button>buttons)
+    {
+        for(Button btn:buttons)
+        {
+            btn.setFocusTraversable(false);
+        }
     }
 }
