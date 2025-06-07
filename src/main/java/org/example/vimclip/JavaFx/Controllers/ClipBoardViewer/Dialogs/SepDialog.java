@@ -129,7 +129,7 @@ public class SepDialog extends Dialog implements Observar {
         int h = sharedInfo.getConfigLoader().getStage_defaultHeight() / 2;
         return new Dimension(w,h);
     }
-
+//
 
     private void settingUp_dialogLayout() {
         settingUp_closeButton();
