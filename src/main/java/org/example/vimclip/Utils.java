@@ -197,6 +197,16 @@ public class Utils {
         return imageView;
 
     }
+    public static ImageView getImageView(String resource_path,int width,int height)
+    {
+        Image image = new Image(Utils.getInputStream(resource_path)); // prefix "file:" for absolute paths
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(width); // Optional: scale the image
+        imageView.setFitHeight(height);
+
+        return imageView;
+
+    }
 
 
 }

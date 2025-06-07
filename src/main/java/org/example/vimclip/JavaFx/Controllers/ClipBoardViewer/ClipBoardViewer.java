@@ -27,9 +27,11 @@ import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.SepDialog;
 import org.example.vimclip.Keypressed.Comandos.Acciones;
 import org.example.vimclip.Observar;
 import org.example.vimclip.RegistryManager;
+import org.example.vimclip.Utils;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Setter
@@ -377,21 +379,24 @@ public class ClipBoardViewer implements Observar {
     }
 
     private void setting_tooltips() {
-        expand.setTooltip(new MyTooltip("Alt + h\nExpands application vertically"));
-        gearButton.setTooltip(new MyTooltip("Alt + g\nConfiguration"));
-        trashButton.setTooltip(new MyTooltip(" Alt + d\nDeletes selected blocks"));
-        copyButton.setTooltip(new MyTooltip("Alt + c\nCopies to your normal clipboard the selected blocks"));
-        startRecordingButton.setTooltip(new MyTooltip("Alt + s\nSaves everything that you copy when its on in the current tab"));
-        selectAll.setTooltip(new MyTooltip("Alt + a\nSelects all blocks/Deselects all blocks"));
-        switchEdge.setTooltip(new MyTooltip("Alt + e\nSwitches edge"));
-        separator.setTooltip(new MyTooltip("Alt + ,\n"));
-        copy_and_remove.setTooltip(new MyTooltip("Alt + x\nCopies to your normal clipboard and removes the blocks"));
-        shortcut_button.setTooltip(new MyTooltip("Alt + Alt + t\nActivate or Deactivate shorcuts"));
-        hide_app.setTooltip(new MyTooltip("Alt + v\nMinimize or show the app"));
+        expand.setTooltip(new MyTooltip("Alt + h"));
+        gearButton.setTooltip(new MyTooltip("Alt + g"));
+        trashButton.setTooltip(new MyTooltip(" Alt + d"));
+        copyButton.setTooltip(new MyTooltip("Alt + c"));
+        startRecordingButton.setTooltip(new MyTooltip("Alt + s"));
+        selectAll.setTooltip(new MyTooltip("Alt + a"));
+        switchEdge.setTooltip(new MyTooltip("Alt + e"));
+        separator.setTooltip(new MyTooltip("Alt + ,"));
+        copy_and_remove.setTooltip(new MyTooltip("Alt + x"));
+        shortcut_button.setTooltip(new MyTooltip("Alt + Alt + t"));
+        hide_app.setTooltip(new MyTooltip("Alt + v"));
     }
 
     public class MyTooltip extends Tooltip {
-        public static Font font = Font.loadFont("file:C:/Users/gerar/IdeaProjects/VimClip/src/main/resources/assets/BarberChop.otf", 14);
+
+
+        public static InputStream inputStream = Utils.getInputStream("/assets/BarberChop.otf");
+        public static Font font = Font.loadFont(inputStream, 14);
 
         public MyTooltip(String message) {
 

@@ -19,7 +19,7 @@ public class Scroller implements Observar {
     public Scroller(SharedInfo sharedInfo){
 
         this.sharedInfo = sharedInfo;
-        stageFocuser =  new StageFocuser(sharedInfo);
+//        stageFocuser =  new StageFocuser(sharedInfo);
     }
 
 
@@ -103,7 +103,7 @@ public class Scroller implements Observar {
                 double scrollY = y / contentBounds.getHeight();
 
                 scrollPane.setVvalue(scrollY);  // Scroll vertically
-                stageFocuser.giveFocus();
+//                stageFocuser.giveFocus();
             });
         }
 

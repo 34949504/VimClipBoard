@@ -36,7 +36,7 @@ public class MainButtons implements Observar {
                        SharedInfo sharedInfo) {
 
         this.sharedInfo = sharedInfo;
-        stageFocuser = new StageFocuser(sharedInfo);
+//        stageFocuser = new StageFocuser(sharedInfo);
         addObserver(sharedInfo.getAcciones().getClipBoardListener());
         creatingButtonInfo();
         inicializando_botones(buttons_array);
@@ -135,16 +135,19 @@ public class MainButtons implements Observar {
 
         public void hideApp()
         {
-
+            System.out.println("Minimizing app");
             Stage stage = sharedInfo.getStage();
+
+
+//            stage.setIconified(true);
             stage.setIconified(!stage.isIconified());
 
-            if (!stage.isIconified()) {
-                stageFocuser.giveFocus();
-            }
-            else {
-                stageFocuser.giveFocusBack();
-            }
+//            if (!stage.isIconified()) {
+//                stageFocuser.giveFocus();
+//            }
+//            else {
+//                stageFocuser.giveFocusBack();
+//            }
         }
 
 
@@ -430,7 +433,6 @@ public class MainButtons implements Observar {
                     }
                     return;
                 }
-
 
                 if (myButtonFuncs.isShorctutButton_active()) {
                     buttonInfo.button.fire();
