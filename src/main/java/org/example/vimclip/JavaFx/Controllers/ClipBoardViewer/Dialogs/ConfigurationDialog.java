@@ -54,6 +54,7 @@ public class ConfigurationDialog extends Dialog implements Observar {
         Label label = new Label("checing chang");
         borderPane.setCenter(label);
 
+
         this.sharedInfo = sharedInfo;
         this.configMaster = configMaster;
         this.clipboardViewer_config = configMaster.getClipboardViewer_config();
@@ -71,80 +72,6 @@ public class ConfigurationDialog extends Dialog implements Observar {
 
     }
 
-//    private void initializeDims()
-//    {
-//        double w = clipboardViewer_config.getStage_width();
-//        double h = clipboardViewer_config.getStage_height();
-//
-//        dialogPane.setPrefWidth(w);
-//        dialogPane.setPrefHeight(h);
-//    }
-//    private void settingDialogContent()
-//    {
-//        dialogPane.setContent(scrollPane);
-//    }
-
-
-//    @Override
-//    public void showHelpDialog() {
-//        if (!this.isShowing()) {
-////            settingUpPosition();
-//            this.show();
-//            changingWholePos();
-//            return;
-//        }
-//
-//        Window window = getDialogPane().getScene().getWindow();
-//        if (window != null) window.hide();
-//    }
-
-
-//     @Override
-//    public void stage_was_moved() {
-//        changingWholePos();
-//    }
-
-//    private void changingWholePos()
-//    {
-//
-//        if (this.isShowing()) {
-//            dialogPane.applyCss();
-//            dialogPane.layout();
-//            DialogSimilarFuncs.Coords coords = dialogSimilarFuncs.calculating_where_dialog_should_appear((int)dialogPane.getHeight(),(int)dialogPane.getWidth());
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window != null) {
-//                window.setX(coords.getX());
-//                window.setY(coords.getY());
-//            }
-//        }
-//    }
-
-//    @Override
-//    public void stage_minimizing() {
-//        if (this.isShowing()) {
-//            Window window = getDialogPane().getScene().getWindow();
-//            if (window != null) window.hide();
-//        }
-//    }
-
-//    @Override
-//    public void stage_has_been_resized() {
-//        if (this.isShowing()) {
-//            // Defer repositioning until after resize/layout pass
-//            Platform.runLater(() -> {
-//                dialogPane.applyCss();
-//                dialogPane.layout();
-//                DialogSimilarFuncs.Coords coords = dialogSimilarFuncs.calculating_where_dialog_should_appear((int)dialogPane.getHeight(),(int)dialogPane.getWidth());
-//
-//                Window window = getDialogPane().getScene().getWindow();
-//                if (window != null) {
-//                    window.setX(coords.x);
-//                    window.setY(coords.y);
-//                }
-//            });
-//        }
-//    }
-
     public DialogSimilarFuncs getDialogSimilarFuncs()
     {
         return  dialogSimilarFuncs;
@@ -154,5 +81,7 @@ public class ConfigurationDialog extends Dialog implements Observar {
     public void showConfigDialog() {
         System.out.println("Show config_dialog");
         dialogSimilarFuncs.showDialog();
+
+
     }
 }

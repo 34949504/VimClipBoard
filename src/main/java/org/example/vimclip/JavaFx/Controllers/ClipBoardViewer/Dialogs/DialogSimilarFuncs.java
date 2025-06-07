@@ -14,12 +14,13 @@ import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 import org.example.vimclip.Observar;
 
 
-public class DialogSimilarFuncs implements Observar {
+public class DialogSimilarFuncs{
 
     SharedInfo sharedInfo;
     Dialog dialog;
     DialogPane dialogPane;
     ConfigMaster.ClipboardViewer_config clipboardViewer_config;
+    Observont observont = new Observont();
 
     public DialogSimilarFuncs(SharedInfo sharedInfo, Dialog dialog, ConfigMaster.ClipboardViewer_config clipboardViewer_config) {
 
@@ -27,6 +28,11 @@ public class DialogSimilarFuncs implements Observar {
         this.dialog = dialog;
         this.dialogPane = dialog.getDialogPane();
         this.clipboardViewer_config = clipboardViewer_config;
+    }
+
+    public Observont getObservont()
+    {
+        return  observont;
     }
 
 
@@ -98,19 +104,6 @@ public class DialogSimilarFuncs implements Observar {
         dialogPane.setContent(node);
     }
 
-    @Override
-    public void showHelpDialog() {
-        if (!dialog.isShowing()) {
-//            settingUpPosition();
-            dialog.show();
-            changingWholePos();
-            return;
-        }
-
-        Window window = dialogPane.getScene().getWindow();
-        if (window != null) window.hide();
-
-    }
     public void showDialog()
     {
 
@@ -127,10 +120,7 @@ public class DialogSimilarFuncs implements Observar {
 
 
 
-    @Override
-    public void stage_was_moved() {
-        changingWholePos();
-    }
+
     private void changingWholePos()
     {
 
@@ -145,28 +135,36 @@ public class DialogSimilarFuncs implements Observar {
             }
         }
     }
-    @Override
-    public void stage_minimizing() {
-        if (dialog.isShowing()) {
-            Window window = dialogPane.getScene().getWindow();
-            if (window != null) window.hide();
-        }
-    }
-    @Override
-    public void stage_has_been_resized() {
-        if (dialog.isShowing()) {
-            // Defer repositioning until after resize/layout pass
-            Platform.runLater(() -> {
-                dialogPane.applyCss();
-                dialogPane.layout();
-                DialogSimilarFuncs.Coords coords = calculating_where_dialog_should_appear((int)dialogPane.getHeight(),(int)dialogPane.getWidth());
 
-                Window window =dialogPane.getScene().getWindow();
-                if (window != null) {
-                    window.setX(coords.x);
-                    window.setY(coords.y);
-                }
-            });
+    private class Observont implements  Observar
+    {
+        @Override
+        public void stage_minimizing() {
+            if (dialog.isShowing()) {
+                Window window = dialogPane.getScene().getWindow();
+                if (window != null) window.hide();
+            }
+        }
+        @Override
+        public void stage_has_been_resized() {
+            if (dialog.isShowing()) {
+                // Defer repositioning until after resize/layout pass
+                Platform.runLater(() -> {
+                    dialogPane.applyCss();
+                    dialogPane.layout();
+                    DialogSimilarFuncs.Coords coords = calculating_where_dialog_should_appear((int)dialogPane.getHeight(),(int)dialogPane.getWidth());
+
+                    Window window =dialogPane.getScene().getWindow();
+                    if (window != null) {
+                        window.setX(coords.x);
+                        window.setY(coords.y);
+                    }
+                });
+            }
+        }
+        @Override
+        public void stage_was_moved() {
+            changingWholePos();
         }
     }
 

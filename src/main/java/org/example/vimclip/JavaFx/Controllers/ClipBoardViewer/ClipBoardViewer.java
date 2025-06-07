@@ -197,10 +197,6 @@ public class ClipBoardViewer implements Observar {
         helpDialog= new HelpDialog(sharedInfo,configMaster);
         configurationDialog = new ConfigurationDialog(sharedInfo,configMaster);
 //WARNING i am using setObservers in buttonshit wit hthe observers of clipboardviewer
-//        buttonShit.addObserver(scroller);
-//        buttonShit.addObserver(sepDialog);
-//        buttonShit.addObserver(sepDialog);
-//        buttonShit.addObserver(helpDialog);
 
         addObserver(scroller);
         addObserver(myDialog);
@@ -210,9 +206,8 @@ public class ClipBoardViewer implements Observar {
         addObserver(AppContext.acciones.getListenToClipboard());
         addObserver(AppContext.configMaster);
         addObserver(helpDialog);
-        addObserver(configurationDialog.getDialogSimilarFuncs());
+        addObserver(configurationDialog.getDialogSimilarFuncs().getObservont());
         myDialog.addObserver(this);
-//        buttonShit.addObserver(myDialog);
 
         stage_window_listener();
 

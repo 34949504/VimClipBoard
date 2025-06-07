@@ -33,5 +33,8 @@ public interface Observar {
     default public void showConfigDialog(){}
 
 
+    private void wasssa(){}
+
+
 
 }
