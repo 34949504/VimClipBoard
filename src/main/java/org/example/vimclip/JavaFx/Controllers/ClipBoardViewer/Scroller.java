@@ -27,6 +27,43 @@ public class Scroller implements Observar {
     public void bloc_was_created() {
 
         System.out.println("here in scrollbar bloc was cre");
+        ArrayList<SharedInfo.WholePackage> WPC = sharedInfo.getCurrentWholePackageArray();
+        SharedInfo.WholePackage WP = WPC.getLast();
+
+
+        if (wholePackage_current != null)
+        {
+
+            if (wholePackage_current.getBlocText().isBlue_selection())
+                wholePackage_current.getBlocText().setBlueSelection(false);
+        }
+        wholePackage_current = WP;
+        WP.getBlocText().setBlueSelection(true);
+        current_index = WPC.size() -1;
+
+
+
+
+
+        Platform.runLater(() -> {
+            // Wait one more pulse so layout is done
+            Platform.runLater(() -> {
+                ScrollPane scrollPane = sharedInfo.getScrollPane_blocs();
+                Label targetLabel = wholePackage_current.getBlocText().getLabel();
+                VBox content = sharedInfo.getContentPane();
+
+                Bounds contentBounds = content.getLayoutBounds();
+                Bounds nodeBounds = targetLabel.localToScene(targetLabel.getBoundsInLocal());
+                Bounds scrollBounds = scrollPane.getContent().localToScene(scrollPane.getContent().getBoundsInLocal());
+
+                double y = nodeBounds.getMinY() - scrollBounds.getMinY();
+                double scrollY = y / contentBounds.getHeight();
+
+                scrollPane.setVvalue(scrollY);
+            });
+        });
+
+
     }
 
     @Override
@@ -178,6 +215,7 @@ public class Scroller implements Observar {
             if (blocText.isSelected())
             {
                blocText.set_selected(false);
+                blocText.setBlueSelection(true);
             }
             else {
 
@@ -186,4 +224,8 @@ public class Scroller implements Observar {
             }
         }
     }
+
+
+
+
 }

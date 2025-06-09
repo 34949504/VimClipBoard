@@ -173,11 +173,11 @@ public class Acciones {
             if (last_value != null && last_value instanceof String last_val)
             {
                 System.out.println("Se ha pasado al clipboard el last value");
-                ClipboardUtils.setClipboardContents(last_val);
+                ClipboardUtils.setClipboardContentsWithRetry(last_val,5,100);
                 return;
             }
 
-            ClipboardUtils.setClipboardContents("");
+            ClipboardUtils.setClipboardContentsWithRetry("",5,100);
 
         }
     }
@@ -192,11 +192,11 @@ public class Acciones {
             {
                 System.out.println("Se ha pasado al clipboard el first value");
                 System.out.println("First val is "+firstValue);
-                ClipboardUtils.setClipboardContents(first_val);
+                ClipboardUtils.setClipboardContentsWithRetry(first_val,5,100);
                 return;
             }
 
-            ClipboardUtils.setClipboardContents("");
+            ClipboardUtils.setClipboardContentsWithRetry("",5,100);
 
         }
     }
@@ -210,12 +210,12 @@ public class Acciones {
             if (allValues != null)
             {
                 System.out.println("Se ha pasado al clipboard all values ");
-                ClipboardUtils.setClipboardContents(allValues);
+                ClipboardUtils.setClipboardContentsWithRetry(allValues,5,100);
                 return;
 
             }
 
-            ClipboardUtils.setClipboardContents("");
+            ClipboardUtils.setClipboardContentsWithRetry("",5,100);
 
         }
     }
@@ -265,7 +265,7 @@ public class Acciones {
             Object value = registryManager.getValue(reg,index);
 
             if (value != null && value instanceof String val)
-             ClipboardUtils.setClipboardContents(val);
+                ClipboardUtils.setClipboardContentsWithRetry(val,5,100);
         }
     }
     public  class removeValue implements doing_action
@@ -305,7 +305,7 @@ public class Acciones {
                         contents.append(String.format("%s%s", str,configMaster.getSeparator_when_getting_all_text()));
                     }
                 }
-                ClipboardUtils.setClipboardContents(contents.toString());
+                ClipboardUtils.setClipboardContentsWithRetry(contents.toString(),5,100);
                 return 0;
             }
 

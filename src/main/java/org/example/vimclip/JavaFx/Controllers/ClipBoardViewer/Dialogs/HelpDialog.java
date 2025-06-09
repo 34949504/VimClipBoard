@@ -176,12 +176,12 @@ public class HelpDialog extends Dialog implements Observar {
         private String[] copyButton_string = { "Copies to your clipboard the selected block/blocks","Alt + c" };
         private String[] selectAll_string = { "Toggles between selecting all blocks and deselecting all blocks","Alt + a" };
         private String[] startRecordingButton_string = { "It lets the program know to listen for changes in the clipboard so that it is able to register them as blocks","alt + s" };
-        private String[] shortcut_button_string = { "Toggles if shortcut mode is on or off","Alt + Alt\n + t" };
+        private String[] shortcut_button_string = { "Toggles if shortcut mode is on or off\n\nWhen this is not active none of the shortcuts would react","Alt + Alt\n + t" };
         private String[] separator_string = { "When you get more than one text block, you define what separates the text","Alt + ," };
         private String[] switchEdge_string = { "Switches the app between the 4 edges of the screen","Alt + e" };
         private String[] expand_string = { "Toggles the app height to be the full height of the screen and the default height","alt + h" };
         private String[] hide_app_string = { "Toggles the app minimizing it or restoring it","alt + v" };
-        private String[] help_string = { "Displays useful information about the app","placeholder" };
+        private String[] help_string = { "Displays useful information about the app","alt + q" };
         private String[] gearButton_string = { "Where you can configure the app","alt + g" };
 
         LoadingImages loadingImages = new LoadingImages();
@@ -224,11 +224,12 @@ public class HelpDialog extends Dialog implements Observar {
 
             Text tip1 = new Text("Use your up and down arrow to navigate the copied blocks\n\n");
             tip1.setFont(descFont);
-            Text tip2 = new Text("Use spacebar to select blocks\n\n");
+            Text tip2 = new Text("Use spacebar or left click to select blocks\n\n");
+            Text tip3 = new Text("Right clicking a block allows you to edit the contents of the block\n\n");
             tip2.setFont(descFont);
 
 
-            this.getChildren().addAll(title,tip1,tip2);
+            this.getChildren().addAll(title,tip1,tip2,tip3);
         }
         private void tutorial_section()
         {

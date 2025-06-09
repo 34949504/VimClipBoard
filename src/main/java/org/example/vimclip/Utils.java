@@ -197,6 +197,14 @@ public class Utils {
         return imageView;
 
     }
+    public static ImageView getImageViewV2(String resource_path)
+    {
+        Image image = new Image(Utils.getInputStream(resource_path)); // prefix "file:" for absolute paths
+        ImageView imageView = new ImageView(image);
+
+        return imageView;
+
+    }
     public static ImageView getImageView(String resource_path,int width,int height)
     {
         Image image = new Image(Utils.getInputStream(resource_path)); // prefix "file:" for absolute paths

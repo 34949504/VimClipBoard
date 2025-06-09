@@ -105,6 +105,7 @@ public class ConfigMaster implements Observar {
 
     public void writingConfig()
     {
+        System.out.println("writing to config");
         config.put("separator_when_getting_all_text",unprocessed_separator_when_getting_all_text);
         Utils.writeFile(configPath,config.toString(4));
 

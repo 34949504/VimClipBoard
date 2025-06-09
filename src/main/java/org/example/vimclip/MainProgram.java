@@ -26,6 +26,7 @@ public class MainProgram {
 
         Path configPath = Utils.getPathfromAppData(appDataPath,"config.json","/Data/config.json");
 
+        System.out.println(configPath.toString());
 
 
 

@@ -54,6 +54,7 @@ public class ClipBoardViewer implements Observar {
     private Scroller scroller;
     private HelpDialog helpDialog;
     private ConfigurationDialog configurationDialog;
+    private VisualCues visualCues;
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
     private JSONObject config;
@@ -207,6 +208,8 @@ public class ClipBoardViewer implements Observar {
         scroller = new Scroller();
         helpDialog= new HelpDialog();
         configurationDialog = new ConfigurationDialog();
+        visualCues = new VisualCues();
+
     }
     public void initialize_classes_init()
     {
@@ -220,6 +223,7 @@ public class ClipBoardViewer implements Observar {
         scroller.init(sharedInfo);
         helpDialog.init(sharedInfo,configMaster);
         configurationDialog.init(sharedInfo,configMaster);
+        visualCues.init(sharedInfo,configMaster);
     }
 
     public void settingUp_sharedInfo() {
@@ -507,6 +511,7 @@ public class ClipBoardViewer implements Observar {
             addObserver(AppContext.acciones.getListenToClipboard());
             addObserver(AppContext.configMaster);
             addObserver(helpDialog);
+            addObserver(configMaster);
 
 
             //Dialogs observers
@@ -532,6 +537,7 @@ public class ClipBoardViewer implements Observar {
 
             AppContext.keyPressed.addObserver(buttonShit);
             AppContext.acciones.getClipBoardListener().addObserver(clipBoardViewer);
+            AppContext.acciones.getClipBoardListener().addObserver(visualCues);
         }
 
         private void initialize_blockText()

@@ -442,6 +442,12 @@ public class MainButtons implements Observar {
                 }
 
                 if (myButtonFuncs.isShorctutButton_active()) {
+
+                    if (buttonInfo.button.isDisable())
+                    {
+                        System.out.println("Button is disabled");
+                    }
+
                     buttonInfo.button.fire();
                 }
             }

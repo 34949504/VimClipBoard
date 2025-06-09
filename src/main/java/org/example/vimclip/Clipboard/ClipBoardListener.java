@@ -45,7 +45,13 @@ public class ClipBoardListener implements Observar {
             public void run() {
 
 
-                Object object_contetnt = ClipboardUtils.getClipboardContents();
+                Object object_contetnt = ClipboardUtils.getClipboardContentsWithRetry(5,20);
+                if (object_contetnt == null)
+                {
+                    System.out.println("Object contentd is null");
+                    return;
+                }
+
                 if (!skipped_first_time)
                 {
                     if (object_contetnt instanceof String string)
@@ -60,7 +66,7 @@ public class ClipBoardListener implements Observar {
 
 
 
-                    ClipboardUtils.setClipboardContents("");
+                    ClipboardUtils.setClipboardContentsWithRetry("",5,100);
                     skipped_first_time = true;
                     System.out.println("Here skipped");
                     return;
@@ -77,11 +83,12 @@ public class ClipBoardListener implements Observar {
 
                         registryManager.addValue(reg_selected,contents);
 
+                        System.out.println("calling here in clipboardlistener");
                         for (Observar observador:observers_list)
                         {
                             observador.something_was_copied(contents);
                         }
-                        ClipboardUtils.setClipboardContents("");
+                        ClipboardUtils.setClipboardContentsWithRetry("",5,100);
 
                     }
                 }
@@ -94,13 +101,13 @@ public class ClipBoardListener implements Observar {
                     {
                         observador.something_was_copied(image);
                     }
-                    ClipboardUtils.setClipboardContents("");
+                    ClipboardUtils.setClipboardContentsWithRetry("",5,100);
 
                 }
                 check_if_clipboard_image(object_contetnt);
 
             }
-        },0,100);
+        },0,10);
     }
     public void stop_timer()
     {
@@ -108,7 +115,7 @@ public class ClipBoardListener implements Observar {
         timer_running = false;
         skipped_first_time = false;
         timer = new Timer();
-        ClipboardUtils.setClipboardContents(previous_clipboard_content);
+        ClipboardUtils.setClipboardContentsWithRetry(previous_clipboard_content,5,100);
         contents = "";
 
     }
