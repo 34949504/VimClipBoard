@@ -151,7 +151,6 @@
     },
     "c": "appshortcut@copyButton",
     "x": "appshortcut@copy_and_remove",
-    "g": "appshortcut@gearButton",
     "d": "appshortcut@trashButton",
     "s": "appshortcut@startRecordingButton",
     "a": "appshortcut@selectAll",

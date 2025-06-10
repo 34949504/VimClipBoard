@@ -21,6 +21,7 @@ import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Leboutton;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.SharedInfo;
 import org.example.vimclip.Observar;
+import org.example.vimclip.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -121,8 +122,7 @@ public class SepDialog extends Dialog implements Observar {
 
 
     private void settingUp_closeButton() {
-        Image image = new Image("file:" + "C:\\Users\\gerar\\IdeaProjects\\VimClip\\src\\main\\resources\\assets\\images\\close.png");
-        ImageView imageView = new ImageView(image);
+        ImageView imageView =  Utils.getImageView("/assets/images/close.png");
         imageView.setFitWidth(40);
         imageView.setFitHeight(20);
         close_button.setGraphic(imageView);

@@ -75,10 +75,6 @@ public class MainButtons implements Observar {
                 () -> myButtonFuncs.startCopying(),false
         ));
 
-        buttons.put("gearButton", new Leboutton.ButtonInfo(
-                myImages.imageViewConstructor("gear.png", "gearPressed.png"),
-                () -> myButtonFuncs.gear()
-        ));
 
         buttons.put("switchEdge", new Leboutton.ButtonInfo(
                 myImages.imageViewConstructor("switchEdge.png", "switchEdgePressed.png"),
@@ -124,6 +120,8 @@ public class MainButtons implements Observar {
         boolean expanded = false;
         int stage_previousX;
         int stage_previousY;
+
+        boolean copyingIs_disable = false;
 
 
 
@@ -183,14 +181,6 @@ public class MainButtons implements Observar {
             }
         }
 
-        public void gear() {
-
-            for (Observar observar:observadores_list)
-            {
-                observar.showConfigDialog();
-            }
-
-        }
 
         public void copyHand() {
 
@@ -230,6 +220,7 @@ public class MainButtons implements Observar {
                 sharedInfo.getCopyingStrings().set(false);
                 prohecing_disable_hand(false,"copyButton");
                 prohecing_disable_hand(false,"copy_and_remove");
+                copyingIs_disable = false;
 
             } else {
 
@@ -237,6 +228,7 @@ public class MainButtons implements Observar {
                 sharedInfo.getCopyingStrings().set(true);
                 prohecing_disable_hand(true,"copyButton");
                 prohecing_disable_hand(true,"copy_and_remove");
+                copyingIs_disable = true;
             }
         }
 
@@ -276,7 +268,6 @@ public class MainButtons implements Observar {
             if (i >= 4)
                 i = 0;
 
-            System.out.println("choosen edge is " + edges[i]);
             sharedInfo.getConfigLoader().setCurrentEdge(edges[i]);
             sharedInfo.getConfigLoader().position_stage_atEgde(edges[i]);
 
@@ -448,7 +439,30 @@ public class MainButtons implements Observar {
                         System.out.println("Button is disabled");
                     }
 
+
+                    double swidth = sharedInfo.getStage().getWidth();
+                    double sheight = sharedInfo.getStage().getHeight();
+                    System.out.printf("%f %f\n",swidth,sheight);
+
+
+
                     buttonInfo.button.fire();
+
+                    if (myButtonFuncs.copyingIs_disable && buttonInfo.button.isDisable())
+                    {
+                        for (Observar observar:observadores_list)
+                        {
+                            observar.copyListener_is_on();
+                        }
+                        return;
+                    }
+
+                    if (buttonInfo.currentButtonImage != null)
+                    {
+                        for (Observar observar:observadores_list){
+                            observar.show_visual_cues(buttonInfo.currentButtonImage.get(0));
+                        }
+                    }
                 }
             }
         });

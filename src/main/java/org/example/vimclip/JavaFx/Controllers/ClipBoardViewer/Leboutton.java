@@ -4,9 +4,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.vimclip.Utils;
 
@@ -24,6 +27,9 @@ public class Leboutton {
         public boolean quickanimation = true;
         public int toogle_image = 0;
         public Button button;
+        public ArrayList<Image> currentButtonImage = null;
+
+        SharedInfo sharedInfo;
 
 
         public  ButtonInfo(ImageView[] imageViews,Runnable func,boolean quickanimation)
@@ -54,7 +60,6 @@ public class Leboutton {
             int i = 0;
             for (String str : names) {
                 String new_string = String.format("%s%s", path, str);
-                System.out.println("full path "+new_string);
                 strings[i++] = new_string;
             }
             return strings;
@@ -68,8 +73,65 @@ public class Leboutton {
 
                 Image image = new Image(Utils.getInputStream(paths[i])); // prefix "file:" for absolute paths
                 ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(40); // Optional: scale the image
+
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenHeight = screenBounds.getHeight();
+                double screenWidth = screenBounds.getWidth();
+
+                imageView.setFitWidth(40);
                 imageView.setFitHeight(40);
+
+
+//                final double REFERENCE_STAGEWIDTH = 299.9808;
+//                final double REFERENCE_WIDTH = 1536.0;
+//                final double REFERENCE_IMAGE_WIDTH = 40.0;
+//
+//                double widthRatio = REFERENCE_IMAGE_WIDTH / REFERENCE_STAGEWIDTH;  // ~0.0208
+//
+//                double stageWidth = screenWidth * 0.1953;
+//                System.out.println("stage width "+stageWidth);
+//
+//                //0.1953
+//
+//                double imageWidth = stageWidth * widthRatio;
+//
+//                imageView.setFitWidth(imageWidth);
+//                imageView.setFitHeight(imageWidth); // Square
+
+;
+
+                imageViews[i] = imageView;
+
+            }
+            return imageViews;
+
+        }
+        public ImageView[] imageViewConstructor(SharedInfo sharedInfo,String... names)
+        {
+            String[] paths = string_creator(names);
+            ImageView[] imageViews = new ImageView[names.length];
+
+            for (int i = 0; i < paths.length; i++) {
+
+                Image image = new Image(Utils.getInputStream(paths[i])); // prefix "file:" for absolute paths
+                ImageView imageView = new ImageView(image);
+
+                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                double screenHeight = screenBounds.getHeight();
+                double screenWidth = screenBounds.getWidth();
+
+//                double imageSize = screenHeight * 0.045; // 5% of screen height
+
+
+                double stageWidth = screenWidth * 0.1953;
+                double stageHeight = screenHeight * 0.3676;
+
+                double widthPercent = 40 / stageWidth;
+
+                imageView.setFitWidth(stageWidth * widthPercent);
+                imageView.setFitHeight(stageWidth * widthPercent);
+
+
                 imageViews[i] = imageView;
 
             }
@@ -86,8 +148,11 @@ public class Leboutton {
         ImageView[] imageViews = buttonInfo.imageViews;
         ImageView first_image = imageViews[0];
         ImageView second_image = imageViews[1];
+        ArrayList<Image> currentImage = new ArrayList<>();
+
         Timeline timeline = new Timeline();
         buttonInfo.button = button;
+        buttonInfo.currentButtonImage = currentImage;
 
 
         timeline.setCycleCount(1);
@@ -104,15 +169,15 @@ public class Leboutton {
         });
 
         if (buttonInfo.quickanimation) {
+            currentImage.add(first_image.getImage());
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    System.out.println("something happening?");
 
                     button.setGraphic(second_image);
                     timeline.play();
                     buttonInfo.func.run();
-                    System.out.println("was pressed");
+
                 }
             });
         } else {
@@ -126,6 +191,16 @@ public class Leboutton {
 
                     buttonInfo.toogle_image = buttonInfo.toogle_image == 0 ? 1 : 0;
                     button.setGraphic(imageViews[buttonInfo.toogle_image]);
+
+                    if (currentImage.size() <=0)
+                    {
+
+                        currentImage.add(imageViews[buttonInfo.toogle_image].getImage());
+                    }else {
+
+                        currentImage.set(0,imageViews[buttonInfo.toogle_image].getImage());
+                    }
+
                     buttonInfo.func.run();
                 }
             });

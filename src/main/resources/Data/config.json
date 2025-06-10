@@ -1,17 +1,18 @@
 {
-  "command_displayer_config":
-  {
-    "font_size": 16,
-    "font_color": "#000000",
-    "font_name": "arial",
-    "default_background": "#FFFFFF",
-    "show_background_cues": true
-  },
   "clipboardViewer_config": {
     "stage_height_percent": 36.76,
-    "stage_width_percent": 19.53,
     "label_max_height": 100,
+    "image_width_percent": 4.9,
+    "stage_width_percent": 19.53,
+    "stage_width" : 300,
     "stage_edge_postition": "topRight_edge"
+  },
+  "command_displayer_config": {
+    "default_background": "#FFFFFF",
+    "font_color": "#000000",
+    "font_size": 16,
+    "font_name": "arial",
+    "show_background_cues": true
   },
   "separator_when_getting_all_text": "\\n"
 }

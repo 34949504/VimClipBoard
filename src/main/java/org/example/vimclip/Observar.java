@@ -1,5 +1,7 @@
 package org.example.vimclip;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.BlocText;
 
 import java.util.ArrayList;
@@ -35,6 +37,10 @@ public interface Observar {
     default public void showConfigDialog(){}
 
     default public void blocText_wasRightCicked(BlocText blocText){}
+
+
+    default public void copyListener_is_on(){}
+    default public void show_visual_cues(Image imageView){}
 
 
 

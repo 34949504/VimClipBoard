@@ -55,21 +55,15 @@ public class ConfigMaster implements Observar {
 
 
             JSONObject c = config.getJSONObject("clipboardViewer_config");
-            stage_height_percent = c.getDouble("stage_height_percent");
-            stage_width_percent = c.getDouble("stage_width_percent");
             label_max_height = c.getInt("label_max_height");
             stage_edge_postition =  c.getString("stage_edge_postition");
+            stage_width = c.getInt("stage_width");
+            stage_height = stage_width;
 
-            calculate_stageDims();
 
             return this;
         }
 
-        private void calculate_stageDims()
-        {
-            stage_width = screen_width* stage_width_percent / 100;
-            stage_height = screen_height * stage_height_percent / 100;
-        }
     }
 
     @Getter

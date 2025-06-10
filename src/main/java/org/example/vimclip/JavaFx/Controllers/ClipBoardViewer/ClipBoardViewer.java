@@ -21,7 +21,6 @@ import javafx.stage.*;
 import lombok.Setter;
 import org.example.vimclip.ConfigMaster;
 import org.example.vimclip.JavaFx.AppContext;
-import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.ConfigurationDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.HelpDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.MyDialog;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.Dialogs.SepDialog;
@@ -53,7 +52,6 @@ public class ClipBoardViewer implements Observar {
     private SepDialog sepDialog;
     private Scroller scroller;
     private HelpDialog helpDialog;
-    private ConfigurationDialog configurationDialog;
     private VisualCues visualCues;
 
     private ArrayList<Observar> observadores_list = new ArrayList<>();
@@ -72,9 +70,7 @@ public class ClipBoardViewer implements Observar {
     @FXML
     private VBox contentPane;
 
-    @FXML
-    private Button gearButton;
-    @FXML
+   @FXML
     private Button trashButton;
     @FXML
     private Button copyButton;
@@ -115,7 +111,6 @@ public class ClipBoardViewer implements Observar {
 
 
         buttons = new ArrayList<>(Arrays.asList(
-                gearButton,
                 trashButton,
                 copyButton,
                 startRecordingButton,
@@ -207,7 +202,6 @@ public class ClipBoardViewer implements Observar {
         sepDialog = new SepDialog();
         scroller = new Scroller();
         helpDialog= new HelpDialog();
-        configurationDialog = new ConfigurationDialog();
         visualCues = new VisualCues();
 
     }
@@ -222,7 +216,6 @@ public class ClipBoardViewer implements Observar {
         sepDialog.init(sharedInfo,configMaster);
         scroller.init(sharedInfo);
         helpDialog.init(sharedInfo,configMaster);
-        configurationDialog.init(sharedInfo,configMaster);
         visualCues.init(sharedInfo,configMaster);
     }
 
@@ -382,7 +375,6 @@ public class ClipBoardViewer implements Observar {
 
     private void setting_tooltips() {
         expand.setTooltip(new MyTooltip("Alt + h"));
-        gearButton.setTooltip(new MyTooltip("Alt + g"));
         trashButton.setTooltip(new MyTooltip(" Alt + d"));
         copyButton.setTooltip(new MyTooltip("Alt + c"));
         startRecordingButton.setTooltip(new MyTooltip("Alt + s"));
@@ -515,7 +507,6 @@ public class ClipBoardViewer implements Observar {
 
 
             //Dialogs observers
-            addObserver(configurationDialog.getDialogSimilarFuncs().getObservont());
             addObserver(sepDialog.getDialogSimilarFuncs().getObservont());
             addObserver(myDialog.getDialogSimilarFuncs().getObservont());
         }
@@ -529,7 +520,7 @@ public class ClipBoardViewer implements Observar {
 
             buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
             buttonShit.addObserver(sepDialog);
-            buttonShit.addObserver(configurationDialog);
+            buttonShit.addObserver(visualCues);
         }
 
         private void initialize_appContextClasses()

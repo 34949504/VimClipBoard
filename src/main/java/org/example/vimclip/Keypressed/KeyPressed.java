@@ -112,7 +112,6 @@ public class KeyPressed implements NativeKeyListener, Observar {
 //            {
 //                observer.esc_was_pressed();
 //            }
-            System.out.println("Clearing keys ");
             keyStack.clear();
 //            return;
         }
@@ -145,11 +144,9 @@ public class KeyPressed implements NativeKeyListener, Observar {
 
             for (Observar observar:observadores_list)
             {
-                System.out.println("App shortcut pressed it"+js.getAppShortcut());
                 observar.appShortcut_beenPressed(js.getAppShortcut());
             }
 
-//            System.out.println("Shortcut es "+js.getAppShortcut());
             keyStack.clear();
             return;
         }
