@@ -82,63 +82,12 @@ public class Leboutton {
                 imageView.setFitHeight(40);
 
 
-//                final double REFERENCE_STAGEWIDTH = 299.9808;
-//                final double REFERENCE_WIDTH = 1536.0;
-//                final double REFERENCE_IMAGE_WIDTH = 40.0;
-//
-//                double widthRatio = REFERENCE_IMAGE_WIDTH / REFERENCE_STAGEWIDTH;  // ~0.0208
-//
-//                double stageWidth = screenWidth * 0.1953;
-//                System.out.println("stage width "+stageWidth);
-//
-//                //0.1953
-//
-//                double imageWidth = stageWidth * widthRatio;
-//
-//                imageView.setFitWidth(imageWidth);
-//                imageView.setFitHeight(imageWidth); // Square
-
-;
-
                 imageViews[i] = imageView;
 
             }
             return imageViews;
 
         }
-        public ImageView[] imageViewConstructor(SharedInfo sharedInfo,String... names)
-        {
-            String[] paths = string_creator(names);
-            ImageView[] imageViews = new ImageView[names.length];
-
-            for (int i = 0; i < paths.length; i++) {
-
-                Image image = new Image(Utils.getInputStream(paths[i])); // prefix "file:" for absolute paths
-                ImageView imageView = new ImageView(image);
-
-                Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-                double screenHeight = screenBounds.getHeight();
-                double screenWidth = screenBounds.getWidth();
-
-//                double imageSize = screenHeight * 0.045; // 5% of screen height
-
-
-                double stageWidth = screenWidth * 0.1953;
-                double stageHeight = screenHeight * 0.3676;
-
-                double widthPercent = 40 / stageWidth;
-
-                imageView.setFitWidth(stageWidth * widthPercent);
-                imageView.setFitHeight(stageWidth * widthPercent);
-
-
-                imageViews[i] = imageView;
-
-            }
-            return imageViews;
-
-        }
-
     }
 
     public static void inicialiar_boton(HashMap<String, ButtonInfo> buttons, Button button) {
