@@ -39,22 +39,7 @@ public class ClipboardUtils {
         return null; // Return null if failed all retries
     }
 
-    // Method 2: Repeats until clipboard has something
-    public static Object waitForClipboardContents() {
-        Object result = null;
-        while (result == null) {
-//            result = getClipboardContents();
-            if (result == null) {
-                try {
-                    Thread.sleep(100); // prevent CPU abuse
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-        return result;
-    }
+
 
     public static void setClipboardContentsWithRetry(String text, int maxRetries, long delayMillis) {
         int tries = 0;
@@ -80,20 +65,5 @@ public class ClipboardUtils {
         System.err.println("Failed to set clipboard contents after retries.");
     }
 
-    public static BufferedImage toBufferedImage(java.awt.Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img;
-        }
 
-        BufferedImage bimage = new BufferedImage(
-                img.getWidth(null), img.getHeight(null),
-                BufferedImage.TYPE_INT_ARGB
-        );
-
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
-
-        return bimage;
-    }
 }

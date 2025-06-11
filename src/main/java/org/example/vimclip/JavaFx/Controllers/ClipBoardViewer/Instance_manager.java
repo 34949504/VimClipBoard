@@ -55,12 +55,6 @@ public class Instance_manager implements Observar {
             sh.getContentPane().getChildren().clear();
         } else {
 
-            //cases request more wholepackages
-            //uses less wholepackages
-            //exact quantity
-            //if array_reg_size surpasses current array, current array,
-            //will have to request for more, if there a no more, then there will need
-            // to more created
 
             int i = 0;
             for (; i < array_of_reg_size; i++) {
@@ -126,7 +120,7 @@ public class Instance_manager implements Observar {
 
         }
 
-        check_register_size();
+//        check_register_size();
 
 
 

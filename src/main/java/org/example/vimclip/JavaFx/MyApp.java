@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.example.vimclip.JavaFx.Controllers.ClipBoardViewer.ClipBoardViewer;
-import org.example.vimclip.JavaFx.Controllers.Command_displayer;
 import org.example.vimclip.Utils;
 
 import java.io.File;
@@ -18,29 +17,10 @@ import java.io.IOException;
 
 public class MyApp extends Application {
 
-    Command_displayer commandDisplayer;
     ClipBoardViewer clipBoardViewer;
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setAlwaysOnTop(true);
-        primaryStage.setOpacity(0);
-        commandDisplayer = new Command_displayer(AppContext.config, primaryStage);
-
-        initialize_clipboardViewer();
-
-
-        creating_communication();
-    }
-
-    private void creating_communication() {
-        AppContext.keyPressed.addObserver(commandDisplayer);
-       //WARNING parece que ya agrege observador a clipboadrview, no se donde
-
-    }
-
-    private void initialize_clipboardViewer() throws IOException {
         double screenWidth =  Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight =  Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -49,13 +29,12 @@ public class MyApp extends Application {
 
         clipBoardViewer= loader.getController();
 
-        Stage stage = new Stage();
         Scene scene = new Scene(root);
-        stage.setScene(scene);
+        primaryStage.setScene(scene);
 
-        stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
-        clipBoardViewer.setStage(stage);
+        primaryStage.setResizable(false);
+        primaryStage.setAlwaysOnTop(true);
+        clipBoardViewer.setStage(primaryStage);
         clipBoardViewer.setRegistryManager(AppContext.registryManager);
         clipBoardViewer.setAcciones(AppContext.acciones);
         clipBoardViewer.setConfig(AppContext.config);
@@ -66,13 +45,8 @@ public class MyApp extends Application {
         AppContext.configMaster.init();
 
 
-        //comunicacion
-        clipBoardViewer.addObserver(commandDisplayer);
-
         clipBoardViewer.initialize_shit();
-
-
-        stage.show();
+        primaryStage.show();
     }
 
 

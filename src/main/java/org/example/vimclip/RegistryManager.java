@@ -20,6 +20,8 @@ public class RegistryManager implements Observar {
         getting_all_separator = configLoader.getString("separator_when_getting_all_text");
 
 
+
+
         for (char c = 'a'; c <= 'z'; c++) {
             clipboardRegistries.put(c, new ArrayList<>());
         }
@@ -111,19 +113,7 @@ public class RegistryManager implements Observar {
         }
     }
 
-    @Override
-    public void recibir_next_keys(ArrayList<String> nexkeys,ArrayList<String> desc) {
-        System.out.println("---------------------------------------------");
-        System.out.printf("Recibiendo keys:\n");
-        for (int i = 0; i < nexkeys.size(); i++) {
 
-            String key = nexkeys.get(i);
-            String d = desc.get(i);
-
-            System.out.printf("%s: %s\n",key,d);
-        }
-
-    }
     private boolean checkArray_size(int length,int index,String... texts)
     {
 

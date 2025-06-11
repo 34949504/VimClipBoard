@@ -126,8 +126,14 @@ public class VisualCues extends Dialog implements Observar {
 
     @Override
     public void something_was_copied(Object copiedString) {
-        dialogPane.setContent(visual_cue_copied);
-        showing_visualCue();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                dialogPane.setContent(visual_cue_copied);
+                showing_visualCue();
+            }
+        });
     }
 
     private void showing_visualCue() {
@@ -173,19 +179,15 @@ public class VisualCues extends Dialog implements Observar {
     }
 
     private void initTransition() {
-        //Setting the node for Transition
         fadeTransition.setNode(dialogPane);
 
-        //Setting the property fromValue of the transition (opacity)
         fadeTransition.setFromValue(1.0);
 
-        //Setting the property toValue of the transition (opacity)
         fadeTransition.setToValue(0.0);
     }
 
     @Override
     public void show_visual_cues(Image image) {
-        System.out.println("showing image visual cues ");
         ImageView imageView = new ImageView(image);
         dialogPane.setContent(imageView);
         showing_visualCue();

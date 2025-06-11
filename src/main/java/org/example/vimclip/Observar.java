@@ -12,7 +12,6 @@ public interface Observar {
     default public void command_restarted(){}
     default public void esc_was_pressed(){}
     default public void isTimerOn(boolean flag){}
-    default public void listenForNumbers(){}
     default public void something_was_copied(Object copiedString){}
 
     default public void stage_was_moved(){}

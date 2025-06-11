@@ -42,7 +42,7 @@ public class HelpDialog extends Dialog implements Observar {
     ConfigMaster.ClipboardViewer_config clipboardViewer_config;
     DialogPane dialogPane = this.getDialogPane();
 
-    Hyperlink link = new Hyperlink("https://www.youtube.com/");
+    Hyperlink link = new Hyperlink("https://www.youtube.com/watch?v=v-yI4J9cd7g");
     DialogSimilarFuncs dialogSimilarFuncs;
 
     HelpManual helpManual;
@@ -247,7 +247,7 @@ public class HelpDialog extends Dialog implements Observar {
 
                 imageView.setImage(firstImage);
                 try {
-                    Desktop.getDesktop().browse(new URI("https://www.youtube.com/"));
+                    Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=v-yI4J9cd7g"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

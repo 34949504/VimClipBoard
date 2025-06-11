@@ -62,7 +62,6 @@ public class ClipBoardListener implements Observar {
                     {
                         previous_image = image;
                     }
-//                    check_if_clipboard_image(object_contetnt);
 
 
 
@@ -104,7 +103,6 @@ public class ClipBoardListener implements Observar {
                     ClipboardUtils.setClipboardContentsWithRetry("",5,100);
 
                 }
-                check_if_clipboard_image(object_contetnt);
 
             }
         },0,10);
@@ -148,14 +146,7 @@ public class ClipBoardListener implements Observar {
         reg_selected = reg;
     }
 
-    private void check_if_clipboard_image(Object o)
-    {
 
-        if (o instanceof Image image)
-        {
-//            System.out.println("Its an image ");
-        }
-    }
 
 
     //WARNING THIs code might be deep to fail in the future for using setobserverlist and addobserver omicuouslysne

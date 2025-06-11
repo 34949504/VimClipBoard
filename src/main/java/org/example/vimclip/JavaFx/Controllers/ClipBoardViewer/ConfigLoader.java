@@ -57,8 +57,6 @@ public class ConfigLoader implements Observar {
         stage_defaultHeight = height * height_percent / 100;
         stage_defaultWidth = width * width_percent / 100;
 
-//        sharedInfo.getMainPane().setPrefHeight(mainPane_defaultHeight);
-//        sharedInfo.getMainPane().setPrefWidth(mainPane_defaultWidth);
 
     }
     private void initialize_stage_position()

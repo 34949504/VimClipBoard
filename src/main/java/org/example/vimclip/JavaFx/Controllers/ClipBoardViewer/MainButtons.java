@@ -140,7 +140,6 @@ public class MainButtons implements Observar {
             Stage stage = sharedInfo.getStage();
 
 
-//            stage.setIconified(true);
             stage.setIconified(!stage.isIconified());
 
             if (!stage.isIconified()) {
@@ -172,7 +171,6 @@ public class MainButtons implements Observar {
 
         public void separator()
         {
-            System.out.println("separating");
 
             for (Observar observar:observadores_list)
             {
@@ -188,9 +186,6 @@ public class MainButtons implements Observar {
             ArrayList<Integer> selected_labels = get_selected_labels();
 
             int status = sharedInfo.getAcciones().doCommand4(sharedInfo.getCurrent_register(), selected_labels, "get_values");
-            System.out.println("Copyhand ");
-
-
 
             if (status == 0) {
                 deselect_labels(selected_labels);

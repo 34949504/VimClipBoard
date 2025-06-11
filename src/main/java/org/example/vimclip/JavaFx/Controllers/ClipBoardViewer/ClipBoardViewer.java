@@ -1,4 +1,5 @@
 package org.example.vimclip.JavaFx.Controllers.ClipBoardViewer;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -70,7 +71,7 @@ public class ClipBoardViewer implements Observar {
     @FXML
     private VBox contentPane;
 
-   @FXML
+    @FXML
     private Button trashButton;
     @FXML
     private Button copyButton;
@@ -86,10 +87,14 @@ public class ClipBoardViewer implements Observar {
     @FXML
     private Button switchEdge;
 
-    @FXML private Button copy_and_remove;
-    @FXML private Button shortcut_button;
-    @FXML private Button hide_app;
-    @FXML private Button help;
+    @FXML
+    private Button copy_and_remove;
+    @FXML
+    private Button shortcut_button;
+    @FXML
+    private Button hide_app;
+    @FXML
+    private Button help;
 
     ArrayList<Button> buttons;
 
@@ -135,8 +140,7 @@ public class ClipBoardViewer implements Observar {
 
     }
 
-    private void stage_hidden_listener()
-    {
+    private void stage_hidden_listener() {
         stage.setOnHidden(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
@@ -156,23 +160,15 @@ public class ClipBoardViewer implements Observar {
                 Character reg = t1.getId().charAt(0);
                 sharedInfo.setCurrent_register(reg);
 
-                for(Observar observer:observadores_list)
-                {
+                for (Observar observer : observadores_list) {
                     observer.tab_changed(reg);
                 }
-
-
 
 
             }
         });
     }
 
-    @Override
-    public void appShortcut_beenPressed(String shortcut) {
-
-        System.out.println("Shortcut suckers here is "+shortcut);
-    }
 
     public void initialize_shit() {
 
@@ -192,8 +188,7 @@ public class ClipBoardViewer implements Observar {
     }
 
 
-    public void initialize_classes()
-    {
+    public void initialize_classes() {
         clipboardViewer_config = configMaster.getClipboardViewer_config();
         configLoader = new ConfigLoader();
         myDialog = new MyDialog();
@@ -201,22 +196,22 @@ public class ClipBoardViewer implements Observar {
         instanceManager = new Instance_manager();
         sepDialog = new SepDialog();
         scroller = new Scroller();
-        helpDialog= new HelpDialog();
+        helpDialog = new HelpDialog();
         visualCues = new VisualCues();
 
     }
-    public void initialize_classes_init()
-    {
+
+    public void initialize_classes_init() {
 
         clipboardViewer_config.init();
-        configLoader.init(config.getJSONObject("clipboardViewer_config"),sharedInfo);
-        myDialog.init(sharedInfo,configMaster);
-        buttonShit.init(buttons,sharedInfo);
+        configLoader.init(config.getJSONObject("clipboardViewer_config"), sharedInfo);
+        myDialog.init(sharedInfo, configMaster);
+        buttonShit.init(buttons, sharedInfo);
         instanceManager.init(sharedInfo);
-        sepDialog.init(sharedInfo,configMaster);
+        sepDialog.init(sharedInfo, configMaster);
         scroller.init(sharedInfo);
-        helpDialog.init(sharedInfo,configMaster);
-        visualCues.init(sharedInfo,configMaster);
+        helpDialog.init(sharedInfo, configMaster);
+        visualCues.init(sharedInfo, configMaster);
     }
 
     public void settingUp_sharedInfo() {
@@ -302,9 +297,7 @@ public class ClipBoardViewer implements Observar {
                     System.out.println("Copied thing is here in thang " + copiedString);
                     settingUp_blocText(copiedString);
                     sharedInfo.getCopyingStrings().set(true);
-                }
-                else if (object instanceof Image image)
-                {
+                } else if (object instanceof Image image) {
                     settingUp_imageBloc(image);
                     System.out.println("Image was copied");
 
@@ -326,7 +319,6 @@ public class ClipBoardViewer implements Observar {
         }
 
 
-
         blocText.getLabel().setText(copiedString);
         separator.setOrientation(Orientation.HORIZONTAL);
 
@@ -334,13 +326,12 @@ public class ClipBoardViewer implements Observar {
 
         contentPane.getChildren().add(vBox);
 
-        for (Observar observar:observadores_list)
-        {
+        for (Observar observar : observadores_list) {
             observar.bloc_was_created();
         }
     }
-    public void settingUp_imageBloc(Image image)
-    {
+
+    public void settingUp_imageBloc(Image image) {
 
         SharedInfo.WholePackage wholePackage = sharedInfo.getInstance_from_available_wholePackage();
 
@@ -351,7 +342,7 @@ public class ClipBoardViewer implements Observar {
         blocImage.setImage(image);
 
 
-        vBox.getChildren().addAll(blocImage.getImageView(),separator);
+        vBox.getChildren().addAll(blocImage.getImageView(), separator);
         separator.setOrientation(Orientation.HORIZONTAL);
         sharedInfo.getCurrentWholePackageArray().add(wholePackage);
 
@@ -401,23 +392,19 @@ public class ClipBoardViewer implements Observar {
 
     }
 
-    private void stage_window_listener()
-    {
+    private void stage_window_listener() {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
 
-                if (WindowEvent.WINDOW_CLOSE_REQUEST == windowEvent.getEventType())
-                {
-                    for (Observar observer:observadores_list)
-                    {
+                if (WindowEvent.WINDOW_CLOSE_REQUEST == windowEvent.getEventType()) {
+                    for (Observar observer : observadores_list) {
                         observer.stage_closing();
                     }
                     System.out.println("X symbol to close was clicked ");
                     System.exit(0);
                 }
-                if (WindowEvent.WINDOW_HIDDEN == windowEvent.getEventType())
-                {
+                if (WindowEvent.WINDOW_HIDDEN == windowEvent.getEventType()) {
 
                 }
             }
@@ -425,8 +412,7 @@ public class ClipBoardViewer implements Observar {
 
         stage.iconifiedProperty().addListener((obs, wasMinimized, isNowMinimized) -> {
             if (isNowMinimized) {
-                for (Observar observer:observadores_list)
-                {
+                for (Observar observer : observadores_list) {
                     observer.stage_minimizing();
                 }
             } else {
@@ -448,52 +434,40 @@ public class ClipBoardViewer implements Observar {
     }
 
 
-    public class ShortcutManager
-    {
-        private HashMap<String,Runnable> shortcuts_hash = new HashMap<>();
+    public class ShortcutManager {
+        private HashMap<String, Runnable> shortcuts_hash = new HashMap<>();
 
-        public ShortcutManager()
-        {
+        public ShortcutManager() {
 
         }
 
-        private void inicializar_shortcuts()
-        {
+        private void inicializar_shortcuts() {
 
         }
-
 
 
     }
 
 
-    private  void disablingTraversingTabs()
-    {
+    private void disablingTraversingTabs() {
 
         registryTabPane.setFocusTraversable(false);
-//        a.setDisable(true);
-//        s.setDisable(true);
-//        d.setDisable(true);
-//        f.setDisable(true);
     }
 
 
-    private class Observer_initializer
-    {
+    private class Observer_initializer {
 
 
-        public void initialize_observers()
-        {
-           initialize_ClipBoardViewerObservers();
-           initialize_MyDialog();
+        public void initialize_observers() {
+            initialize_ClipBoardViewerObservers();
+            initialize_MyDialog();
             initialize_MainButtons();
             initialize_appContextClasses();
             initialize_blockText();
 
         }
 
-        private void initialize_ClipBoardViewerObservers()
-        {
+        private void initialize_ClipBoardViewerObservers() {
 
             addObserver(scroller);
             addObserver(myDialog);
@@ -510,29 +484,26 @@ public class ClipBoardViewer implements Observar {
             addObserver(sepDialog.getDialogSimilarFuncs().getObservont());
             addObserver(myDialog.getDialogSimilarFuncs().getObservont());
         }
-        private void initialize_MyDialog()
-        {
+
+        private void initialize_MyDialog() {
             myDialog.addObserver(clipBoardViewer);
         }
 
-        private void initialize_MainButtons()
-        {
+        private void initialize_MainButtons() {
 
             buttonShit.setObservadores_list(new ArrayList<>(observadores_list));
             buttonShit.addObserver(sepDialog);
             buttonShit.addObserver(visualCues);
         }
 
-        private void initialize_appContextClasses()
-        {
+        private void initialize_appContextClasses() {
 
             AppContext.keyPressed.addObserver(buttonShit);
             AppContext.acciones.getClipBoardListener().addObserver(clipBoardViewer);
             AppContext.acciones.getClipBoardListener().addObserver(visualCues);
         }
 
-        private void initialize_blockText()
-        {
+        private void initialize_blockText() {
             BlocText.addObserver(myDialog);
             BlocText.addObserver(scroller);
         }
