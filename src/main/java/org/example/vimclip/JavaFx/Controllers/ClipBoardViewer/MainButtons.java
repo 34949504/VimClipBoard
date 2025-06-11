@@ -410,6 +410,9 @@ public class MainButtons implements Observar {
                 if (name.compareTo("shortcut_button")==0)
                 {
                     buttonInfo.button.fire();
+                    for (Observar observar:observadores_list) {
+                        observar.show_visual_cues(buttonInfo.currentButtonImage.get(0));
+                    }
                     return;
                 }
 
