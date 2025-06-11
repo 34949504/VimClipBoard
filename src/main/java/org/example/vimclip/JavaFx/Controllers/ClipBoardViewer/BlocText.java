@@ -43,7 +43,9 @@ public class BlocText implements Observar {
         label.setText(text);
         label.setWrapText(true);
         label.setMaxWidth(Double.MAX_VALUE);
-        label.setMaxHeight(configLoader.getLabel_maxHeight());
+//        label.setMaxHeight(configLoader.getLabel_maxHeight());
+//        label.setPrefHeight(100);
+        label.setMaxHeight(100);
         label.setStyle(not_selected_style);
 
 //            label.setEffect(dropShadow);
